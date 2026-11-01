@@ -70,6 +70,9 @@
     header .photo { order: -1; width: 120px; height: 120px; }
   }
   .cards.one { grid-template-columns: 1fr; }
+  .exp-photo { margin: 0 0 24px; }
+  .exp-photo img { width: 100%; height: auto; border-radius: 14px; display: block; border: 1px solid var(--line); }
+  .exp-photo figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; }
   .card .more { color: var(--accent); font-weight: 500; font-size: 15px; }
   .case-meta { font-size: 13px !important; margin: 0 0 6px !important; }
   .highlights .more { color: var(--accent); font-weight: 500; white-space: nowrap; }
@@ -136,8 +139,9 @@
     <div class="role">
       <h3>Retailo Technologies</h3>
       <p class="meta">Product &amp; data roles · Oct 2021 – Mar 2024 · KSA, UAE &amp; Pakistan</p>
+      <figure class="exp-photo"><img src="assets/retailo-truck.jpg" alt="On a work trip in Saudi Arabia with one of Retailo&#x27;s delivery trucks." loading="lazy" width="1024" height="768"><figcaption>On a work trip in Saudi Arabia with one of Retailo&#x27;s delivery trucks.</figcaption></figure>
       <ul class="highlights">
-        <li><strong>Stockflo</strong><span>Led our in-house warehouse and inventory system from concept to launch across Saudi Arabia, Pakistan and the UAE. It handled $17.5M+ of monthly purchasing and raised inventory accuracy from 97% to 99%.</span></li>
+        <li><strong>Stockflo</strong><span>Led our in-house warehouse and inventory system from concept to launch across Saudi Arabia, Pakistan and the UAE. It handled $17.5M+ of monthly purchasing and raised inventory accuracy from 97% to 99%. <a class="more" href="case-studies/stockflo-wms.html">Read the case study &rarr;</a></span></li>
         <li><strong>Tax compliance</strong><span>Traced a $20K/month invoice discrepancy across the app, invoices and database with SQL, and got engineering to align all three: 100% ZATCA compliance.</span></li>
         <li><strong>Supplier payments</strong><span>Replaced spreadsheet tracking and email approvals for supplier payments with a tracked request-and-approval flow between Commercial and Finance. <a class="more" href="case-studies/inventory-payments.html">Read the case study &rarr;</a></span></li>
         <li><strong>Inventory visibility</strong><span>Set up data pipelines and a real-time inventory dashboard that cut out-of-stock SKUs by 5%.</span></li>
@@ -148,6 +152,12 @@
   <section id="case-studies">
     <h2>Case studies</h2>
     <div class="cards one">
+      <a class="card case" href="case-studies/stockflo-wms.html">
+        <p class="case-meta">Retailo · Associate Product Manager · 2022 · Saudi Arabia, Pakistan and the UAE</p>
+        <h3>Stockflo: replacing Odoo with our own warehouse system</h3>
+        <p>Building an in-house warehouse management system around how our teams actually worked.</p>
+        <span class="more">Read the case study &rarr;</span>
+      </a>
       <a class="card case" href="case-studies/inventory-payments.html">
         <p class="case-meta">Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan</p>
         <h3>Inventory payments in Stockflo</h3>

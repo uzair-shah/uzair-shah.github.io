@@ -32,6 +32,16 @@ def contact_links() -> str:
     return "\n        ".join(links)
 
 
+def exp_photo() -> str:
+    src = getattr(c, "EXPERIENCE_PHOTO", "")
+    if not src:
+        return ""
+    cap = getattr(c, "EXPERIENCE_PHOTO_CAPTION", "")
+    caption = f"<figcaption>{e(cap)}</figcaption>" if cap else ""
+    return (f'      <figure class="exp-photo"><img src="{e(src)}" alt="{e(cap or "Work photo")}" '
+            f'loading="lazy" width="1024" height="768">{caption}</figure>')
+
+
 def photo() -> str:
     if not getattr(c, "PHOTO", ""):
         return ""
@@ -143,6 +153,9 @@ STYLE = """  :root {{
     header .photo {{ order: -1; width: 120px; height: 120px; }}
   }}
   .cards.one {{ grid-template-columns: 1fr; }}
+  .exp-photo {{ margin: 0 0 24px; }}
+  .exp-photo img {{ width: 100%; height: auto; border-radius: 14px; display: block; border: 1px solid var(--line); }}
+  .exp-photo figcaption {{ color: var(--muted); font-size: 13px; margin-top: 8px; }}
   .card .more {{ color: var(--accent); font-weight: 500; font-size: 15px; }}
   .case-meta {{ font-size: 13px !important; margin: 0 0 6px !important; }}
   .highlights .more {{ color: var(--accent); font-weight: 500; white-space: nowrap; }}
@@ -218,6 +231,7 @@ PAGE = """<!doctype html>
     <div class="role">
       <h3>{exp_title}</h3>
       <p class="meta">{exp_meta}</p>
+{exp_photo}
       <ul class="highlights">
 {highlights}
       </ul>
@@ -345,7 +359,7 @@ def build_case_studies(css: str) -> None:
 def build() -> Path:
     css = STYLE.format(accent=e(c.ACCENT))
     out = PAGE.format(
-        style=css, case_cards=case_cards(),
+        style=css, case_cards=case_cards(), exp_photo=exp_photo(),
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
         exp_meta=e(c.EXPERIENCE_META), highlights=highlights(), projects=projects(), accent=e(c.ACCENT),

@@ -27,10 +27,13 @@ PILLARS = [
 # Work highlights. Keep each to one or two sentences with a real result.
 EXPERIENCE_TITLE = "Retailo Technologies"
 EXPERIENCE_META = "Product & data roles · Oct 2021 – Mar 2024 · KSA, UAE & Pakistan"
+EXPERIENCE_PHOTO = "assets/retailo-truck.jpg"
+EXPERIENCE_PHOTO_CAPTION = "On a work trip in Saudi Arabia with one of Retailo's delivery trucks."
 HIGHLIGHTS = [
     ("Stockflo", "Led our in-house warehouse and inventory system from concept to launch across "
                  "Saudi Arabia, Pakistan and the UAE. It handled $17.5M+ of monthly purchasing and "
-                 "raised inventory accuracy from 97% to 99%."),
+                 "raised inventory accuracy from 97% to 99%.",
+     "case-studies/stockflo-wms.html"),
     ("Tax compliance", "Traced a $20K/month invoice discrepancy across the app, invoices and database "
                        "with SQL, and got engineering to align all three: 100% ZATCA compliance."),
     ("Supplier payments", "Replaced spreadsheet tracking and email approvals for supplier payments "
@@ -43,6 +46,74 @@ HIGHLIGHTS = [
 # Case studies: each becomes its own page at case-studies/<slug>.html.
 # Keep internal company figures out of these; the full documents stay private.
 CASE_STUDIES = [
+    {
+        "slug": "stockflo-wms",
+        "title": "Stockflo: replacing Odoo with our own warehouse system",
+        "subtitle": "Building an in-house warehouse management system around how our teams actually worked.",
+        "meta": "Retailo · Associate Product Manager · 2022 · Saudi Arabia, Pakistan and the UAE",
+        "sections": [
+            ("The problem", [
+                "Odoo, our warehouse software, could not keep up with how fast Retailo was growing, and "
+                "integrating it with our own systems kept breaking: transactions done in Odoo did not always show up elsewhere.",
+                "Our processes had to bend to fit Odoo's way of working instead of our own operating procedures.",
+                "Without Odoo, our admin panel could not create or approve requests for quotation, had no user "
+                "permissions, and kept no record of when purchase orders were created or approved.",
+                "Receiving goods had no formal procedure, returns to suppliers went unrecorded, and anyone could "
+                "move or adjust stock without a trace, which made reconciliation hard and left Finance without a clear view of inbound costs.",
+            ]),
+            ("The goal", [
+                "An in-house system that follows our own procedures, integrates cleanly with the rest of our "
+                "platform, and gives every team the right controls and a clear record of what happened.",
+            ]),
+            ("My role", [
+                "I mapped how purchasing, receiving and stock movements actually worked in the warehouses, then "
+                "wrote the product requirements: user stories and acceptance criteria for vendors, purchasing, "
+                "receiving and inventory.",
+                "I worked with designers to go from Excel wireframes to full Figma screens, and with engineering to build it.",
+                "I led the rollout across Saudi Arabia, Pakistan and the UAE and trained warehouse staff to use it.",
+            ]),
+        ],
+        "flow_title": "How stock comes in",
+        "flow": [
+            ("Vendor", "Created, then approved by Finance"),
+            ("Quotation", "Commercial buyer"),
+            ("Purchase order", "Locked by a lead"),
+            ("Goods received", "Warehouse associate"),
+        ],
+        "flow_note": "If a supplier delivers only part of an order, the system creates a backorder for the rest, "
+                     "and goods can be returned to the supplier straight from the receipt.",
+        "decisions_title": "Key decisions",
+        "decisions": [
+            ("Permissions by role",
+             "Each action, such as creating a vendor, locking a purchase order or approving a receipt, is a "
+             "permission. Permissions are grouped into roles like Commercial Buyer, Warehouse Lead and Finance "
+             "Associate, so access matches the job."),
+            ("Lock to approve, unlock to edit",
+             "Vendors and purchase orders only become usable once a lead locks them. To change one, the lead "
+             "unlocks it, and the edit needs approval again."),
+            ("Vendor details that fit each country",
+             "The tax ID field switches between VAT for Saudi Arabia and the UAE and NTN for Pakistan, with the "
+             "right format checks and registration rules for each country."),
+            ("Receiving that handles real deliveries",
+             "Partial deliveries create a backorder automatically, the warehouse cannot receive more than was "
+             "ordered, and returns are subtracted from what was received."),
+            ("Every stock adjustment needs a reason",
+             "Adjustments pick a reason such as stock count, damages or expired stock, show the system quantity "
+             "next to the counted one, and support bulk upload from a spreadsheet."),
+            ("A history of changes",
+             "Vendor creation and edits are logged and visible on screen, and purchase orders and receipts keep "
+             "their timestamps, so every change can be traced."),
+        ],
+        "scope_title": "What I left out, on purpose",
+        "scope": "The first version's job was to retire Odoo, so anything not needed for that waited: product "
+                 "photos on receipts, units of measure and bundles, lot tracking, detailed payment terms (a simple "
+                 "credit or advance option covered it for now), and sending purchase orders to suppliers over WhatsApp.",
+        "outcome_title": "Outcome",
+        "outcome": "Stockflo replaced Odoo across Saudi Arabia, Pakistan and the UAE. Purchasing gained formal "
+                   "approvals and records, receiving and stock adjustments became traceable, inventory accuracy "
+                   "improved, and the platform became the base for later features such as inventory payments.",
+        "footer_note": "",
+    },
     {
         "slug": "inventory-payments",
         "title": "Inventory payments in Stockflo",
