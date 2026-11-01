@@ -72,10 +72,19 @@ PROJECTS = [
     },
 ]
 
-# Contact links shown at the top and bottom. Leave a value as "" to hide it.
+# Your photo (square works best). Set to "" to hide it.
+PHOTO = "assets/photo.jpg"
+
+# Contact details. Leave a value as "" to hide it.
 EMAIL = "s.uzair.shah01@gmail.com"
 LINKEDIN = "https://www.linkedin.com/in/syed-uzair-shah-bukhari/"
 GITHUB = "https://github.com/uzair-shah"
+
+# Short line shown above your contact details at the bottom of the page.
+CONTACT_TEXT = (
+    "I'm looking for data science, data analyst and product roles in Adelaide or remote "
+    "across Australia. The quickest way to reach me is email or LinkedIn."
+)
 
 # Main accent colour (any CSS colour).
 ACCENT = "#2f6fed"

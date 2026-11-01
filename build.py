@@ -25,6 +25,25 @@ def contact_links() -> str:
     return "\n        ".join(links)
 
 
+def contact_details() -> str:
+    rows = []
+    if c.EMAIL:
+        rows.append(f'<a class="detail" href="mailto:{e(c.EMAIL)}"><span>Email</span>{e(c.EMAIL)}</a>')
+    if c.LINKEDIN:
+        shown = c.LINKEDIN.replace("https://", "").replace("www.", "").rstrip("/")
+        rows.append(f'<a class="detail" href="{e(c.LINKEDIN)}" target="_blank" rel="noopener"><span>LinkedIn</span>{e(shown)}</a>')
+    if c.GITHUB:
+        shown = c.GITHUB.replace("https://", "").rstrip("/")
+        rows.append(f'<a class="detail" href="{e(c.GITHUB)}" target="_blank" rel="noopener"><span>GitHub</span>{e(shown)}</a>')
+    return "\n      ".join(rows)
+
+
+def photo() -> str:
+    if not getattr(c, "PHOTO", ""):
+        return ""
+    return f'<img class="photo" src="{e(c.PHOTO)}" alt="Photo of {e(c.NAME)}" width="320" height="320">'
+
+
 def pillars() -> str:
     return "\n".join(
         f'      <div class="pillar"><h3>{e(t)}</h3><p>{e(d)}</p></div>' for t, d in c.PILLARS
@@ -69,7 +88,6 @@ PAGE = """<!doctype html>
     :root {{ --bg: #111214; --fg: #ececec; --muted: #9a9ea8; --line: #24262b; --card: #17181b; }}
   }}
   * {{ box-sizing: border-box; }}
-  html {{ scroll-behavior: smooth; }}
   body {{
     margin: 0; background: var(--bg); color: var(--fg);
     font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -82,7 +100,15 @@ PAGE = """<!doctype html>
   a {{ color: inherit; text-decoration: none; }}
   nav .links a, footer a, .contact a {{ color: var(--muted); transition: color .15s; }}
   nav .links a:hover, footer a:hover, .contact a:hover {{ color: var(--accent); }}
-  header {{ padding: 56px 0 40px; }}
+  header {{ padding: 48px 0 40px; display: grid; grid-template-columns: 1fr 180px; gap: 40px; align-items: center; }}
+  .photo {{ width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }}
+  #contact {{ scroll-margin-top: 24px; }}
+  .contact-lead {{ color: var(--muted); max-width: 560px; margin: 0 0 22px; }}
+  .details {{ display: grid; gap: 10px; max-width: 520px; }}
+  .detail {{ display: flex; justify-content: space-between; gap: 16px; padding: 14px 18px; border: 1px solid var(--line);
+            border-radius: 12px; background: var(--card); font-weight: 500; transition: border-color .15s; word-break: break-all; }}
+  .detail span {{ color: var(--muted); font-weight: 400; word-break: normal; }}
+  .detail:hover {{ border-color: var(--accent); color: var(--accent); }}
   .eyebrow {{ color: var(--accent); font-weight: 500; font-size: 14px; margin: 0 0 12px; }}
   h1 {{ font-size: clamp(32px, 6vw, 46px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 20px; font-weight: 600; }}
   .intro {{ color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 0 28px; }}
@@ -116,7 +142,9 @@ PAGE = """<!doctype html>
     .pillars, .cards {{ grid-template-columns: 1fr; }}
     .highlights li {{ grid-template-columns: 1fr; gap: 2px; }}
     nav .links a {{ margin-left: 14px; }}
-    header {{ padding-top: 28px; }}
+    header {{ padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }}
+    header .photo {{ order: -1; width: 120px; height: 120px; }}
+    .detail {{ flex-direction: column; gap: 2px; }}
   }}
 </style>
 </head>
@@ -128,12 +156,15 @@ PAGE = """<!doctype html>
   </nav>
 
   <header>
+    <div>
     <p class="eyebrow">{location}</p>
     <h1>{name}<br>{headline}.</h1>
     <p class="intro">{intro}</p>
     <div class="contact">
         {contact}
     </div>
+    </div>
+    {photo}
   </header>
 
   <section>
@@ -161,7 +192,15 @@ PAGE = """<!doctype html>
     </div>
   </section>
 
-  <footer id="contact">
+  <section id="contact">
+    <h2>Contact</h2>
+    <p class="contact-lead">{contact_text}</p>
+    <div class="details">
+      {details}
+    </div>
+  </section>
+
+  <footer>
     <span>&copy; {name}</span>
     <div class="contact">
         {contact}
@@ -178,6 +217,7 @@ def build() -> Path:
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
         exp_meta=e(c.EXPERIENCE_META), highlights=highlights(), projects=projects(), accent=e(c.ACCENT),
+        photo=photo(), details=contact_details(), contact_text=e(getattr(c, "CONTACT_TEXT", "")),
     )
     path = HERE / "index.html"
     path.write_text(out, encoding="utf-8")

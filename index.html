@@ -16,7 +16,6 @@
     :root { --bg: #111214; --fg: #ececec; --muted: #9a9ea8; --line: #24262b; --card: #17181b; }
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
   body {
     margin: 0; background: var(--bg); color: var(--fg);
     font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -29,7 +28,15 @@
   a { color: inherit; text-decoration: none; }
   nav .links a, footer a, .contact a { color: var(--muted); transition: color .15s; }
   nav .links a:hover, footer a:hover, .contact a:hover { color: var(--accent); }
-  header { padding: 56px 0 40px; }
+  header { padding: 48px 0 40px; display: grid; grid-template-columns: 1fr 180px; gap: 40px; align-items: center; }
+  .photo { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
+  #contact { scroll-margin-top: 24px; }
+  .contact-lead { color: var(--muted); max-width: 560px; margin: 0 0 22px; }
+  .details { display: grid; gap: 10px; max-width: 520px; }
+  .detail { display: flex; justify-content: space-between; gap: 16px; padding: 14px 18px; border: 1px solid var(--line);
+            border-radius: 12px; background: var(--card); font-weight: 500; transition: border-color .15s; word-break: break-all; }
+  .detail span { color: var(--muted); font-weight: 400; word-break: normal; }
+  .detail:hover { border-color: var(--accent); color: var(--accent); }
   .eyebrow { color: var(--accent); font-weight: 500; font-size: 14px; margin: 0 0 12px; }
   h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 20px; font-weight: 600; }
   .intro { color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 0 28px; }
@@ -63,7 +70,9 @@
     .pillars, .cards { grid-template-columns: 1fr; }
     .highlights li { grid-template-columns: 1fr; gap: 2px; }
     nav .links a { margin-left: 14px; }
-    header { padding-top: 28px; }
+    header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
+    header .photo { order: -1; width: 120px; height: 120px; }
+    .detail { flex-direction: column; gap: 2px; }
   }
 </style>
 </head>
@@ -75,6 +84,7 @@
   </nav>
 
   <header>
+    <div>
     <p class="eyebrow">Adelaide, Australia</p>
     <h1>Syed Uzair Shah Bukhari<br>Product manager who builds with data.</h1>
     <p class="intro">I spent 2.5 years building products at Retailo, a B2B marketplace startup in Saudi Arabia, Pakistan and the UAE, through fast growth, layoffs and a pivot to SaaS. Seeing how much good product decisions depend on data, I completed a Master of Data Science at the University of Adelaide in 2026.</p>
@@ -83,6 +93,8 @@
         <a href="https://github.com/uzair-shah" target="_blank" rel="noopener">GitHub</a>
         <a href="mailto:s.uzair.shah01@gmail.com">Email</a>
     </div>
+    </div>
+    <img class="photo" src="assets/photo.jpg" alt="Photo of Syed Uzair Shah Bukhari" width="320" height="320">
   </header>
 
   <section>
@@ -134,7 +146,17 @@
     </div>
   </section>
 
-  <footer id="contact">
+  <section id="contact">
+    <h2>Contact</h2>
+    <p class="contact-lead">I&#x27;m looking for data science, data analyst and product roles in Adelaide or remote across Australia. The quickest way to reach me is email or LinkedIn.</p>
+    <div class="details">
+      <a class="detail" href="mailto:s.uzair.shah01@gmail.com"><span>Email</span>s.uzair.shah01@gmail.com</a>
+      <a class="detail" href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener"><span>LinkedIn</span>linkedin.com/in/syed-uzair-shah-bukhari</a>
+      <a class="detail" href="https://github.com/uzair-shah" target="_blank" rel="noopener"><span>GitHub</span>github.com/uzair-shah</a>
+    </div>
+  </section>
+
+  <footer>
     <span>&copy; Syed Uzair Shah Bukhari</span>
     <div class="contact">
         <a href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener">LinkedIn</a>
