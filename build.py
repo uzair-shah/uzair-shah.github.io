@@ -147,7 +147,7 @@ PAGE = """<!doctype html>
   <header>
     <div>
     <p class="eyebrow">{location}</p>
-    <h1>{name}<span class="headline">&mdash; {headline}</span></h1>
+    <h1>{name}<span class="headline">{headline}</span></h1>
     <p class="intro">{intro}</p>
     <div class="contact">
         {contact}
