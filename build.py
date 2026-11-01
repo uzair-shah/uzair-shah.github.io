@@ -14,28 +14,22 @@ import content as c  # noqa: E402
 e = html.escape
 
 
+ICONS = {
+    "linkedin": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>',
+    "github": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3"/></svg>',
+    "email": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3z M3 6l9 7 9-7"/></svg>',
+}
+
+
 def contact_links() -> str:
     links = []
     if c.LINKEDIN:
-        links.append(f'<a href="{e(c.LINKEDIN)}" target="_blank" rel="noopener">LinkedIn</a>')
+        links.append(f'<a href="{e(c.LINKEDIN)}" target="_blank" rel="noopener">{ICONS["linkedin"]}LinkedIn</a>')
     if c.GITHUB:
-        links.append(f'<a href="{e(c.GITHUB)}" target="_blank" rel="noopener">GitHub</a>')
+        links.append(f'<a href="{e(c.GITHUB)}" target="_blank" rel="noopener">{ICONS["github"]}GitHub</a>')
     if c.EMAIL:
-        links.append(f'<a href="mailto:{e(c.EMAIL)}">Email</a>')
+        links.append(f'<a href="mailto:{e(c.EMAIL)}">{ICONS["email"]}{e(c.EMAIL)}</a>')
     return "\n        ".join(links)
-
-
-def contact_details() -> str:
-    rows = []
-    if c.EMAIL:
-        rows.append(f'<a class="detail" href="mailto:{e(c.EMAIL)}"><span>Email</span>{e(c.EMAIL)}</a>')
-    if c.LINKEDIN:
-        shown = c.LINKEDIN.replace("https://", "").replace("www.", "").rstrip("/")
-        rows.append(f'<a class="detail" href="{e(c.LINKEDIN)}" target="_blank" rel="noopener"><span>LinkedIn</span>{e(shown)}</a>')
-    if c.GITHUB:
-        shown = c.GITHUB.replace("https://", "").rstrip("/")
-        rows.append(f'<a class="detail" href="{e(c.GITHUB)}" target="_blank" rel="noopener"><span>GitHub</span>{e(shown)}</a>')
-    return "\n      ".join(rows)
 
 
 def photo() -> str:
@@ -102,17 +96,13 @@ PAGE = """<!doctype html>
   nav .links a:hover, footer a:hover, .contact a:hover {{ color: var(--accent); }}
   header {{ padding: 48px 0 40px; display: grid; grid-template-columns: 1fr 180px; gap: 40px; align-items: center; }}
   .photo {{ width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }}
-  #contact {{ scroll-margin-top: 24px; }}
-  .contact-lead {{ color: var(--muted); max-width: 560px; margin: 0 0 22px; }}
-  .details {{ display: grid; gap: 10px; max-width: 520px; }}
-  .detail {{ display: flex; justify-content: space-between; gap: 16px; padding: 14px 18px; border: 1px solid var(--line);
-            border-radius: 12px; background: var(--card); font-weight: 500; transition: border-color .15s; word-break: break-all; }}
-  .detail span {{ color: var(--muted); font-weight: 400; word-break: normal; }}
-  .detail:hover {{ border-color: var(--accent); color: var(--accent); }}
   .eyebrow {{ color: var(--accent); font-weight: 500; font-size: 14px; margin: 0 0 12px; }}
   h1 {{ font-size: clamp(32px, 6vw, 46px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 20px; font-weight: 600; }}
   .intro {{ color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 0 28px; }}
   .contact {{ display: flex; gap: 22px; flex-wrap: wrap; font-weight: 500; }}
+  .contact a {{ display: inline-flex; align-items: center; gap: 7px; }}
+  .contact svg {{ width: 16px; height: 16px; flex: none; }}
+  h1 .headline {{ display: block; font-size: 0.62em; font-weight: 500; color: var(--muted); letter-spacing: -0.015em; margin-top: 10px; }}
   section {{ padding: 44px 0; border-top: 1px solid var(--line); }}
   h2 {{ font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; margin: 0 0 24px; }}
   .pillars {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }}
@@ -144,7 +134,6 @@ PAGE = """<!doctype html>
     nav .links a {{ margin-left: 14px; }}
     header {{ padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }}
     header .photo {{ order: -1; width: 120px; height: 120px; }}
-    .detail {{ flex-direction: column; gap: 2px; }}
   }}
 </style>
 </head>
@@ -152,13 +141,13 @@ PAGE = """<!doctype html>
 <div class="wrap">
   <nav>
     <a class="brand" href="#">{short}</a>
-    <div class="links"><a href="#work">Work</a><a href="#projects">Projects</a><a href="#contact">Contact</a></div>
+    <div class="links"><a href="#work">Work</a><a href="#projects">Projects</a></div>
   </nav>
 
   <header>
     <div>
     <p class="eyebrow">{location}</p>
-    <h1>{name}<br>{headline}.</h1>
+    <h1>{name}<span class="headline">&mdash; {headline}</span></h1>
     <p class="intro">{intro}</p>
     <div class="contact">
         {contact}
@@ -192,19 +181,9 @@ PAGE = """<!doctype html>
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p class="contact-lead">{contact_text}</p>
-    <div class="details">
-      {details}
-    </div>
-  </section>
 
   <footer>
     <span>&copy; {name}</span>
-    <div class="contact">
-        {contact}
-    </div>
   </footer>
 </div>
 </body>
@@ -217,7 +196,7 @@ def build() -> Path:
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
         exp_meta=e(c.EXPERIENCE_META), highlights=highlights(), projects=projects(), accent=e(c.ACCENT),
-        photo=photo(), details=contact_details(), contact_text=e(getattr(c, "CONTACT_TEXT", "")),
+        photo=photo(),
     )
     path = HERE / "index.html"
     path.write_text(out, encoding="utf-8")
