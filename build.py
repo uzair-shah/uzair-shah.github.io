@@ -277,7 +277,7 @@ CASE_PAGE = """<!doctype html>
   </section>
 
   <footer>
-    <span class="note">{footer_note}</span>
+    <span>&copy; {name}</span>
     <div class="contact">
         {contact}
     </div>
@@ -311,7 +311,7 @@ def build_case_studies(css: str) -> None:
             decisions_title=e(cs["decisions_title"]), decisions=decisions,
             scope_title=e(cs["scope_title"]), scope=e(cs["scope"]),
             outcome_title=e(cs["outcome_title"]), outcome=e(cs["outcome"]),
-            footer_note=e(cs["footer_note"]), contact=contact_links(),
+            contact=contact_links(),
         )
         path = out_dir / f"{cs['slug']}.html"
         path.write_text(page, encoding="utf-8")

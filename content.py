@@ -105,7 +105,7 @@ CASE_STUDIES = [
         "outcome": "Supplier payments moved out of spreadsheets and email threads into one tracked flow with "
                    "clear owners at each step. Finance could see what had been paid and what was due, and "
                    "the procedure was documented for every team involved.",
-        "footer_note": "The full product requirements document is available on request during interviews.",
+        "footer_note": "",
     },
 ]
 
