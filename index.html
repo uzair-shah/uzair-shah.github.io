@@ -69,6 +69,9 @@
     header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
     header .photo { order: -1; width: 120px; height: 120px; }
   }
+  .cards.one { grid-template-columns: 1fr; }
+  .card .more { color: var(--accent); font-weight: 500; font-size: 15px; }
+  .case-meta { font-size: 13px !important; margin: 0 0 6px !important; }
   .highlights .more { color: var(--accent); font-weight: 500; white-space: nowrap; }
   .back { color: var(--muted); font-size: 14px; }
   .back:hover { color: var(--accent); }
@@ -102,7 +105,7 @@
 <div class="wrap">
   <nav>
     <a class="brand" href="#">Uzair</a>
-    <div class="links"><a href="#work">Work</a><a href="#projects">Projects</a></div>
+    <div class="links"><a href="#work">Work</a><a href="#case-studies">Case studies</a><a href="#projects">Projects</a></div>
   </nav>
 
   <header>
@@ -139,6 +142,18 @@
         <li><strong>Supplier payments</strong><span>Replaced spreadsheet tracking and email approvals for supplier payments with a tracked request-and-approval flow between Commercial and Finance. <a class="more" href="case-studies/inventory-payments.html">Read the case study &rarr;</a></span></li>
         <li><strong>Inventory visibility</strong><span>Set up data pipelines and a real-time inventory dashboard that cut out-of-stock SKUs by 5%.</span></li>
       </ul>
+    </div>
+  </section>
+
+  <section id="case-studies">
+    <h2>Case studies</h2>
+    <div class="cards one">
+      <a class="card case" href="case-studies/inventory-payments.html">
+        <p class="case-meta">Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan</p>
+        <h3>Inventory payments in Stockflo</h3>
+        <p>Turning supplier payments from spreadsheets and email threads into a tracked approval flow.</p>
+        <span class="more">Read the case study &rarr;</span>
+      </a>
     </div>
   </section>
 

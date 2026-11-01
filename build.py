@@ -53,6 +53,20 @@ def highlights() -> str:
     return "\n".join(rows)
 
 
+def case_cards() -> str:
+    cards = []
+    for cs in getattr(c, "CASE_STUDIES", []):
+        cards.append(
+            f'''      <a class="card case" href="case-studies/{e(cs["slug"])}.html">
+        <p class="case-meta">{e(cs["meta"])}</p>
+        <h3>{e(cs["title"])}</h3>
+        <p>{e(cs["subtitle"])}</p>
+        <span class="more">Read the case study &rarr;</span>
+      </a>'''
+        )
+    return "\n".join(cards)
+
+
 def projects() -> str:
     cards = []
     for p in c.PROJECTS:
@@ -128,6 +142,9 @@ STYLE = """  :root {{
     header {{ padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }}
     header .photo {{ order: -1; width: 120px; height: 120px; }}
   }}
+  .cards.one {{ grid-template-columns: 1fr; }}
+  .card .more {{ color: var(--accent); font-weight: 500; font-size: 15px; }}
+  .case-meta {{ font-size: 13px !important; margin: 0 0 6px !important; }}
   .highlights .more {{ color: var(--accent); font-weight: 500; white-space: nowrap; }}
   .back {{ color: var(--muted); font-size: 14px; }}
   .back:hover {{ color: var(--accent); }}
@@ -174,7 +191,7 @@ PAGE = """<!doctype html>
 <div class="wrap">
   <nav>
     <a class="brand" href="#">{short}</a>
-    <div class="links"><a href="#work">Work</a><a href="#projects">Projects</a></div>
+    <div class="links"><a href="#work">Work</a><a href="#case-studies">Case studies</a><a href="#projects">Projects</a></div>
   </nav>
 
   <header>
@@ -204,6 +221,13 @@ PAGE = """<!doctype html>
       <ul class="highlights">
 {highlights}
       </ul>
+    </div>
+  </section>
+
+  <section id="case-studies">
+    <h2>Case studies</h2>
+    <div class="cards one">
+{case_cards}
     </div>
   </section>
 
@@ -321,7 +345,7 @@ def build_case_studies(css: str) -> None:
 def build() -> Path:
     css = STYLE.format(accent=e(c.ACCENT))
     out = PAGE.format(
-        style=css,
+        style=css, case_cards=case_cards(),
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
         exp_meta=e(c.EXPERIENCE_META), highlights=highlights(), projects=projects(), accent=e(c.ACCENT),
