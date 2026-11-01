@@ -33,10 +33,80 @@ HIGHLIGHTS = [
                  "raised inventory accuracy from 97% to 99%."),
     ("Tax compliance", "Traced a $20K/month invoice discrepancy across the app, invoices and database "
                        "with SQL, and got engineering to align all three: 100% ZATCA compliance."),
-    ("Supplier payments", "Brought about USD 350K of untracked supplier payments under a simple "
-                          "request-and-approval workflow between Commercial and Finance."),
+    ("Supplier payments", "Replaced spreadsheet tracking and email approvals for supplier payments "
+                          "with a tracked request-and-approval flow between Commercial and Finance.",
+     "case-studies/inventory-payments.html"),
     ("Inventory visibility", "Set up data pipelines and a real-time inventory dashboard that cut "
                              "out-of-stock SKUs by 5%."),
+]
+
+# Case studies: each becomes its own page at case-studies/<slug>.html.
+# Keep internal company figures out of these; the full documents stay private.
+CASE_STUDIES = [
+    {
+        "slug": "inventory-payments",
+        "title": "Inventory payments in Stockflo",
+        "subtitle": "Turning supplier payments from spreadsheets and email threads into a tracked approval flow.",
+        "meta": "Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan",
+        "sections": [
+            ("The problem", [
+                "Supplier payments were tracked in spreadsheets and the accounting tool, with no checks "
+                "on the data, so the records were hard to trust.",
+                "10–15 purchase orders were raised every day. Each payment needed a form filled in by the "
+                "Commercial team and an approval by email from a Commercial Manager, which was slow and hard to track.",
+                "Teams spent time chasing each other for proof that payments had gone out, and Finance "
+                "struggled to produce supplier statements and reconcile accounts.",
+            ]),
+            ("The goal", [
+                "Record every payment against its purchase order inside Stockflo, our warehouse and "
+                "inventory system, so supplier statements and reconciliation become easy.",
+                "Make the payment flow lighter for the people doing it every day.",
+            ]),
+            ("My role", [
+                "I wrote the product requirements document, defined the user stories and acceptance "
+                "criteria, and worked with engineering to build the feature in Stockflo.",
+                "It launched for Saudi Arabia first. A later update extended it to Pakistan.",
+            ]),
+        ],
+        "flow_title": "How a payment moves",
+        "flow": [
+            ("Request", "Commercial buyer"),
+            ("Approve", "Commercial manager"),
+            ("Initiated", "Ready to pay"),
+            ("Paid", "Payment executive"),
+        ],
+        "flow_note": "A manager can reject a request, and a payment that was recorded wrongly or failed at "
+                     "the bank is marked Void with a reason.",
+        "decisions_title": "Key decisions",
+        "decisions": [
+            ("Pay only on locked purchase orders",
+             "The request button stays disabled until the purchase order is locked, so nobody pays against "
+             "an order that can still change."),
+            ("Show the balance before approving",
+             "When a manager approves, they first see total purchases from that supplier, how much has been "
+             "paid and the balance left, so approvals are made with the full picture."),
+            ("Proof of payment, or a reason",
+             "Marking a payment as paid needs the bank reference and a proof attachment. If there is no "
+             "attachment, the user picks a reason from a list."),
+            ("A record of who did what",
+             "The system stores who created, approved, paid or voided every payment, giving Finance a full "
+             "audit trail."),
+            ("Tax handled in the flow",
+             "Withholding tax is set per supplier and calculated automatically on each request. Finance can "
+             "exclude it, but only by giving a reason that stays visible on the payments screen."),
+            ("Credit and advance terms",
+             "Requests record whether a payment is on credit or in advance; the due date is worked out from "
+             "the credit days, and the payments list flags what is due."),
+        ],
+        "scope_title": "What I left out, on purpose",
+        "scope": "Reversing a payment after it was marked paid stayed out of the first release. Payments "
+                 "that went wrong are marked Void with a reason instead, which kept the first version simple.",
+        "outcome_title": "Outcome",
+        "outcome": "Supplier payments moved out of spreadsheets and email threads into one tracked flow with "
+                   "clear owners at each step. Finance could see what had been paid and what was due, and "
+                   "the procedure was documented for every team involved.",
+        "footer_note": "The full product requirements document is available on request during interviews.",
+    },
 ]
 
 # Projects. Each: title, one-line description, tags, link.

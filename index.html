@@ -69,6 +69,33 @@
     header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
     header .photo { order: -1; width: 120px; height: 120px; }
   }
+  .highlights .more { color: var(--accent); font-weight: 500; white-space: nowrap; }
+  .back { color: var(--muted); font-size: 14px; }
+  .back:hover { color: var(--accent); }
+  .cs-head { padding: 40px 0 36px; }
+  .cs-head h1 { margin-bottom: 14px; }
+  .cs-sub { color: var(--muted); font-size: 19px; margin: 0 0 10px; max-width: 640px; }
+  .cs-meta { color: var(--muted); font-size: 14px; margin: 0; }
+  .cs ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .cs p { margin: 0; }
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 0 0 16px; }
+  .step { flex: 1 1 120px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .step b { display: block; font-weight: 600; }
+  .step small { color: var(--muted); font-size: 13px; }
+  .arrow-step { display: flex; align-items: center; padding: 0 8px; color: var(--accent); font-size: 18px; }
+  .flow-note { color: var(--muted); font-size: 15px; }
+  .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .decision { padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .decision h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+  .decision p { color: var(--muted); font-size: 15px; }
+  .note { color: var(--muted); font-size: 15px; font-style: italic; }
+  @media (max-width: 640px) {
+    .decisions { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .step { flex: none; }
+    .arrow-step { justify-content: center; padding: 4px 0; transform: rotate(90deg); }
+  }
+
 </style>
 </head>
 <body>
@@ -109,7 +136,7 @@
       <ul class="highlights">
         <li><strong>Stockflo</strong><span>Led our in-house warehouse and inventory system from concept to launch across Saudi Arabia, Pakistan and the UAE. It handled $17.5M+ of monthly purchasing and raised inventory accuracy from 97% to 99%.</span></li>
         <li><strong>Tax compliance</strong><span>Traced a $20K/month invoice discrepancy across the app, invoices and database with SQL, and got engineering to align all three: 100% ZATCA compliance.</span></li>
-        <li><strong>Supplier payments</strong><span>Brought about USD 350K of untracked supplier payments under a simple request-and-approval workflow between Commercial and Finance.</span></li>
+        <li><strong>Supplier payments</strong><span>Replaced spreadsheet tracking and email approvals for supplier payments with a tracked request-and-approval flow between Commercial and Finance. <a class="more" href="case-studies/inventory-payments.html">Read the case study &rarr;</a></span></li>
         <li><strong>Inventory visibility</strong><span>Set up data pipelines and a real-time inventory dashboard that cut out-of-stock SKUs by 5%.</span></li>
       </ul>
     </div>

@@ -45,9 +45,12 @@ def pillars() -> str:
 
 
 def highlights() -> str:
-    return "\n".join(
-        f'        <li><strong>{e(t)}</strong><span>{e(d)}</span></li>' for t, d in c.HIGHLIGHTS
-    )
+    rows = []
+    for h in c.HIGHLIGHTS:
+        t, d = h[0], h[1]
+        link = f' <a class="more" href="{e(h[2])}">Read the case study &rarr;</a>' if len(h) > 2 and h[2] else ""
+        rows.append(f'        <li><strong>{e(t)}</strong><span>{e(d)}{link}</span></li>')
+    return "\n".join(rows)
 
 
 def projects() -> str:
@@ -64,17 +67,7 @@ def projects() -> str:
     return "\n".join(cards)
 
 
-PAGE = """<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{name}</title>
-<meta name="description" content="{headline}. {location}.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {{
+STYLE = """  :root {{
     --bg: #fbfbfa; --fg: #16171a; --muted: #5f6370; --line: #e6e6e3; --card: #ffffff;
     --accent: {accent};
   }}
@@ -135,6 +128,46 @@ PAGE = """<!doctype html>
     header {{ padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }}
     header .photo {{ order: -1; width: 120px; height: 120px; }}
   }}
+  .highlights .more {{ color: var(--accent); font-weight: 500; white-space: nowrap; }}
+  .back {{ color: var(--muted); font-size: 14px; }}
+  .back:hover {{ color: var(--accent); }}
+  .cs-head {{ padding: 40px 0 36px; }}
+  .cs-head h1 {{ margin-bottom: 14px; }}
+  .cs-sub {{ color: var(--muted); font-size: 19px; margin: 0 0 10px; max-width: 640px; }}
+  .cs-meta {{ color: var(--muted); font-size: 14px; margin: 0; }}
+  .cs ul {{ margin: 0; padding-left: 20px; display: grid; gap: 8px; }}
+  .cs p {{ margin: 0; }}
+  .flow {{ display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 0 0 16px; }}
+  .step {{ flex: 1 1 120px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }}
+  .step b {{ display: block; font-weight: 600; }}
+  .step small {{ color: var(--muted); font-size: 13px; }}
+  .arrow-step {{ display: flex; align-items: center; padding: 0 8px; color: var(--accent); font-size: 18px; }}
+  .flow-note {{ color: var(--muted); font-size: 15px; }}
+  .decisions {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }}
+  .decision {{ padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }}
+  .decision h3 {{ margin: 0 0 6px; font-size: 16px; font-weight: 600; }}
+  .decision p {{ color: var(--muted); font-size: 15px; }}
+  .note {{ color: var(--muted); font-size: 15px; font-style: italic; }}
+  @media (max-width: 640px) {{
+    .decisions {{ grid-template-columns: 1fr; }}
+    .flow {{ flex-direction: column; }}
+    .step {{ flex: none; }}
+    .arrow-step {{ justify-content: center; padding: 4px 0; transform: rotate(90deg); }}
+  }}
+"""
+
+
+PAGE = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{name}</title>
+<meta name="description" content="{headline}. {location}.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+{style}
 </style>
 </head>
 <body>
@@ -191,8 +224,104 @@ PAGE = """<!doctype html>
 """
 
 
+CASE_PAGE = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title} | {name}</title>
+<meta name="description" content="{subtitle}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+{style}
+</style>
+</head>
+<body>
+<div class="wrap cs">
+  <nav>
+    <a class="brand" href="../index.html">{short}</a>
+    <div class="links"><a class="back" href="../index.html">&larr; Back to home</a></div>
+  </nav>
+
+  <div class="cs-head">
+    <p class="eyebrow">Case study</p>
+    <h1>{title}</h1>
+    <p class="cs-sub">{subtitle}</p>
+    <p class="cs-meta">{meta}</p>
+  </div>
+{sections}
+  <section>
+    <h2>{flow_title}</h2>
+    <div class="flow">
+{flow}
+    </div>
+    <p class="flow-note">{flow_note}</p>
+  </section>
+
+  <section>
+    <h2>{decisions_title}</h2>
+    <div class="decisions">
+{decisions}
+    </div>
+  </section>
+
+  <section>
+    <h2>{scope_title}</h2>
+    <p>{scope}</p>
+  </section>
+
+  <section>
+    <h2>{outcome_title}</h2>
+    <p>{outcome}</p>
+  </section>
+
+  <footer>
+    <span class="note">{footer_note}</span>
+    <div class="contact">
+        {contact}
+    </div>
+  </footer>
+</div>
+</body>
+</html>
+"""
+
+
+def build_case_studies(css: str) -> None:
+    out_dir = HERE / "case-studies"
+    out_dir.mkdir(exist_ok=True)
+    for cs in getattr(c, "CASE_STUDIES", []):
+        sections = []
+        for title, items in cs.get("sections", []):
+            lis = "".join(f"<li>{e(i)}</li>" for i in items)
+            sections.append(f"  <section>\n    <h2>{e(title)}</h2>\n    <ul>{lis}</ul>\n  </section>")
+        steps = []
+        for i, (label, who) in enumerate(cs.get("flow", [])):
+            if i:
+                steps.append('      <div class="arrow-step">&rarr;</div>')
+            steps.append(f'      <div class="step"><b>{e(label)}</b><small>{e(who)}</small></div>')
+        decisions = "\n".join(
+            f'      <div class="decision"><h3>{e(t)}</h3><p>{e(d)}</p></div>' for t, d in cs.get("decisions", [])
+        )
+        page = CASE_PAGE.format(
+            style=css, name=e(c.NAME), short=e(c.SHORT_NAME), title=e(cs["title"]),
+            subtitle=e(cs["subtitle"]), meta=e(cs["meta"]), sections="\n".join(sections),
+            flow_title=e(cs["flow_title"]), flow="\n".join(steps), flow_note=e(cs["flow_note"]),
+            decisions_title=e(cs["decisions_title"]), decisions=decisions,
+            scope_title=e(cs["scope_title"]), scope=e(cs["scope"]),
+            outcome_title=e(cs["outcome_title"]), outcome=e(cs["outcome"]),
+            footer_note=e(cs["footer_note"]), contact=contact_links(),
+        )
+        path = out_dir / f"{cs['slug']}.html"
+        path.write_text(page, encoding="utf-8")
+        print(f"Built {path}")
+
+
 def build() -> Path:
+    css = STYLE.format(accent=e(c.ACCENT))
     out = PAGE.format(
+        style=css,
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
         exp_meta=e(c.EXPERIENCE_META), highlights=highlights(), projects=projects(), accent=e(c.ACCENT),
@@ -201,6 +330,7 @@ def build() -> Path:
     path = HERE / "index.html"
     path.write_text(out, encoding="utf-8")
     print(f"Built {path}")
+    build_case_studies(css)
     return path
 
 
