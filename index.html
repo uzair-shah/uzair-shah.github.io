@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Syed Uzair Shah Bukhari</title>
+<meta name="description" content="Product manager who builds with data. Adelaide, Australia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #16171a; --muted: #5f6370; --line: #e6e6e3; --card: #ffffff;
+    --accent: #2f6fed;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111214; --fg: #ececec; --muted: #9a9ea8; --line: #24262b; --card: #17181b; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }
+  nav .brand { font-weight: 600; letter-spacing: -0.01em; }
+  nav .links a { margin-left: 20px; }
+  a { color: inherit; text-decoration: none; }
+  nav .links a, footer a, .contact a { color: var(--muted); transition: color .15s; }
+  nav .links a:hover, footer a:hover, .contact a:hover { color: var(--accent); }
+  header { padding: 56px 0 40px; }
+  .eyebrow { color: var(--accent); font-weight: 500; font-size: 14px; margin: 0 0 12px; }
+  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 20px; font-weight: 600; }
+  .intro { color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 0 28px; }
+  .contact { display: flex; gap: 22px; flex-wrap: wrap; font-weight: 500; }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; margin: 0 0 24px; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .pillar h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
+  .pillar p { margin: 0; color: var(--muted); font-size: 15px; }
+  .role h3 { margin: 0; font-size: 19px; font-weight: 600; }
+  .role .meta { color: var(--muted); font-size: 14px; margin: 2px 0 18px; }
+  .highlights { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .highlights li { display: grid; grid-template-columns: 170px 1fr; gap: 16px; }
+  .highlights strong { font-weight: 600; }
+  .highlights span { color: var(--muted); }
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card {
+    display: block; padding: 22px; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--card); transition: transform .15s, border-color .15s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card h3 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+  .card .arrow { color: var(--accent); }
+  .card p { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags span { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px;
+           display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer .contact { gap: 18px; }
+  @media (max-width: 640px) {
+    .pillars, .cards { grid-template-columns: 1fr; }
+    .highlights li { grid-template-columns: 1fr; gap: 2px; }
+    nav .links a { margin-left: 14px; }
+    header { padding-top: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#">Uzair</a>
+    <div class="links"><a href="#work">Work</a><a href="#projects">Projects</a><a href="#contact">Contact</a></div>
+  </nav>
+
+  <header>
+    <p class="eyebrow">Adelaide, Australia</p>
+    <h1>Syed Uzair Shah Bukhari<br>Product manager who builds with data.</h1>
+    <p class="intro">I spent 2.5 years building products at Retailo, a B2B marketplace startup in Saudi Arabia, Pakistan and the UAE, through fast growth, layoffs and a pivot to SaaS. Seeing how much good product decisions depend on data, I completed a Master of Data Science at the University of Adelaide in 2026.</p>
+    <div class="contact">
+        <a href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/uzair-shah" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:s.uzair.shah01@gmail.com">Email</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>What I bring</h2>
+    <div class="pillars">
+      <div class="pillar"><h3>Startups</h3><p>Built products under real constraints, from first wireframe to rollout in three countries.</p></div>
+      <div class="pillar"><h3>Product</h3><p>Turned messy operational problems into specs engineers could build and teams actually used.</p></div>
+      <div class="pillar"><h3>Data</h3><p>SQL, Python and machine learning to find problems early and prove what worked.</p></div>
+    </div>
+  </section>
+
+  <section id="work">
+    <h2>Experience</h2>
+    <div class="role">
+      <h3>Retailo Technologies</h3>
+      <p class="meta">Product &amp; data roles · Oct 2021 – Mar 2024 · KSA, UAE &amp; Pakistan</p>
+      <ul class="highlights">
+        <li><strong>Stockflo</strong><span>Led our in-house warehouse and inventory system from concept to launch across Saudi Arabia, Pakistan and the UAE. It handled $17.5M+ of monthly purchasing and raised inventory accuracy from 97% to 99%.</span></li>
+        <li><strong>Tax compliance</strong><span>Traced a $20K/month invoice discrepancy across the app, invoices and database with SQL, and got engineering to align all three: 100% ZATCA compliance.</span></li>
+        <li><strong>Supplier payments</strong><span>Brought about USD 350K of untracked supplier payments under a simple request-and-approval workflow between Commercial and Finance.</span></li>
+        <li><strong>Inventory visibility</strong><span>Set up data pipelines and a real-time inventory dashboard that cut out-of-stock SKUs by 5%.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="cards">
+      <a class="card" href="https://github.com/uzair-shah/rag_app" target="_blank" rel="noopener">
+        <h3>Document Q&amp;A with AI (RAG) <span class="arrow">&#8599;</span></h3>
+        <p>Answers questions about a research paper using only the paper itself, with an evaluation set that checks correct answers and correct refusals. Compares Gemini with a locally run DeepSeek model.</p>
+        <div class="tags"><span>Python</span><span>LLMs</span><span>ChromaDB</span><span>Docker</span></div>
+      </a>
+      <a class="card" href="https://github.com/uzair-shah/Research-Report" target="_blank" rel="noopener">
+        <h3>Modelling logistics hubs <span class="arrow">&#8599;</span></h3>
+        <p>Master&#x27;s research: modelled a hub-and-spoke truck network as a Markov chain and simulated cost and revenue. A second unloading bay paid off; a third barely did.</p>
+        <div class="tags"><span>MATLAB</span><span>Markov chains</span><span>Simulation</span></div>
+      </a>
+      <a class="card" href="https://github.com/uzair-shah/AI-vs-Human-Text-Detector" target="_blank" rel="noopener">
+        <h3>AI vs human text detector <span class="arrow">&#8599;</span></h3>
+        <p>Neural network that flags AI-written text, benchmarked against SVM baselines. About 0.95 validation AUC per sentence and 0.90 per paragraph on Kaggle.</p>
+        <div class="tags"><span>TensorFlow</span><span>scikit-learn</span><span>Kaggle</span></div>
+      </a>
+      <a class="card" href="https://github.com/uzair-shah/WebScrapingProject" target="_blank" rel="noopener">
+        <h3>Book catalogue scraper <span class="arrow">&#8599;</span></h3>
+        <p>Scraped about 1,000 books across 50 pages with polite rate limiting, stored them in a SQL database and queried the results.</p>
+        <div class="tags"><span>Python</span><span>BeautifulSoup</span><span>SQL</span></div>
+      </a>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <span>&copy; Syed Uzair Shah Bukhari</span>
+    <div class="contact">
+        <a href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/uzair-shah" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:s.uzair.shah01@gmail.com">Email</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
