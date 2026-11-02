@@ -88,6 +88,10 @@
   .mini b { display: block; font-weight: 600; margin-bottom: 4px; }
   .mini span { color: var(--muted); font-size: 15px; }
   .tags.big span { font-size: 14px; padding: 6px 12px; }
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
   .cards.one { grid-template-columns: 1fr; }
   h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
   a.inline { color: var(--accent); }
@@ -154,6 +158,10 @@
   <section>
     <h2>My role</h2>
     <ul><li>I mapped how purchasing, receiving and stock movements actually worked in the warehouses, then wrote the product requirements: user stories and acceptance criteria for vendors, purchasing, receiving and inventory.</li><li>I worked with designers to go from Excel wireframes to full Figma screens, and with engineering to build it.</li><li>I led the rollout across Saudi Arabia, Pakistan and the UAE, training warehouse staff through presentations and video walkthroughs.</li></ul>
+  </section>
+  <section>
+    <h2>In the warehouse</h2>
+    <div class="gallery"><figure><img src="../assets/wh-inbound-returns.jpg" alt="Inbound and return area, where goods are received against purchase orders and returns are logged." loading="lazy"><figcaption>Inbound and return area, where goods are received against purchase orders and returns are logged.</figcaption></figure><figure><img src="../assets/wh-outbound-staging.jpg" alt="Outbound and staging area, where picked orders wait for delivery." loading="lazy"><figcaption>Outbound and staging area, where picked orders wait for delivery.</figcaption></figure><figure><img src="../assets/wh-bin-locations.jpg" alt="Every rack position has its own labelled location code." loading="lazy"><figcaption>Every rack position has its own labelled location code.</figcaption></figure><figure><img src="../assets/wh-racking.jpg" alt="Pallet racking in one of our warehouses." loading="lazy"><figcaption>Pallet racking in one of our warehouses.</figcaption></figure></div>
   </section>
   <section>
     <h2>Prioritisation framework</h2>

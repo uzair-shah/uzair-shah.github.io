@@ -106,6 +106,14 @@ CASE_STUDIES = [
                 "I led the rollout across Saudi Arabia, Pakistan and the UAE, training warehouse staff through "
                 "presentations and video walkthroughs.",
             ]),
+            ("In the warehouse", {
+                "photos": [
+                    ("assets/wh-inbound-returns.jpg", "Inbound and return area, where goods are received against purchase orders and returns are logged."),
+                    ("assets/wh-outbound-staging.jpg", "Outbound and staging area, where picked orders wait for delivery."),
+                    ("assets/wh-bin-locations.jpg", "Every rack position has its own labelled location code."),
+                    ("assets/wh-racking.jpg", "Pallet racking in one of our warehouses."),
+                ],
+            }),
             ("Prioritisation framework", [
                 "We prioritised by impact on the biggest problem: inventory accuracy. Wrong stock counts broke the "
                 "morning orders and upset customers and drivers, so knowing our real stock at any moment came first.",
