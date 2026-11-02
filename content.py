@@ -47,7 +47,7 @@ HIGHLIGHTS = [
 # Extra groups shown under the main highlights, each with its own heading.
 EXPERIENCE_GROUPS = [
     ("SaaS", [
-        ("Master catalog", "Led discovery for an electronics retail client: mapped where our per-warehouse "
+        ("Master Catalog", "Led discovery for an electronics retail client: mapped where our per-warehouse "
                            "catalog fell short, compared build-versus-buy options, and scoped a single "
                            "company-wide catalog with product variants.",
          "case-studies/master-catalog.html"),

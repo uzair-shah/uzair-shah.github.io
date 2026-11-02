@@ -64,10 +64,12 @@ def highlights(items=None) -> str:
 
 
 def experience_groups() -> str:
-    out = []
-    for title, items in getattr(c, "EXPERIENCE_GROUPS", []):
-        out.append(f'      <h4 class="group">{e(title)}</h4>\n      <ul class="highlights">\n{highlights(items)}\n      </ul>')
-    return "\n".join(out)
+    # Each group's items join the main list, labelled "Group: Title" (e.g. "SaaS: Master Catalog").
+    items = []
+    for group, entries in getattr(c, "EXPERIENCE_GROUPS", []):
+        for h in entries:
+            items.append((f"{group}: {h[0]}",) + tuple(h[1:]))
+    return highlights(items) if items else ""
 
 
 def case_cards() -> str:
@@ -243,8 +245,8 @@ PAGE = """<!doctype html>
 {exp_photo}
       <ul class="highlights">
 {highlights}
-      </ul>
 {groups}
+      </ul>
     </div>
   </section>
 
