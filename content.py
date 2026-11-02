@@ -266,6 +266,28 @@ CASE_STUDIES = [
         "subtitle": "Working out how to move product records from per-warehouse copies to a single company catalog with variants.",
         "meta": "Retailo · Product Manager · Discovery for an electronics retail client",
         "sections": [
+            ("Problem statement", {
+                "intro": "Our catalog created every product separately for each warehouse, so one product ended up "
+                         "with many codes, no variants, and no history once its pack size changed. An electronics "
+                         "retail client needed one catalog for the whole company, with colour and storage options, "
+                         "products released only to chosen companies, and bulk updates. Most of that was not possible.",
+            }),
+            ("Key terms", {
+                "intro": "A master catalog is the single source of truth for products. Each SKU identifies one "
+                         "product, variants capture differences such as colour or storage, and stock sits at "
+                         "locations and stores that all read from the same catalog.",
+                "photos": [("assets/case-studies/master-catalog-vocabulary.webp",
+                            "Core inventory vocabulary around a master catalog.")],
+                "natural": True,
+                "source": ("Ecorn: Multi Store Inventory Management, A Practical Guide",
+                           "https://www.ecorn.agency/blog/multi-store-inventory-management"),
+            }),
+            ("Discovery", [
+                "I led the discovery: mapped every step it took to set up a catalog today, worked through the "
+                "client's use cases with them, and ran a gap analysis of each need against what our system could do.",
+                "I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf "
+                "product information tools, and wrote the requirements and scope for the first release.",
+            ]),
             ("Target audience", [
                 "The immediate client: an electronics retailer selling phones and tablets through its own app.",
                 "The wider market for our software: FMCG distributors who sell through field sales agents, where "
@@ -297,12 +319,6 @@ CASE_STUDIES = [
                 "I trialled off-the-shelf product information tools such as Akeneo and Apimio, and looked at others "
                 "like Plytix, comparing product hierarchy, pack sizes, warehouse-level stock, promotions and how "
                 "easily they would connect to client ERPs and our own apps.",
-            ]),
-            ("My role", [
-                "I led the discovery: mapped every step it took to set up a catalog today, worked through the "
-                "client's use cases with them, and ran a gap analysis of each need against what our system could do.",
-                "I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf "
-                "product information tools, and wrote the requirements and scope for the first release.",
             ]),
             ("Prioritisation framework", [
                 "A gap analysis listed every need by where it lives (our admin portal or the customer app) and "

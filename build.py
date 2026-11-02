@@ -246,6 +246,7 @@ STYLE = """  :root {{
   .now-card p {{ margin: 8px 0 0; color: var(--muted); font-size: 15px; }}
   h4.now-h {{ margin-top: 0; }}
   .role.current {{ margin-bottom: 40px; }}
+  .source {{ color: var(--muted); font-size: 13px; margin: 8px 0 0 !important; }}
   .wrap.wide {{ max-width: 980px; }}
   .wide .highlights, .wide .exp-photo {{ max-width: 820px; }}
   .stats {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 48px; }}
@@ -579,11 +580,15 @@ def build_case_studies(css: str, items=None, folder: str = "case-studies", eyebr
             if d.get("tags"):
                 parts.append('<div class="tags big">' + "".join(f"<span>{e(t)}</span>" for t in d["tags"]) + "</div>")
             if d.get("photos"):
-                natural = any("assets/projects/" in src for src, _ in d["photos"])
+                natural = d.get("natural") or any("assets/projects/" in src for src, _ in d["photos"])
                 cls = "gallery" + (" natural" if natural else "") + (" single" if len(d["photos"]) == 1 else "")
                 parts.append(f'<div class="{cls}">' + "".join(
                     f'<figure><img src="../{e(src)}" alt="{e(cap)}" loading="lazy"><figcaption>{e(cap)}</figcaption></figure>'
                     for src, cap in d["photos"]) + "</div>")
+            if d.get("source"):
+                label, url = d["source"]
+                parts.append(f'<p class="source">Image and reference: <a class="inline" href="{e(url)}" '
+                             f'target="_blank" rel="noopener">{e(label)}</a></p>')
             if d.get("outro"):
                 parts.append(f'<p class="lead-out">{e(d["outro"])}</p>')
             return "\n    ".join(parts)

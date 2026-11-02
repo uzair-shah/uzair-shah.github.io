@@ -50,6 +50,7 @@
   .now-card p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
   h4.now-h { margin-top: 0; }
   .role.current { margin-bottom: 40px; }
+  .source { color: var(--muted); font-size: 13px; margin: 8px 0 0 !important; }
   .wrap.wide { max-width: 980px; }
   .wide .highlights, .wide .exp-photo { max-width: 820px; }
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 48px; }
@@ -197,6 +198,20 @@
     
   </div>
   <section>
+    <h2>Problem statement</h2>
+    <p class="lead-in">Our catalog created every product separately for each warehouse, so one product ended up with many codes, no variants, and no history once its pack size changed. An electronics retail client needed one catalog for the whole company, with colour and storage options, products released only to chosen companies, and bulk updates. Most of that was not possible.</p>
+  </section>
+  <section>
+    <h2>Key terms</h2>
+    <p class="lead-in">A master catalog is the single source of truth for products. Each SKU identifies one product, variants capture differences such as colour or storage, and stock sits at locations and stores that all read from the same catalog.</p>
+    <div class="gallery natural single"><figure><img src="../assets/case-studies/master-catalog-vocabulary.webp" alt="Core inventory vocabulary around a master catalog." loading="lazy"><figcaption>Core inventory vocabulary around a master catalog.</figcaption></figure></div>
+    <p class="source">Image and reference: <a class="inline" href="https://www.ecorn.agency/blog/multi-store-inventory-management" target="_blank" rel="noopener">Ecorn: Multi Store Inventory Management, A Practical Guide</a></p>
+  </section>
+  <section>
+    <h2>Discovery</h2>
+    <ul><li>I led the discovery: mapped every step it took to set up a catalog today, worked through the client&#x27;s use cases with them, and ran a gap analysis of each need against what our system could do.</li><li>I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf product information tools, and wrote the requirements and scope for the first release.</li></ul>
+  </section>
+  <section>
     <h2>Target audience</h2>
     <ul><li>The immediate client: an electronics retailer selling phones and tablets through its own app.</li><li>The wider market for our software: FMCG distributors who sell through field sales agents, where most products come in several sizes and pack types.</li><li>Internal users: the commercial and catalog teams who create and maintain products.</li></ul>
   </section>
@@ -211,10 +226,6 @@
   <section>
     <h2>Competitive landscape</h2>
     <ul><li>The ERP systems brands already use set the bar: product masters with variants, unit conversions, and products released only to chosen sites.</li><li>Competitors ran rule-based promotion engines with price lists for different customer groups, while our promotions worked only at order level.</li><li>I trialled off-the-shelf product information tools such as Akeneo and Apimio, and looked at others like Plytix, comparing product hierarchy, pack sizes, warehouse-level stock, promotions and how easily they would connect to client ERPs and our own apps.</li></ul>
-  </section>
-  <section>
-    <h2>My role</h2>
-    <ul><li>I led the discovery: mapped every step it took to set up a catalog today, worked through the client&#x27;s use cases with them, and ran a gap analysis of each need against what our system could do.</li><li>I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf product information tools, and wrote the requirements and scope for the first release.</li></ul>
   </section>
   <section>
     <h2>Prioritisation framework</h2>
