@@ -106,6 +106,17 @@ CASE_STUDIES = [
                 "I led the rollout across Saudi Arabia, Pakistan and the UAE, training warehouse staff through "
                 "presentations and video walkthroughs.",
             ]),
+            ("Two very different warehouses", {
+                "intro": "Stockflo had to work for two quite different ways of running a warehouse.",
+                "cards": [
+                    ("Saudi Arabia: machinery-led",
+                     "Forklifts and pallet racking did most of the work. Stock was concentrated in a smaller number "
+                     "of products, each held in large quantities."),
+                    ("Pakistan: labour-led",
+                     "Many lower-value products, handled mostly by hand, because labour there costs less than machinery."),
+                ],
+                "outro": "The same system had to support both, from a few big pallets to many small, hand-picked items.",
+            }),
             ("In the warehouse", {
                 "photos": [
                     ("assets/wh-inbound-returns.jpg", "Inbound and return area, where goods are received against purchase orders and returns are logged."),
