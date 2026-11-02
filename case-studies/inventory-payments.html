@@ -91,7 +91,13 @@
   .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .gallery figure { margin: 0; }
   .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery.natural img { aspect-ratio: auto; object-fit: contain; background: #fff; }
+  .gallery.single { grid-template-columns: 1fr; }
   .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .gh { margin: 18px 0 0; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
   .cards.one { grid-template-columns: 1fr; }
   h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
   a.inline { color: var(--accent); }
@@ -141,6 +147,7 @@
     <h1>Inventory payments in Stockflo</h1>
     <p class="cs-sub">Turning supplier payments from spreadsheets and email threads into a tracked approval flow.</p>
     <p class="cs-meta">Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan</p>
+    
   </div>
   <section>
     <h2>Target audience</h2>
@@ -200,6 +207,7 @@
     </div>
   </section>
 
+
   <section>
     <h2>Risks</h2>
     <ul><li>Payments marked as paid with no evidence: a bank reference and proof are required, or a reason chosen from a list.</li><li>Approvals made without context: the manager sees the supplier&#x27;s running balance first.</li><li>Mistakes that cannot be taken back: payments are voided with a reason rather than deleted, and every step records who did it.</li><li>Two teams with different needs: Commercial and Finance often wanted different things, and each held off using it until its own requests were met.</li></ul>
@@ -216,6 +224,7 @@
     <h2>Outcome</h2>
     <p>Supplier payments moved out of spreadsheets and email threads into one tracked flow with clear owners at each step. Finance could see what had been paid and what was due, and the procedure was documented for every team involved.</p>
   </section>
+
 
   <footer>
     <span>&copy; Syed Uzair Shah Bukhari</span>

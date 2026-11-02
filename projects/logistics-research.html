@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modelling truck traffic at a logistics hub | Syed Uzair Shah Bukhari</title>
+<meta name="description" content="A Master of Data Science research project that uses the mathematics of juggling to study when trucks pile up at a hub, and what extra unloading bays are worth.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #16171a; --muted: #5f6370; --line: #e6e6e3; --card: #ffffff;
+    --accent: #2f6fed;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111214; --fg: #ececec; --muted: #9a9ea8; --line: #24262b; --card: #17181b; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }
+  nav .brand { font-weight: 600; letter-spacing: -0.01em; }
+  nav .links a { margin-left: 20px; }
+  a { color: inherit; text-decoration: none; }
+  nav .links a, footer a, .contact a { color: var(--muted); transition: color .15s; }
+  nav .links a:hover, footer a:hover, .contact a:hover { color: var(--accent); }
+  header { padding: 48px 0 40px; display: grid; grid-template-columns: 1fr 180px; gap: 40px; align-items: center; }
+  .photo { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
+  .eyebrow { color: var(--accent); font-weight: 500; font-size: 14px; margin: 0 0 12px; }
+  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 20px; font-weight: 600; }
+  .intro { color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 0 28px; }
+  .contact { display: flex; gap: 22px; flex-wrap: wrap; font-weight: 500; }
+  .contact a { display: inline-flex; align-items: center; gap: 7px; }
+  .contact svg { width: 16px; height: 16px; flex: none; }
+  h1 .headline { display: block; font-size: 0.62em; font-weight: 500; color: var(--muted); letter-spacing: -0.015em; margin-top: 10px; }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; margin: 0 0 24px; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .pillar h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
+  .pillar p { margin: 0; color: var(--muted); font-size: 15px; }
+  .role h3 { margin: 0; font-size: 19px; font-weight: 600; }
+  .role .meta { color: var(--muted); font-size: 14px; margin: 2px 0 18px; }
+  .highlights { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .highlights li { display: grid; grid-template-columns: 170px 1fr; gap: 16px; }
+  .highlights strong { font-weight: 600; }
+  .highlights span { color: var(--muted); }
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card {
+    display: block; padding: 22px; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--card); transition: transform .15s, border-color .15s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card h3 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+  .card .arrow { color: var(--accent); }
+  .card p { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags span { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px;
+           display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer .contact { gap: 18px; }
+  @media (max-width: 640px) {
+    .pillars, .cards { grid-template-columns: 1fr; }
+    .highlights li { grid-template-columns: 1fr; gap: 2px; }
+    nav .links a { margin-left: 14px; }
+    header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
+    header .photo { order: -1; width: 120px; height: 120px; }
+  }
+  .diagram { list-style: none; margin: 0 0 16px; padding: 0; position: relative; }
+  .diagram::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--line); }
+  .dstep { display: grid; grid-template-columns: 36px 1fr; gap: 16px; padding-bottom: 18px; position: relative; }
+  .dstep .num { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; z-index: 1; }
+  .dbody { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 14px 16px; }
+  .dbody b { display: block; font-weight: 600; }
+  .dbody small { color: var(--accent); font-size: 13px; font-weight: 500; }
+  .dbody p { color: var(--muted); font-size: 15px; margin: 6px 0 0; }
+  .branch { margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--accent); border-radius: 10px; font-size: 14px; color: var(--muted); }
+  .branch span { display: block; color: var(--fg); font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  h3.sub { font-size: 16px; font-weight: 600; margin: 18px 0 8px; }
+  h3.sub:first-child { margin-top: 0; }
+  .lead-in { margin: 0 0 16px !important; }
+  .lead-out { margin: 16px 0 0 !important; color: var(--muted); }
+  .mini-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .mini { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .mini b { display: block; font-weight: 600; margin-bottom: 4px; }
+  .mini span { color: var(--muted); font-size: 15px; }
+  .tags.big span { font-size: 14px; padding: 6px 12px; }
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery.natural img { aspect-ratio: auto; object-fit: contain; background: #fff; }
+  .gallery.single { grid-template-columns: 1fr; }
+  .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .gh { margin: 18px 0 0; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .cards.one { grid-template-columns: 1fr; }
+  h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
+  a.inline { color: var(--accent); }
+  .exp-photo { margin: 0 0 24px; }
+  .exp-photo img { width: 100%; height: auto; border-radius: 14px; display: block; border: 1px solid var(--line); }
+  .exp-photo figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .card .more { color: var(--accent); font-weight: 500; font-size: 15px; }
+  .case-meta { font-size: 13px !important; margin: 0 0 6px !important; }
+  .highlights .more { color: var(--accent); font-weight: 500; white-space: nowrap; }
+  .back { color: var(--muted); font-size: 14px; }
+  .back:hover { color: var(--accent); }
+  .cs-head { padding: 40px 0 36px; }
+  .cs-head h1 { margin-bottom: 14px; }
+  .cs-sub { color: var(--muted); font-size: 19px; margin: 0 0 10px; max-width: 640px; }
+  .cs-meta { color: var(--muted); font-size: 14px; margin: 0; }
+  .cs ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .cs p { margin: 0; }
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 0 0 16px; }
+  .step { flex: 1 1 120px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .step b { display: block; font-weight: 600; }
+  .step small { color: var(--muted); font-size: 13px; }
+  .arrow-step { display: flex; align-items: center; padding: 0 8px; color: var(--accent); font-size: 18px; }
+  .flow-note { color: var(--muted); font-size: 15px; }
+  .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .decision { padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .decision h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+  .decision p { color: var(--muted); font-size: 15px; }
+  .note { color: var(--muted); font-size: 15px; font-style: italic; }
+  @media (max-width: 640px) {
+    .decisions { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .step { flex: none; }
+    .arrow-step { justify-content: center; padding: 4px 0; transform: rotate(90deg); }
+  }
+
+</style>
+</head>
+<body>
+<div class="wrap cs">
+  <nav>
+    <a class="brand" href="../index.html">Home</a>
+    <div class="links"><a class="back" href="../index.html">&larr; Back to home</a></div>
+  </nav>
+
+  <div class="cs-head">
+    <p class="eyebrow">Project</p>
+    <h1>Modelling truck traffic at a logistics hub</h1>
+    <p class="cs-sub">A Master of Data Science research project that uses the mathematics of juggling to study when trucks pile up at a hub, and what extra unloading bays are worth.</p>
+    <p class="cs-meta">MATLAB · Markov chains · Monte Carlo simulation · Combinatorics (multiplex juggling) · LaTeX · Excel</p>
+    <p class="gh"><a class="btn" href="https://github.com/uzair-shah/Research-Report" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3"/></svg>View the code on GitHub</a></p>
+  </div>
+  <section>
+    <h2>The question</h2>
+    <ul><li>In a hub-and-spoke network, goods from many locations go through one central hub instead of travelling point to point.</li><li>This keeps costs down, but the hub can only unload so many trucks at once, so simultaneous arrivals cause waiting.</li><li>Waiting trucks delay goods further down the supply chain and cost logistics companies money.</li><li>The project asks: how do the number of unloading bays and truck travel times affect cost, revenue and profit at the hub?</li></ul>
+  </section>
+  <section>
+    <h2>The idea in plain English</h2>
+    <p class="lead-in">A juggler throws balls so they land on future beats. A dispatcher sends trucks so they return to the hub at future hours. The project borrows the juggler&#x27;s maths to describe the hub.</p>
+    <div class="mini-cards"><div class="mini"><b>Trucks are balls</b><span>Each of up to three trucks is treated like a ball being juggled.</span></div><div class="mini"><b>Hours are beats</b><span>Time moves in one-hour steps, just as juggling is counted in beats.</span></div><div class="mini"><b>Travel time is throw height</b><span>A truck that returns to the hub in 3 hours is a &#x27;3-throw&#x27;, like a ball thrown high enough to land 3 beats later.</span></div><div class="mini"><b>States are arrival schedules</b><span>A code like 110 means one truck arrives now, one arrives in an hour, and none in two hours. 200 means two trucks arrive at once.</span></div><div class="mini"><b>Multiplex juggling</b><span>Ordinary juggling allows one catch per beat; &#x27;multiplex&#x27; juggling allows several, which mirrors several trucks reaching the hub together.</span></div><div class="mini"><b>Adding and dropping</b><span>Trucks can be added (e.g. extra demand) or removed (e.g. breakdown or refuelling), like a juggler adding or dropping a ball.</span></div></div>
+    <div class="gallery natural single"><figure><img src="../assets/projects/logistics-research/hub-and-spoke-network.png" alt="The modelled network: a central hub served by three trucks travelling to and from three spokes." loading="lazy"><figcaption>The modelled network: a central hub served by three trucks travelling to and from three spokes.</figcaption></figure></div>
+  </section>
+  <section>
+    <h2>How the model works</h2>
+    <ol class="diagram">
+      <li class="dstep"><div class="num">1</div><div class="dbody"><b>Describe the hub as juggling</b><small>Multiplex juggling model J(≤b, h, B)</small><p>Trucks become balls, hours become beats and travel time becomes throw height; b trucks, max height h, B unloading bays.</p></div></li>
+      <li class="dstep"><div class="num">2</div><div class="dbody"><b>Generate every state</b><small>CreateStMatrix_1Bay.m (and _2Bay, _3Bay, _1Bay_6H)</small><p>A queue-based search lists every reachable arrival schedule and the throws, adds and drops that connect them.</p><div class="branch"><span>If more trucks arrive than there are bays</span>the extra trucks are thrown 1 hour ahead, i.e. delayed.</div></div></li>
+      <li class="dstep"><div class="num">3</div><div class="dbody"><b>Build the transition matrix</b><small>Uniform probabilities (Markov chain)</small><p>Every allowed move out of a state gets equal probability, e.g. 1/4 for each of four options.</p></div></li>
+      <li class="dstep"><div class="num">4</div><div class="dbody"><b>Compute the long-run behaviour</b><small>Eigenvector of the transposed matrix, normalised</small><p>Gives the theoretical stationary distribution: the long-run share of time spent in each state.</p></div></li>
+      <li class="dstep"><div class="num">5</div><div class="dbody"><b>Simulate and track money</b><small>SimRun_1Bay.m, SimRun_2Bay.m, SimRun_3Bay.m, SimRun_1Bay_6H.m</small><p>100,000 steps from every starting state across 30 seeds, adding bay, delay and fixed costs and revenue per unloaded truck.</p></div></li>
+      <li class="dstep"><div class="num">6</div><div class="dbody"><b>Check and compare</b><small>RSSQ convergence plots; Cost Results.xlsx</small><p>Simulated and theoretical distributions are compared, then average cost, revenue and profit are compared across the four experiments.</p></div></li>
+    </ol>
+  </section>
+
+
+
+  <section>
+    <h2>How it was modelled</h2>
+    <p class="lead-in">The main model, written J(≤3, 3, 1), has at most 3 trucks, a maximum travel time of 3 hours and 1 unloading bay.</p>
+    <ul><li>With one bay, if two trucks arrive together, one is unloaded and the other is pushed back one hour, which incurs a delay cost.</li><li>MATLAB code generated every possible arrival state and the moves between them: 20 states for the main model.</li><li>Each allowed move from a state was given equal probability, turning the state graph into a Markov chain (the next state depends only on the current one).</li><li>The chain&#x27;s &#x27;stationary distribution&#x27; gives the long-run share of time the hub spends in each state; it was computed from an eigenvector of the transition matrix.</li><li>A Monte Carlo simulation ran 100,000 steps from every starting state over 30 random seeds, tallying cost and revenue at each step.</li><li>Cost = fixed hub cost + bay cost per truck unloaded + delay cost per truck kept waiting; revenue = base revenue per truck unloaded.</li></ul>
+    <div class="gallery natural single"><figure><img src="../assets/projects/logistics-research/juggling-state-graph.png" alt="The state graph for J(≤3,3,1): each circle is an arrival schedule, each arrow a possible move labelled with its &#x27;throw height&#x27;. Dotted and dashed arrows add or remove a truck." loading="lazy"><figcaption>The state graph for J(≤3,3,1): each circle is an arrival schedule, each arrow a possible move labelled with its &#x27;throw height&#x27;. Dotted and dashed arrows add or remove a truck.</figcaption></figure></div>
+  </section>
+  <section>
+    <h2>Four experiments</h2>
+    <div class="mini-cards"><div class="mini"><b>Experiment 1</b><span>1 bay, travel time up to 3 hours (the base model).</span></div><div class="mini"><b>Experiment 2</b><span>2 bays, travel time up to 3 hours, higher bay cost.</span></div><div class="mini"><b>Experiment 3</b><span>3 bays, travel time up to 3 hours, highest bay cost.</span></div><div class="mini"><b>Experiment 4</b><span>1 bay, maximum travel time doubled to 6 hours (84 states).</span></div></div>
+  </section>
+  <section>
+    <h2>Results</h2>
+    <ul><li>The simulation matched the theory: the error (RSSQ) for the base model fell to 3.37 × 10⁻⁸ after 100,000 iterations.</li><li>One bay produced the largest loss, about 0.16 million (−155,314.67), driven by frequent two-truck arrivals and delay costs.</li><li>Two bays gave the only profit, about 0.20 million (198,257.35).</li><li>A third bay added little: three trucks rarely arrive together, so it sat largely unused while its cost was still paid (−3,139.73).</li><li>Doubling travel time lowered both cost and revenue; the loss shrank (−49,628.70), but idle hours with fixed costs kept one bay unprofitable.</li><li>Caveat from the report: the model has not been calibrated or validated against any real hub-and-spoke network, so it cannot yet support real-world recommendations.</li></ul>
+    <div class="gallery natural"><figure><img src="../assets/projects/logistics-research/simultaneous-arrivals-by-experiment.png" alt="Share of time with 0, 1, 2 or 3 trucks arriving at once, per experiment. Three-truck arrivals are the rarest in every case." loading="lazy"><figcaption>Share of time with 0, 1, 2 or 3 trucks arriving at once, per experiment. Three-truck arrivals are the rarest in every case.</figcaption></figure><figure><img src="../assets/projects/logistics-research/profit-by-experiment.png" alt="Average profit per experiment: only the two-bay setup (Experiment 2) is profitable." loading="lazy"><figcaption>Average profit per experiment: only the two-bay setup (Experiment 2) is profitable.</figcaption></figure></div>
+    <p class="lead-out">The report also notes the model is small (three trucks, up to three bays) and assumes trucks are dispatched at random, whereas real dispatching is scheduled.</p>
+  </section>
+  <section>
+    <h2>Inside the code</h2>
+    <ul><li>CreateStMatrix_*.m scripts explore states with a queue: from each state they try every add, drop and throw, recording new states and the throw heights linking them.</li><li>SimRun_*.m scripts hold each experiment&#x27;s transition matrix, compute the theoretical stationary distribution, run the seeded simulation and plot convergence.</li><li>Next states are sampled by inverse transform sampling: a random number is matched against cumulative probabilities.</li><li>TotalStateCount.m checks state counts with the &#x27;stars and bars&#x27; counting formula.</li><li>Outputs were saved to Excel for summary charts; the write-up is a LaTeX report with a compiled PDF.</li></ul>
+  </section>
+  <section>
+    <h2>Tools</h2>
+    <div class="tags big"><span>MATLAB</span><span>Markov chains</span><span>Stationary distributions / eigenvectors</span><span>Monte Carlo simulation</span><span>Inverse transform sampling</span><span>Combinatorics (stars and bars)</span><span>Juggling state graphs</span><span>Excel</span><span>LaTeX / Overleaf</span></div>
+  </section>
+  <section>
+    <h2>Files in the repo</h2>
+    <div class="mini-cards"><div class="mini"><b>JugglingProgReportB_Bukhari_S_a1947793/main.tex</b><span>LaTeX source of the progress report: background, methods, results, discussion, limitations and appendices.</span></div><div class="mini"><b>JugglingProgReportB_Bukhari_S_a1947793/JugglingProgReportB_Bukhari_S_a1947793.pdf</b><span>Compiled PDF of the report.</span></div><div class="mini"><b>JugglingProgReportB_Bukhari_S_a1947793/images/</b><span>Figures used in the report: juggling diagrams, state graphs, convergence plots, terminal outputs and cost/profit charts.</span></div><div class="mini"><b>Code/Term 2/CreateStMatrix_1Bay.m</b><span>Generates all juggling states and connecting throw heights for the one-bay, 3-hour model J(≤3,3,1).</span></div><div class="mini"><b>Code/Term 2/CreateStMatrix_2Bay.m / CreateStMatrix_3Bay.m</b><span>Variants of the state generator that allow two or three trucks to be unloaded, added or dropped per hour.</span></div><div class="mini"><b>Code/Term 2/CreateStMatrix_1Bay_6H.m</b><span>State generator for the one-bay model with maximum travel time doubled to 6 hours.</span></div><div class="mini"><b>Code/Term 2/SimRun_1Bay.m</b><span>Experiment 1: transition matrix, theoretical stationary distribution, seeded Monte Carlo simulation with cost/revenue, RSSQ convergence and plots.</span></div><div class="mini"><b>Code/Term 2/SimRun_2Bay.m / SimRun_3Bay.m / SimRun_1Bay_6H.m</b><span>Same simulation for Experiments 2, 3 and 4.</span></div><div class="mini"><b>Code/Term 2/RunSimMultSeedCorrStates.m</b><span>Earlier multi-seed simulation of the 20-state J(3,3) model without the bay-specific cost setup.</span></div><div class="mini"><b>Code/Term 2/TotalStateCount.m</b><span>Counts states with the stars-and-bars formula for 0 to 3 balls (set to height 6).</span></div><div class="mini"><b>Code/Term 2/Figures/</b><span>Saved MATLAB plots: convergence, log convergence and simulated vs stationary distribution.</span></div><div class="mini"><b>Code/Term 1/</b><span>First-term exploratory scripts: simulations of smaller juggling systems (J(2,3), J(2,5), multiplex and add-drop models) and a Boltzmann-weighted transition matrix function.</span></div><div class="mini"><b>Code/Term 2/Deprecated/ and Code/Term 1/Old/</b><span>Superseded drafts of the state-generation and simulation code.</span></div><div class="mini"><b>Excel_Files/1Bay_Mat.xlsx, 2Bay_Mat.xlsx, 3Bay_Mat.xlsx, 1Bay_6H_Mat.xlsx</b><span>Spreadsheets of states and throw-height transition tables for each experiment.</span></div><div class="mini"><b>Excel_Files/TransitionMatrix.xlsx</b><span>Transition matrices for earlier models (J(3,6), J(2,5), Boltzmann variant, add-drop and multiplex J(2,3)).</span></div><div class="mini"><b>Excel_Files/sum_states_2.xlsx and sumary_states.xlsx</b><span>Simulated state probabilities per experiment, grouped by number of trucks arriving at once (source of the arrivals chart).</span></div><div class="mini"><b>Excel_Files/Cost Results.xlsx</b><span>Run time, cost, revenue and profit for the four experiments, with the cost/revenue and profit charts.</span></div><div class="mini"><b>Excel_Files/J(geq2,2).xlsx and newnotation_simplified.csv</b><span>Small state/throw-height tables used while working out notation.</span></div></div>
+  </section>
+
+
+  <footer>
+    <span>&copy; Syed Uzair Shah Bukhari</span>
+    <div class="contact">
+        <a href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+        <a href="https://github.com/uzair-shah" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3"/></svg>GitHub</a>
+        <a href="mailto:s.uzair.shah01@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3z M3 6l9 7 9-7"/></svg>s.uzair.shah01@gmail.com</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

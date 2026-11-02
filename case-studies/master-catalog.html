@@ -91,7 +91,13 @@
   .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .gallery figure { margin: 0; }
   .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery.natural img { aspect-ratio: auto; object-fit: contain; background: #fff; }
+  .gallery.single { grid-template-columns: 1fr; }
   .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .gh { margin: 18px 0 0; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
   .cards.one { grid-template-columns: 1fr; }
   h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
   a.inline { color: var(--accent); }
@@ -141,6 +147,7 @@
     <h1>Discovery: one product catalog for the whole company</h1>
     <p class="cs-sub">Working out how to move product records from per-warehouse copies to a single company catalog with variants.</p>
     <p class="cs-meta">Retailo · Product Manager · Discovery for an electronics retail client</p>
+    
   </div>
   <section>
     <h2>Target audience</h2>
@@ -194,6 +201,7 @@
     </div>
   </section>
 
+
   <section>
     <h2>Risks</h2>
     <ul><li>Complexity: a fully flexible attribute model means more tables and more calls between them, so templates and switched-off variants kept it in check.</li><li>Integration cost: building or buying both meant connecting to client ERPs and our own apps, with open questions on sync timing and whether a middleware layer was needed.</li><li>App compatibility: older versions of the customer app might need a forced update to show variants.</li><li>Inventory: moving to company-level products meant changing how inventory works, whichever option we chose.</li></ul>
@@ -210,6 +218,7 @@
     <h2>Outcome</h2>
     <p>Discovery gave the team a shared picture of where the catalog fell short, a prioritised list of what the client needed first, a recommended product structure, and a scoped plan for the first release, along with a clear view of the build-versus-buy options.</p>
   </section>
+
 
   <footer>
     <span>&copy; Syed Uzair Shah Bukhari</span>

@@ -91,7 +91,13 @@
   .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .gallery figure { margin: 0; }
   .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery.natural img { aspect-ratio: auto; object-fit: contain; background: #fff; }
+  .gallery.single { grid-template-columns: 1fr; }
   .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .gh { margin: 18px 0 0; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
   .cards.one { grid-template-columns: 1fr; }
   h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
   a.inline { color: var(--accent); }
@@ -141,6 +147,7 @@
     <h1>Cash collection: closing out the delivery day</h1>
     <p class="cs-sub">Making end-of-day cash deposits faster to record and easier to check.</p>
     <p class="cs-meta">Retailo · Operations · End-of-day cash and returns</p>
+    
   </div>
   <section>
     <h2>Target audience</h2>
@@ -171,7 +178,6 @@
       <li class="dstep"><div class="num">4</div><div class="dbody"><b>Deposit counter</b><small>Agent and counter staff</small><p>The agent queues and deposits the rejected notes. The counter logs the deposit in the Google Sheets form, which saves it to the shared table and clears itself for the next agent.</p></div></li>
       <li class="dstep"><div class="num">5</div><div class="dbody"><b>Check against the app</b><small>Logistics team</small><p>The cash deposited is compared with the cash the logistics app says the agent collected.</p><div class="branch"><span>If the amounts don&#x27;t match</span>The logistics team decides whether the agent is genuinely short or the system made a mistake.</div></div></li>
     </ol>
-    <p class="flow-note"></p>
   </section>
 
   <section>
@@ -184,6 +190,7 @@
     </div>
   </section>
 
+
   <section>
     <h2>Risks</h2>
     <ul><li>Over-returns hiding partial deliveries: the returns record from the dock made these visible, since they showed up as cash shortfalls.</li><li>On-the-spot discounts given through customer care did not fit the flow; the plan was to phase them out rather than build around them.</li><li>Typing errors and overwritten rows: a fixed form with the same fields every time, cleared after each entry.</li></ul>
@@ -192,6 +199,7 @@
     <h2>Outcome</h2>
     <p>Deposits were logged through a short form instead of a long table, every entry landed in the shared sheet automatically, and the form was ready for the next agent straight away. Mismatches had a clear path to the logistics team for resolution.</p>
   </section>
+
 
   <footer>
     <span>&copy; Syed Uzair Shah Bukhari</span>

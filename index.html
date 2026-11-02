@@ -91,7 +91,13 @@
   .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .gallery figure { margin: 0; }
   .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery.natural img { aspect-ratio: auto; object-fit: contain; background: #fff; }
+  .gallery.single { grid-template-columns: 1fr; }
   .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .gh { margin: 18px 0 0; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
   .cards.one { grid-template-columns: 1fr; }
   h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
   a.inline { color: var(--accent); }
@@ -208,23 +214,23 @@
   <section id="projects">
     <h2>Projects</h2>
     <div class="cards">
-      <a class="card" href="https://github.com/uzair-shah/rag_app" target="_blank" rel="noopener">
-        <h3>Document Q&amp;A with AI (RAG) <span class="arrow">&#8599;</span></h3>
+      <a class="card" href="projects/rag-app.html">
+        <h3>Document Q&amp;A with AI (RAG) <span class="arrow">&rarr;</span></h3>
         <p>Answers questions about a research paper using only the paper itself, with an evaluation set that checks correct answers and correct refusals. Compares Gemini with a locally run DeepSeek model.</p>
         <div class="tags"><span>Python</span><span>LLMs</span><span>ChromaDB</span><span>Docker</span></div>
       </a>
-      <a class="card" href="https://github.com/uzair-shah/Research-Report" target="_blank" rel="noopener">
-        <h3>Modelling logistics hubs <span class="arrow">&#8599;</span></h3>
+      <a class="card" href="projects/logistics-research.html">
+        <h3>Modelling logistics hubs <span class="arrow">&rarr;</span></h3>
         <p>Master&#x27;s research: modelled a hub-and-spoke truck network as a Markov chain and simulated cost and revenue. A second unloading bay paid off; a third barely did.</p>
         <div class="tags"><span>MATLAB</span><span>Markov chains</span><span>Simulation</span></div>
       </a>
-      <a class="card" href="https://github.com/uzair-shah/AI-vs-Human-Text-Detector" target="_blank" rel="noopener">
-        <h3>AI vs human text detector <span class="arrow">&#8599;</span></h3>
+      <a class="card" href="projects/text-detector.html">
+        <h3>AI vs human text detector <span class="arrow">&rarr;</span></h3>
         <p>Neural network that flags AI-written text, benchmarked against SVM baselines. About 0.95 validation AUC per sentence and 0.90 per paragraph on Kaggle.</p>
         <div class="tags"><span>TensorFlow</span><span>scikit-learn</span><span>Kaggle</span></div>
       </a>
-      <a class="card" href="https://github.com/uzair-shah/WebScrapingProject" target="_blank" rel="noopener">
-        <h3>Book catalogue scraper <span class="arrow">&#8599;</span></h3>
+      <a class="card" href="projects/book-scraper.html">
+        <h3>Book catalogue scraper <span class="arrow">&rarr;</span></h3>
         <p>Scraped about 1,000 books across 50 pages with polite rate limiting, stored them in a SQL database and queried the results.</p>
         <div class="tags"><span>Python</span><span>BeautifulSoup</span><span>SQL</span></div>
       </a>

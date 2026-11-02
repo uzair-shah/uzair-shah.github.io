@@ -91,8 +91,8 @@ def projects() -> str:
     for p in c.PROJECTS:
         tags = "".join(f"<span>{e(t)}</span>" for t in p.get("tags", []))
         cards.append(
-            f'''      <a class="card" href="{e(p["url"])}" target="_blank" rel="noopener">
-        <h3>{e(p["title"])} <span class="arrow">&#8599;</span></h3>
+            f'''      <a class="card" href="{e(p.get("page") or p["url"])}"{"" if p.get("page") else ' target="_blank" rel="noopener"'}>
+        <h3>{e(p["title"])} <span class="arrow">{"&rarr;" if p.get("page") else "&#8599;"}</span></h3>
         <p>{e(p["text"])}</p>
         <div class="tags">{tags}</div>
       </a>'''
@@ -183,7 +183,13 @@ STYLE = """  :root {{
   .gallery {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }}
   .gallery figure {{ margin: 0; }}
   .gallery img {{ width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }}
+  .gallery.natural img {{ aspect-ratio: auto; object-fit: contain; background: #fff; }}
+  .gallery.single {{ grid-template-columns: 1fr; }}
   .gallery figcaption {{ color: var(--muted); font-size: 13px; margin-top: 6px; }}
+  .gh {{ margin: 18px 0 0; }}
+  .btn {{ display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }}
+  .btn svg {{ width: 16px; height: 16px; }}
+  .btn:hover {{ border-color: var(--accent); color: var(--accent); }}
   .cards.one {{ grid-template-columns: 1fr; }}
   h4.group {{ margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }}
   a.inline {{ color: var(--accent); }}
@@ -318,30 +324,18 @@ CASE_PAGE = """<!doctype html>
   </nav>
 
   <div class="cs-head">
-    <p class="eyebrow">Case study</p>
+    <p class="eyebrow">{eyebrow}</p>
     <h1>{title_html}</h1>
     <p class="cs-sub">{subtitle}</p>
     <p class="cs-meta">{meta}</p>
+    {github_btn}
   </div>
 {sections}
-  <section>
-    <h2>{flow_title}</h2>
-{flow}
-    <p class="flow-note">{flow_note}</p>
-  </section>
-
-  <section>
-    <h2>{decisions_title}</h2>
-    <div class="decisions">
-{decisions}
-    </div>
-  </section>
+{flow_block}
+{decisions_block}
 
 {after}
-  <section>
-    <h2>{outcome_title}</h2>
-    <p>{outcome}</p>
-  </section>
+{outcome_block}
 
   <footer>
     <span>&copy; {name}</span>
@@ -376,10 +370,10 @@ def diagram_html(cs: dict) -> str:
     return '    <ol class="diagram">\n' + "\n".join(rows) + "\n    </ol>"
 
 
-def build_case_studies(css: str) -> None:
-    out_dir = HERE / "case-studies"
+def build_case_studies(css: str, items=None, folder: str = "case-studies", eyebrow: str = "Case study") -> None:
+    out_dir = HERE / folder
     out_dir.mkdir(exist_ok=True)
-    for cs in getattr(c, "CASE_STUDIES", []):
+    for cs in (getattr(c, "CASE_STUDIES", []) if items is None else items):
         def render_items(items):
             # A list may mix plain bullets with ("Subheading", [bullets]) groups.
             html_parts, loose = [], []
@@ -402,13 +396,17 @@ def build_case_studies(css: str) -> None:
             parts = []
             if d.get("intro"):
                 parts.append(f'<p class="lead-in">{e(d["intro"])}</p>')
+            if d.get("bullets"):
+                parts.append("<ul>" + "".join(f"<li>{e(i)}</li>" for i in d["bullets"]) + "</ul>")
             if d.get("cards"):
                 parts.append('<div class="mini-cards">' + "".join(
                     f'<div class="mini"><b>{e(t)}</b><span>{e(x)}</span></div>' for t, x in d["cards"]) + "</div>")
             if d.get("tags"):
                 parts.append('<div class="tags big">' + "".join(f"<span>{e(t)}</span>" for t in d["tags"]) + "</div>")
             if d.get("photos"):
-                parts.append('<div class="gallery">' + "".join(
+                natural = any("assets/projects/" in src for src, _ in d["photos"])
+                cls = "gallery" + (" natural" if natural else "") + (" single" if len(d["photos"]) == 1 else "")
+                parts.append(f'<div class="{cls}">' + "".join(
                     f'<figure><img src="../{e(src)}" alt="{e(cap)}" loading="lazy"><figcaption>{e(cap)}</figcaption></figure>'
                     for src, cap in d["photos"]) + "</div>")
             if d.get("outro"):
@@ -444,15 +442,26 @@ def build_case_studies(css: str) -> None:
         decisions = "\n".join(
             f'      <div class="decision"><h3>{e(t)}</h3><p>{e(d)}</p></div>' for t, d in cs.get("decisions", [])
         )
+        flow_html = ("\n".join(steps) if cs.get("diagram") else '    <div class="flow">\n' + "\n".join(steps) + "\n    </div>")
+        flow_block = ""
+        if steps:
+            note = f'\n    <p class="flow-note">{e(cs["flow_note"])}</p>' if cs.get("flow_note") else ""
+            flow_block = f'  <section>\n    <h2>{e(cs.get("flow_title", "How it works"))}</h2>\n{flow_html}{note}\n  </section>\n'
+        decisions_block = ""
+        if cs.get("decisions"):
+            decisions_block = (f'  <section>\n    <h2>{e(cs.get("decisions_title", "Key decisions"))}</h2>\n'
+                               f'    <div class="decisions">\n{decisions}\n    </div>\n  </section>\n')
+        outcome_block = ""
+        if cs.get("outcome"):
+            outcome_block = f'  <section>\n    <h2>{e(cs.get("outcome_title", "Outcome"))}</h2>\n    <p>{e(cs["outcome"])}</p>\n  </section>\n'
+        github_btn = (f'<p class="gh"><a class="btn" href="{e(cs["github"])}" target="_blank" rel="noopener">'
+                      f'{ICONS["github"]}View the code on GitHub</a></p>') if cs.get("github") else ""
         page = CASE_PAGE.format(
+            eyebrow=e(eyebrow), github_btn=github_btn, flow_block=flow_block,
+            decisions_block=decisions_block, outcome_block=outcome_block,
             style=css, name=e(c.NAME), short=e(c.SHORT_NAME), title=e(cs["title"]), title_html=title_html(cs),
             subtitle=e(cs["subtitle"]), meta=e(cs["meta"]), sections="\n".join(sections),
-            flow_title=e(cs["flow_title"]),
-            flow=("\n".join(steps) if cs.get("diagram") else '    <div class="flow">\n' + "\n".join(steps) + "\n    </div>"),
-            flow_note=e(cs.get("flow_note", "")),
-            decisions_title=e(cs["decisions_title"]), decisions=decisions,
             after="\n".join(after),
-            outcome_title=e(cs["outcome_title"]), outcome=e(cs["outcome"]),
             contact=contact_links(),
         )
         path = out_dir / f"{cs['slug']}.html"
@@ -475,6 +484,7 @@ def build() -> Path:
     path.write_text(out, encoding="utf-8")
     print(f"Built {path}")
     build_case_studies(css)
+    build_case_studies(css, getattr(c, "PROJECT_PAGES", []), "projects", "Project")
     return path
 
 

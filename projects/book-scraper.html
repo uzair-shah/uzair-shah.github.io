@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Catalogue Scraper | Syed Uzair Shah Bukhari</title>
+<meta name="description" content="A Python script that reads every book on a practice bookshop website and stores the details in a searchable database.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #16171a; --muted: #5f6370; --line: #e6e6e3; --card: #ffffff;
+    --accent: #2f6fed;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111214; --fg: #ececec; --muted: #9a9ea8; --line: #24262b; --card: #17181b; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }
+  nav .brand { font-weight: 600; letter-spacing: -0.01em; }
+  nav .links a { margin-left: 20px; }
+  a { color: inherit; text-decoration: none; }
+  nav .links a, footer a, .contact a { color: var(--muted); transition: color .15s; }
+  nav .links a:hover, footer a:hover, .contact a:hover { color: var(--accent); }
+  header { padding: 48px 0 40px; display: grid; grid-template-columns: 1fr 180px; gap: 40px; align-items: center; }
+  .photo { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
+  .eyebrow { color: var(--accent); font-weight: 500; font-size: 14px; margin: 0 0 12px; }
+  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 20px; font-weight: 600; }
+  .intro { color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 0 28px; }
+  .contact { display: flex; gap: 22px; flex-wrap: wrap; font-weight: 500; }
+  .contact a { display: inline-flex; align-items: center; gap: 7px; }
+  .contact svg { width: 16px; height: 16px; flex: none; }
+  h1 .headline { display: block; font-size: 0.62em; font-weight: 500; color: var(--muted); letter-spacing: -0.015em; margin-top: 10px; }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; margin: 0 0 24px; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .pillar h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
+  .pillar p { margin: 0; color: var(--muted); font-size: 15px; }
+  .role h3 { margin: 0; font-size: 19px; font-weight: 600; }
+  .role .meta { color: var(--muted); font-size: 14px; margin: 2px 0 18px; }
+  .highlights { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .highlights li { display: grid; grid-template-columns: 170px 1fr; gap: 16px; }
+  .highlights strong { font-weight: 600; }
+  .highlights span { color: var(--muted); }
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card {
+    display: block; padding: 22px; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--card); transition: transform .15s, border-color .15s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card h3 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+  .card .arrow { color: var(--accent); }
+  .card p { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags span { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px;
+           display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer .contact { gap: 18px; }
+  @media (max-width: 640px) {
+    .pillars, .cards { grid-template-columns: 1fr; }
+    .highlights li { grid-template-columns: 1fr; gap: 2px; }
+    nav .links a { margin-left: 14px; }
+    header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
+    header .photo { order: -1; width: 120px; height: 120px; }
+  }
+  .diagram { list-style: none; margin: 0 0 16px; padding: 0; position: relative; }
+  .diagram::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--line); }
+  .dstep { display: grid; grid-template-columns: 36px 1fr; gap: 16px; padding-bottom: 18px; position: relative; }
+  .dstep .num { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; z-index: 1; }
+  .dbody { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 14px 16px; }
+  .dbody b { display: block; font-weight: 600; }
+  .dbody small { color: var(--accent); font-size: 13px; font-weight: 500; }
+  .dbody p { color: var(--muted); font-size: 15px; margin: 6px 0 0; }
+  .branch { margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--accent); border-radius: 10px; font-size: 14px; color: var(--muted); }
+  .branch span { display: block; color: var(--fg); font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  h3.sub { font-size: 16px; font-weight: 600; margin: 18px 0 8px; }
+  h3.sub:first-child { margin-top: 0; }
+  .lead-in { margin: 0 0 16px !important; }
+  .lead-out { margin: 16px 0 0 !important; color: var(--muted); }
+  .mini-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .mini { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .mini b { display: block; font-weight: 600; margin-bottom: 4px; }
+  .mini span { color: var(--muted); font-size: 15px; }
+  .tags.big span { font-size: 14px; padding: 6px 12px; }
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery.natural img { aspect-ratio: auto; object-fit: contain; background: #fff; }
+  .gallery.single { grid-template-columns: 1fr; }
+  .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .gh { margin: 18px 0 0; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .cards.one { grid-template-columns: 1fr; }
+  h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
+  a.inline { color: var(--accent); }
+  .exp-photo { margin: 0 0 24px; }
+  .exp-photo img { width: 100%; height: auto; border-radius: 14px; display: block; border: 1px solid var(--line); }
+  .exp-photo figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .card .more { color: var(--accent); font-weight: 500; font-size: 15px; }
+  .case-meta { font-size: 13px !important; margin: 0 0 6px !important; }
+  .highlights .more { color: var(--accent); font-weight: 500; white-space: nowrap; }
+  .back { color: var(--muted); font-size: 14px; }
+  .back:hover { color: var(--accent); }
+  .cs-head { padding: 40px 0 36px; }
+  .cs-head h1 { margin-bottom: 14px; }
+  .cs-sub { color: var(--muted); font-size: 19px; margin: 0 0 10px; max-width: 640px; }
+  .cs-meta { color: var(--muted); font-size: 14px; margin: 0; }
+  .cs ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .cs p { margin: 0; }
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 0 0 16px; }
+  .step { flex: 1 1 120px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .step b { display: block; font-weight: 600; }
+  .step small { color: var(--muted); font-size: 13px; }
+  .arrow-step { display: flex; align-items: center; padding: 0 8px; color: var(--accent); font-size: 18px; }
+  .flow-note { color: var(--muted); font-size: 15px; }
+  .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .decision { padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .decision h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+  .decision p { color: var(--muted); font-size: 15px; }
+  .note { color: var(--muted); font-size: 15px; font-style: italic; }
+  @media (max-width: 640px) {
+    .decisions { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .step { flex: none; }
+    .arrow-step { justify-content: center; padding: 4px 0; transform: rotate(90deg); }
+  }
+
+</style>
+</head>
+<body>
+<div class="wrap cs">
+  <nav>
+    <a class="brand" href="../index.html">Home</a>
+    <div class="links"><a class="back" href="../index.html">&larr; Back to home</a></div>
+  </nav>
+
+  <div class="cs-head">
+    <p class="eyebrow">Project</p>
+    <h1>Book Catalogue Scraper</h1>
+    <p class="cs-sub">A Python script that reads every book on a practice bookshop website and stores the details in a searchable database.</p>
+    <p class="cs-meta">Python · requests · BeautifulSoup · pandas · SQLite · Jupyter</p>
+    <p class="gh"><a class="btn" href="https://github.com/uzair-shah/WebScrapingProject" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3"/></svg>View the code on GitHub</a></p>
+  </div>
+  <section>
+    <h2>What it does</h2>
+    <ul><li>Visits books.toscrape.com, a website built for practising web scraping, and reads its catalogue page by page.</li><li>Pulls out the name, price, stock status, star rating and cover image link for each book.</li><li>Keeps going until a page no longer exists, so it doesn&#x27;t need to know the page count in advance.</li><li>Saves all 1,000 books to a SQLite database file (books.db) and runs a test query on it.</li></ul>
+  </section>
+  <section>
+    <h2>What it collects</h2>
+    <p class="lead-in">Each book becomes one row in a table called books, with five columns:</p>
+    <div class="mini-cards"><div class="mini"><b>name</b><span>The book&#x27;s full title, taken from the link&#x27;s title attribute (TEXT).</span></div><div class="mini"><b>price</b><span>Price in pounds, with the £ sign removed and stored as a number (REAL).</span></div><div class="mini"><b>in_stock</b><span>The availability text shown on the site, e.g. &quot;In stock&quot; (TEXT).</span></div><div class="mini"><b>rating</b><span>Star rating converted from words (&quot;One&quot;…&quot;Five&quot;) to a number 1–5 (INTEGER).</span></div><div class="mini"><b>link</b><span>Full web address of the cover image, built from the page&#x27;s relative link (TEXT).</span></div></div>
+  </section>
+  <section>
+    <h2>How it works</h2>
+    <ol class="diagram">
+      <li class="dstep"><div class="num">1</div><div class="dbody"><b>Request a page</b><small>requests</small><p>Builds the URL catalogue/page-N.html, starting at N = 1, and downloads it.</p><div class="branch"><span>If the response isn&#x27;t 200 (OK)</span>Print where it stopped and leave the loop. The saved run stopped at page 51 (404).</div></div></li>
+      <li class="dstep"><div class="num">2</div><div class="dbody"><b>Find the books</b><small>BeautifulSoup</small><p>Parses the HTML and collects every product_pod article on the page (20 per page).</p></div></li>
+      <li class="dstep"><div class="num">3</div><div class="dbody"><b>Extract and clean fields</b><small>Python</small><p>Reads name, price (strips £, makes it a number), stock text, rating (word to 1–5) and the full image URL.</p></div></li>
+      <li class="dstep"><div class="num">4</div><div class="dbody"><b>Wait, then next page</b><small>time.sleep</small><p>Pauses 0.5 seconds to go easy on the site, adds 1 to N and loops back to step 1.</p></div></li>
+      <li class="dstep"><div class="num">5</div><div class="dbody"><b>Build a table</b><small>pandas</small><p>Turns the list of 1,000 book records into a DataFrame.</p></div></li>
+      <li class="dstep"><div class="num">6</div><div class="dbody"><b>Save to database</b><small>SQLite</small><p>Writes the DataFrame to the books table in books.db, replacing any earlier copy.</p></div></li>
+      <li class="dstep"><div class="num">7</div><div class="dbody"><b>Check with SQL</b><small>pandas + SQL</small><p>Runs a query for books under £20, sorted by price, and prints the first five.</p></div></li>
+    </ol>
+  </section>
+
+
+
+  <section>
+    <h2>The data</h2>
+    <p class="lead-in">Figures below come straight from the saved books.db file in the repo.</p>
+    <div class="mini-cards"><div class="mini"><b>1,000 books</b><span>Collected from 50 catalogue pages, 20 books per page.</span></div><div class="mini"><b>£10.00 – £59.99</b><span>Cheapest to most expensive price; average £35.07.</span></div><div class="mini"><b>196 under £20</b><span>Books matching the sample query; 42 of them have 5 stars.</span></div><div class="mini"><b>All in stock</b><span>Every one of the 1,000 rows reads &quot;In stock&quot;.</span></div></div>
+    <div class="gallery natural"><figure><img src="../assets/projects/book-scraper/books-by-rating.png" alt="Ratings are spread fairly evenly: 226 one-star, 196 two-star, 203 three-star, 179 four-star, 196 five-star." loading="lazy"><figcaption>Ratings are spread fairly evenly: 226 one-star, 196 two-star, 203 three-star, 179 four-star, 196 five-star.</figcaption></figure><figure><img src="../assets/projects/book-scraper/price-distribution.png" alt="Prices are spread evenly between £10 and £60, roughly 80–115 books in every £5 band." loading="lazy"><figcaption>Prices are spread evenly between £10 and £60, roughly 80–115 books in every £5 band.</figcaption></figure></div>
+  </section>
+  <section>
+    <h2>Being polite to the website</h2>
+    <ul><li>Pauses for half a second (time.sleep(0.5)) after each page so it doesn&#x27;t flood the server with requests.</li><li>Stops cleanly when the site answers with anything other than success (HTTP 200). The saved notebook run ended at page 51 with a 404.</li></ul>
+  </section>
+  <section>
+    <h2>Querying the data</h2>
+    <p class="lead-in">Once the data is saved, the script checks it with a real SQL query: books under £20, cheapest first.</p>
+    <div class="mini-cards"><div class="mini"><b>An Abundance of Katherines</b><span>£10.00 · 5 stars</span></div><div class="mini"><b>The Origin of Species</b><span>£10.01 · 4 stars</span></div><div class="mini"><b>The Tipping Point: How Little Things Can Make a Big Difference</b><span>£10.02 · 2 stars</span></div><div class="mini"><b>Patience</b><span>£10.16 · 3 stars</span></div><div class="mini"><b>Greek Mythic History</b><span>£10.23 · 5 stars</span></div></div>
+    <p class="lead-out">SELECT * FROM books WHERE price &lt; 20 ORDER BY price returns 196 rows; these are the first five, matching the output saved in the notebook.</p>
+  </section>
+  <section>
+    <h2>Inside the code</h2>
+    <ul><li>requests downloads each page; BeautifulSoup finds every &lt;article class=&quot;product_pod&quot;&gt; block, one per book.</li><li>A small lookup table turns the rating CSS class (e.g. &quot;Three&quot;) into a number; anything unknown becomes 0.</li><li>urljoin turns relative image paths into full URLs that work outside the site.</li><li>Rows go into a pandas DataFrame, then df.to_sql writes it to SQLite, replacing the table on every run.</li><li>The Jupyter notebook shows the work step by step: one book first, then one page, then the full loop.</li></ul>
+  </section>
+  <section>
+    <h2>Tech used</h2>
+    <div class="tags big"><span>Python</span><span>requests</span><span>BeautifulSoup</span><span>pandas</span><span>SQLite</span><span>SQL</span><span>Jupyter Notebook</span><span>Web scraping</span></div>
+  </section>
+  <section>
+    <h2>Files in the repo</h2>
+    <div class="mini-cards"><div class="mini"><b>scraper.py</b><span>The finished script: scrapes all catalogue pages, saves them to books.db and prints a sample query.</span></div><div class="mini"><b>scraper.ipynb</b><span>Jupyter notebook that builds the scraper step by step, with the saved output of a full 50-page run and the sample query.</span></div><div class="mini"><b>books.db</b><span>The SQLite database produced by a run: one books table with 1,000 rows.</span></div><div class="mini"><b>README.md</b><span>Explains what the scraper collects, how to install the libraries and run it, and how to query the database.</span></div><div class="mini"><b>.vscode/settings.json</b><span>Editor setting that picks the system Python environment in VS Code.</span></div><div class="mini"><b>git-cheat-sheet-education.pdf</b><span>A Git command reference PDF; not part of the scraper.</span></div></div>
+  </section>
+
+
+  <footer>
+    <span>&copy; Syed Uzair Shah Bukhari</span>
+    <div class="contact">
+        <a href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+        <a href="https://github.com/uzair-shah" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3"/></svg>GitHub</a>
+        <a href="mailto:s.uzair.shah01@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3z M3 6l9 7 9-7"/></svg>s.uzair.shah01@gmail.com</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

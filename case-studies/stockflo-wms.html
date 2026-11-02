@@ -91,7 +91,13 @@
   .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .gallery figure { margin: 0; }
   .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .gallery.natural img { aspect-ratio: auto; object-fit: contain; background: #fff; }
+  .gallery.single { grid-template-columns: 1fr; }
   .gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .gh { margin: 18px 0 0; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-weight: 500; font-size: 15px; transition: border-color .15s, color .15s; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
   .cards.one { grid-template-columns: 1fr; }
   h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
   a.inline { color: var(--accent); }
@@ -141,6 +147,7 @@
     <h1>Stockflo: replacing <a class="inline" href="https://www.odoo.com" target="_blank" rel="noopener">Odoo</a> with our own warehouse management system</h1>
     <p class="cs-sub">Building an in-house warehouse management system around how our teams actually worked.</p>
     <p class="cs-meta">Retailo · Associate Product Manager · 2022 · Saudi Arabia, Pakistan and the UAE</p>
+    
   </div>
   <section>
     <h2>Target audience</h2>
@@ -210,6 +217,7 @@
     </div>
   </section>
 
+
   <section>
     <h2>Risks</h2>
     <ul><li>Switching Odoo off while warehouses kept running: the MVP covered every operation needed to retire it before anything new was added.</li><li>Getting staff in three countries to change how they worked: I ran presentations and sent out video walkthroughs during the rollout.</li><li>Stock changing without anyone knowing why: role permissions, a reason on every adjustment and a full change history.</li><li>Different tax rules in each country: supplier fields that change format by country.</li></ul>
@@ -226,6 +234,7 @@
     <h2>Outcome</h2>
     <p>Stockflo replaced Odoo across Saudi Arabia, Pakistan and the UAE. Purchasing gained formal approvals and records, receiving and stock adjustments became traceable, inventory accuracy improved, and the platform became the base for later features such as inventory payments.</p>
   </section>
+
 
   <footer>
     <span>&copy; Syed Uzair Shah Bukhari</span>
