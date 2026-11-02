@@ -17,6 +17,7 @@ e = html.escape
 ICONS = {
     "linkedin": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>',
     "github": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3"/></svg>',
+    "download": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 4v11 M7 10l5 5 5-5 M5 20h14"/></svg>',
     "email": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3z M3 6l9 7 9-7"/></svg>',
 }
 
@@ -29,7 +30,60 @@ def contact_links() -> str:
         links.append(f'<a href="{e(c.GITHUB)}" target="_blank" rel="noopener">{ICONS["github"]}GitHub</a>')
     if c.EMAIL:
         links.append(f'<a href="mailto:{e(c.EMAIL)}">{ICONS["email"]}{e(c.EMAIL)}</a>')
+    if getattr(c, "CV_FILE", ""):
+        links.append(f'<a class="cv" href="{e(c.CV_FILE)}" download>{ICONS["download"]}Download CV</a>')
     return "\n        ".join(links)
+
+
+def eyebrow() -> str:
+    if getattr(c, "OPEN_TO", ""):
+        return f'<p class="badge"><span class="dot"></span>{e(c.OPEN_TO)}</p>'
+    return f'<p class="eyebrow">{e(c.LOCATION)}</p>'
+
+
+def career(steps=None) -> str:
+    steps = getattr(c, "CAREER_STEPS", []) if steps is None else steps
+    if not steps:
+        return ""
+    # Fill the dot for anything still ongoing; if nothing is, fill the latest step.
+    on = [i for i, (_, d) in enumerate(steps) if "Present" in d] or [len(steps) - 1]
+    items = "".join(f'<li{" class=\"on\"" if i in on else ""}><b>{e(r)}</b><span>{e(d)}</span></li>'
+                    for i, (r, d) in enumerate(steps))
+    return f'      <ol class="career">{items}</ol>'
+
+
+def now_cards() -> str:
+    steps = getattr(c, "CURRENT_STEPS", [])
+    if steps:
+        return (f'    <div class="role current">\n      <h3>{e(c.CURRENT_TITLE)}</h3>\n'
+                f'      <p class="meta">{e(c.CURRENT_META)}</p>\n{career(steps)}\n'
+                f'      <ul class="highlights">\n{highlights(getattr(c, "CURRENT_HIGHLIGHTS", []))}\n      </ul>\n    </div>')
+    items = getattr(c, "NOW", [])
+    if not items:
+        return ""
+    cards = "".join(
+        f'<div class="now-card"><b>{e(r)}</b><span class="where">{e(w)} · {e(d)}</span><p>{e(t)}</p></div>'
+        for r, w, d, t in items)
+    return f'    <h4 class="group now-h">Now</h4>\n    <div class="now">{cards}</div>\n    <h4 class="group">Previously</h4>'
+
+
+def education() -> str:
+    items = getattr(c, "EDUCATION", [])
+    if not items:
+        return ""
+    rows = "".join(
+        f'<div class="now-card"><b>{e(dg)}</b><span class="where">{e(sc)} · {e(d)}</span>'
+        f'{f"<p>{e(n)}</p>" if n else ""}</div>' for dg, sc, d, n in items)
+    return f'  <section id="education">\n    <h2>Education</h2>\n    <div class="now">{rows}</div>\n  </section>\n'
+
+
+def stats() -> str:
+    items = getattr(c, "STATS", [])
+    if not items:
+        return ""
+    cells = "".join(f'<div class="stat"><b>{e(n)}</b><span>{e(l)}</span></div>' for n, l in items)
+    return f'  <div class="stats">{cells}</div>\n'
+
 
 
 def exp_photo() -> str:
@@ -72,16 +126,66 @@ def experience_groups() -> str:
     return highlights(items) if items else ""
 
 
+def _box(x, y, w, h, title, sub="", accent=False):
+    cls = "tb acc" if accent else "tb"
+    ty = y + (h / 2 + 4 if not sub else h / 2 - 3)
+    out = f'<rect class="{cls}" x="{x}" y="{y}" width="{w}" height="{h}" rx="8"/>'
+    out += f'<text class="tt" x="{x + w / 2}" y="{ty}">{title}</text>'
+    if sub:
+        out += f'<text class="ts" x="{x + w / 2}" y="{ty + 14}">{sub}</text>'
+    return out
+
+
+def _arrow(x1, y1, x2, y2):
+    return f'<line class="ta" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" marker-end="url(#ah)"/>'
+
+
+def _vflow(steps):
+    # Three boxes stacked top to bottom, joined by arrows.
+    out, y = "", 10
+    for i, (t, sub) in enumerate(steps):
+        out += _box(30, y, 180, 40, t, sub, accent=(i == len(steps) - 1))
+        if i < len(steps) - 1:
+            out += _arrow(120, y + 40, 120, y + 54)
+        y += 56
+    return out
+
+
+THUMBS = {
+    "catalog": (
+        _box(8, 12, 86, 38, "Warehouse A", "own copy")
+        + _box(8, 66, 86, 38, "Warehouse B", "own copy")
+        + _box(8, 120, 86, 38, "Warehouse C", "own copy")
+        + _arrow(94, 31, 134, 74) + _arrow(94, 85, 134, 85) + _arrow(94, 139, 134, 96)
+        + _box(138, 58, 94, 54, "One catalog", "with variants", accent=True)
+    ),
+    "payments": _vflow([("Commercial requests", "supplier payment"),
+                        ("Finance approves", "in one tracked flow"),
+                        ("Payment recorded", "visible to both teams")]),
+    "cash": _vflow([("Agent returns", "cash and returns"),
+                    ("Deposit form", "one entry per agent"),
+                    ("Shared table", "checked at day end")]),
+}
+
+
+def thumb_svg(kind: str) -> str:
+    return ('<svg class="case-img diagram-thumb" viewBox="0 0 240 170" role="img" aria-hidden="true">'
+            '<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" '
+            'orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="tah"/></marker></defs>'
+            + THUMBS[kind] + '</svg>')
+
+
 def case_cards() -> str:
     cards = []
     for cs in getattr(c, "CASE_STUDIES", []):
         cards.append(
-            f'''      <a class="card case" href="case-studies/{e(cs["slug"])}.html">
+            f'''      <a class="card case{" has-img" if cs.get("image") or cs.get("thumb") else ""}" href="case-studies/{e(cs["slug"])}.html">
+        {(f'<img class="case-img" src="{e(cs["image"])}" alt="" loading="lazy">' if cs.get("image") else thumb_svg(cs["thumb"]) if cs.get("thumb") else "")}<div>
         <p class="case-meta">{e(cs["meta"])}</p>
         <h3>{e(cs["title"])}</h3>
         <p>{e(cs["subtitle"])}</p>
         <span class="more">Read the case study &rarr;</span>
-      </a>'''
+      </div></a>'''
         )
     return "\n".join(cards)
 
@@ -114,6 +218,44 @@ STYLE = """  :root {{
     -webkit-font-smoothing: antialiased;
   }}
   .wrap {{ max-width: 760px; margin: 0 auto; padding: 0 20px; }}
+  h1 .pronouns {{ display: block; font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--muted); margin-top: 6px; }}
+  .diagram-thumb {{ background: var(--bg); border: 1px solid var(--line); }}
+  .diagram-thumb .tb {{ fill: var(--card); stroke: var(--line); stroke-width: 1.2; }}
+  .diagram-thumb .tb.acc {{ stroke: var(--accent); stroke-width: 1.6; }}
+  .diagram-thumb .tt {{ fill: var(--fg); font-size: 11.5px; font-weight: 600; text-anchor: middle; }}
+  .diagram-thumb .ts {{ fill: var(--muted); font-size: 10px; text-anchor: middle; }}
+  .diagram-thumb .ta {{ stroke: var(--accent); stroke-width: 1.4; }}
+  .diagram-thumb .tah {{ fill: var(--accent); }}
+  .badge {{ display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--fg);
+            border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 5px 12px; margin: 0 0 16px; }}
+  .badge .dot {{ width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }}
+  .career {{ list-style: none; padding: 0; margin: 0 0 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; counter-reset: c; max-width: 820px; }}
+  .career li {{ position: relative; padding: 22px 16px 0 0; }}
+  .career li::before {{ content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 2px; background: var(--line); }}
+  .career li::after {{ content: ""; position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }}
+  .career li.on::after {{ background: var(--accent); }}
+  .career b {{ display: block; font-size: 15px; font-weight: 600; line-height: 1.35; }}
+  .career span {{ display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }}
+  nav .links a.active {{ color: var(--fg); }}
+  .fade {{ opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }}
+  .fade.in {{ opacity: 1; transform: none; }}
+  .now {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 820px; }}
+  .now-card {{ padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }}
+  .now-card b {{ display: block; font-weight: 600; font-size: 16px; }}
+  .now-card .where {{ display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }}
+  .now-card p {{ margin: 8px 0 0; color: var(--muted); font-size: 15px; }}
+  h4.now-h {{ margin-top: 0; }}
+  .role.current {{ margin-bottom: 40px; }}
+  .wrap.wide {{ max-width: 980px; }}
+  .wide .highlights, .wide .exp-photo {{ max-width: 820px; }}
+  .stats {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 48px; }}
+  .stat {{ padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }}
+  .stat b {{ display: block; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: var(--fg); }}
+  .stat span {{ display: block; color: var(--muted); font-size: 14px; line-height: 1.4; margin-top: 6px; }}
+  .contact a.cv {{ color: var(--bg); background: var(--fg); padding: 7px 14px; border-radius: 999px; }}
+  .contact a.cv:hover {{ color: var(--bg); background: var(--accent); }}
+  .card.has-img {{ display: grid; grid-template-columns: 240px 1fr; gap: 26px; align-items: center; }}
+  .case-img {{ width: 100%; height: 170px; object-fit: cover; border-radius: 10px; display: block; }}
   nav {{ display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }}
   nav .brand {{ font-weight: 600; letter-spacing: -0.01em; }}
   nav .links a {{ margin-left: 20px; }}
@@ -160,6 +302,15 @@ STYLE = """  :root {{
     nav .links a {{ margin-left: 14px; }}
     header {{ padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }}
     header .photo {{ order: -1; width: 120px; height: 120px; }}
+    .stats {{ grid-template-columns: repeat(2, 1fr); }}
+    .career {{ grid-template-columns: 1fr; gap: 14px; }}
+    .now {{ grid-template-columns: 1fr; }}
+    .career li {{ padding: 0 0 0 26px; }}
+    .career li::before {{ top: 12px; bottom: -14px; left: 5px; right: auto; width: 2px; height: auto; }}
+    .career li:last-child::before {{ display: none; }}
+    .stat b {{ font-size: 21px; }}
+    .cards.one {{ grid-template-columns: 1fr; }}
+    .card.has-img {{ grid-template-columns: 1fr; gap: 14px; }}
   }}
   .diagram {{ list-style: none; margin: 0 0 16px; padding: 0; position: relative; }}
   .diagram::before {{ content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--line); }}
@@ -227,6 +378,28 @@ STYLE = """  :root {{
 """
 
 
+PAGE_SCRIPT = """<script>
+(function () {
+  var links = document.querySelectorAll('nav .links a');
+  var secs = [].map.call(links, function (a) { return document.querySelector(a.getAttribute('href')); });
+  function spy() {
+    var y = window.scrollY + 120, cur = -1;
+    secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle('active', i === cur); });
+  }
+  window.addEventListener('scroll', spy, { passive: true }); spy();
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section, .stats').forEach(function (el) {
+    if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('fade'); io.observe(el); }
+  });
+})();
+</script>
+"""
+
+
 PAGE = """<!doctype html>
 <html lang="en">
 <head>
@@ -235,13 +408,13 @@ PAGE = """<!doctype html>
 <title>{name}</title>
 <meta name="description" content="{headline}. {location}.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600{font_link}&display=swap" rel="stylesheet">
 <style>
 {style}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap wide">
   <nav>
     <a class="brand" href="#">{short}</a>
     <div class="links"><a href="#work">Work</a><a href="#case-studies">Case studies</a><a href="#projects">Projects</a></div>
@@ -249,7 +422,7 @@ PAGE = """<!doctype html>
 
   <header>
     <div>
-    <p class="eyebrow">{location}</p>
+    {eyebrow}
     <h1>{name}{pronouns}<span class="headline">{headline}</span></h1>
     <p class="intro">{intro}</p>
     <div class="contact">
@@ -258,7 +431,7 @@ PAGE = """<!doctype html>
     </div>
     {photo}
   </header>
-
+{stats}
   <section>
     <h2>What I bring</h2>
     <div class="pillars">
@@ -268,9 +441,11 @@ PAGE = """<!doctype html>
 
   <section id="work">
     <h2>Experience</h2>
+{now}
     <div class="role">
       <h3>{exp_title}</h3>
       <p class="meta">{exp_meta}</p>
+{career}
 {exp_photo}
       <ul class="highlights">
 {highlights}
@@ -294,7 +469,7 @@ PAGE = """<!doctype html>
   </section>
 
 
-  <footer>
+{education}  <footer>
     <span>&copy; {name}</span>
   </footer>
 </div>
@@ -311,7 +486,7 @@ CASE_PAGE = """<!doctype html>
 <title>{title} | {name}</title>
 <meta name="description" content="{subtitle}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600{font_link}&display=swap" rel="stylesheet">
 <style>
 {style}
 </style>
@@ -462,24 +637,43 @@ def build_case_studies(css: str, items=None, folder: str = "case-studies", eyebr
             style=css, name=e(c.NAME), short=e(c.SHORT_NAME), title=e(cs["title"]), title_html=title_html(cs),
             subtitle=e(cs["subtitle"]), meta=e(cs["meta"]), sections="\n".join(sections),
             after="\n".join(after),
-            contact=contact_links(),
+            contact=contact_links(), font_link=font_link(),
         )
         path = out_dir / f"{cs['slug']}.html"
         path.write_text(page, encoding="utf-8")
         print(f"Built {path}")
 
 
+def font_link() -> str:
+    hf = getattr(c, "HEADING_FONT", "")
+    return f"&family={hf.replace(' ', '+')}:opsz,wght@6..72,400;6..72,500" if hf else ""
+
+
+def heading_css() -> str:
+    hf = getattr(c, "HEADING_FONT", "")
+    if not hf:
+        return ""
+    return (f"\n  h1, .role h3, .card h3, .stat b, .decision h3, .pillar h3 {{ font-family: '{hf}', Georgia, serif; "
+            "font-weight: 500; letter-spacing: -0.01em; }}\n"
+            "  h1 .headline { font-style: italic; font-weight: 400; }\n"
+            "  h1 .pronouns { font-family: Inter, system-ui, sans-serif; }\n"
+            "  .card h3 { font-size: 21px; line-height: 1.25; }\n"
+            "  .pillar h3 { font-size: 20px; }\n"
+            "  .stat b { font-size: 30px; }\n")
+
+
 def build() -> Path:
-    css = STYLE.format(accent=e(c.ACCENT))
+    css = STYLE.format(accent=e(c.ACCENT)) + heading_css()
     out = PAGE.format(
         groups=experience_groups(),
-        pronouns=(f" ({e(c.PRONOUNS)})" if getattr(c, "PRONOUNS", "") else ""),
+        pronouns=(f'<span class="pronouns">{e(c.PRONOUNS)}</span>' if getattr(c, "PRONOUNS", "") else ""),
         style=css, case_cards=case_cards(), exp_photo=exp_photo(),
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
         exp_meta=e(c.EXPERIENCE_META), highlights=highlights(), projects=projects(), accent=e(c.ACCENT),
-        photo=photo(),
+        photo=photo(), stats=stats(), font_link=font_link(), eyebrow=eyebrow(), career=career(), now=now_cards(), education=education(),
     )
+    out = out.replace("</body>", PAGE_SCRIPT + "</body>", 1)
     path = HERE / "index.html"
     path.write_text(out, encoding="utf-8")
     print(f"Built {path}")

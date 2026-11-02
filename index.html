@@ -22,6 +22,44 @@
     -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  h1 .pronouns { display: block; font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--muted); margin-top: 6px; }
+  .diagram-thumb { background: var(--bg); border: 1px solid var(--line); }
+  .diagram-thumb .tb { fill: var(--card); stroke: var(--line); stroke-width: 1.2; }
+  .diagram-thumb .tb.acc { stroke: var(--accent); stroke-width: 1.6; }
+  .diagram-thumb .tt { fill: var(--fg); font-size: 11.5px; font-weight: 600; text-anchor: middle; }
+  .diagram-thumb .ts { fill: var(--muted); font-size: 10px; text-anchor: middle; }
+  .diagram-thumb .ta { stroke: var(--accent); stroke-width: 1.4; }
+  .diagram-thumb .tah { fill: var(--accent); }
+  .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--fg);
+            border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 5px 12px; margin: 0 0 16px; }
+  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }
+  .career { list-style: none; padding: 0; margin: 0 0 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; counter-reset: c; max-width: 820px; }
+  .career li { position: relative; padding: 22px 16px 0 0; }
+  .career li::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 2px; background: var(--line); }
+  .career li::after { content: ""; position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+  .career li.on::after { background: var(--accent); }
+  .career b { display: block; font-size: 15px; font-weight: 600; line-height: 1.35; }
+  .career span { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  nav .links a.active { color: var(--fg); }
+  .fade { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .fade.in { opacity: 1; transform: none; }
+  .now { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 820px; }
+  .now-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+  .now-card b { display: block; font-weight: 600; font-size: 16px; }
+  .now-card .where { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .now-card p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+  h4.now-h { margin-top: 0; }
+  .role.current { margin-bottom: 40px; }
+  .wrap.wide { max-width: 980px; }
+  .wide .highlights, .wide .exp-photo { max-width: 820px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 48px; }
+  .stat { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+  .stat b { display: block; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: var(--fg); }
+  .stat span { display: block; color: var(--muted); font-size: 14px; line-height: 1.4; margin-top: 6px; }
+  .contact a.cv { color: var(--bg); background: var(--fg); padding: 7px 14px; border-radius: 999px; }
+  .contact a.cv:hover { color: var(--bg); background: var(--accent); }
+  .card.has-img { display: grid; grid-template-columns: 240px 1fr; gap: 26px; align-items: center; }
+  .case-img { width: 100%; height: 170px; object-fit: cover; border-radius: 10px; display: block; }
   nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }
   nav .brand { font-weight: 600; letter-spacing: -0.01em; }
   nav .links a { margin-left: 20px; }
@@ -68,6 +106,15 @@
     nav .links a { margin-left: 14px; }
     header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
     header .photo { order: -1; width: 120px; height: 120px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .career { grid-template-columns: 1fr; gap: 14px; }
+    .now { grid-template-columns: 1fr; }
+    .career li { padding: 0 0 0 26px; }
+    .career li::before { top: 12px; bottom: -14px; left: 5px; right: auto; width: 2px; height: auto; }
+    .career li:last-child::before { display: none; }
+    .stat b { font-size: 21px; }
+    .cards.one { grid-template-columns: 1fr; }
+    .card.has-img { grid-template-columns: 1fr; gap: 14px; }
   }
   .diagram { list-style: none; margin: 0 0 16px; padding: 0; position: relative; }
   .diagram::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--line); }
@@ -136,7 +183,7 @@
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap wide">
   <nav>
     <a class="brand" href="#">Home</a>
     <div class="links"><a href="#work">Work</a><a href="#case-studies">Case studies</a><a href="#projects">Projects</a></div>
@@ -145,7 +192,7 @@
   <header>
     <div>
     <p class="eyebrow">Adelaide, Australia</p>
-    <h1>Syed Uzair Shah Bukhari (He/Him)<span class="headline">Product manager who builds with data</span></h1>
+    <h1>Syed Uzair Shah Bukhari<span class="pronouns">He/Him</span><span class="headline">Product manager who builds with data</span></h1>
     <p class="intro">I spent 2.5 years building products at Retailo, a B2B marketplace startup in Saudi Arabia, Pakistan and the UAE, through fast growth, layoffs and a pivot to SaaS. Seeing how much good product decisions depend on data, I completed a Master of Data Science at the University of Adelaide in 2026.</p>
     <div class="contact">
         <a href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
@@ -155,6 +202,7 @@
     </div>
     <img class="photo" src="assets/photo.jpg" alt="Photo of Syed Uzair Shah Bukhari" width="320" height="320">
   </header>
+  <div class="stats"><div class="stat"><b>$17.5M+</b><span>monthly purchasing run through Stockflo</span></div><div class="stat"><b>97% → 99%</b><span>inventory accuracy after launch</span></div><div class="stat"><b>$20K/mo</b><span>invoice discrepancy traced and fixed</span></div><div class="stat"><b>3 countries</b><span>Saudi Arabia, Pakistan and the UAE</span></div></div>
 
   <section>
     <h2>What I bring</h2>
@@ -167,9 +215,18 @@
 
   <section id="work">
     <h2>Experience</h2>
+    <div class="role current">
+      <h3>University of Adelaide and freelance</h3>
+      <p class="meta">Study, tutoring and data work · Sep 2024 – Present · Adelaide, Australia</p>
+      <ol class="career"><li><b>Master of Data Science, University of Adelaide</b><span>Sep 2024 – Aug 2026</span></li><li class="on"><b>Mathematics Tutor, Maths Learning Centre</b><span>Apr 2025 – Present</span></li><li class="on"><b>Freelance data work</b><span>Present</span></li></ol>
+      <ul class="highlights">
+
+      </ul>
+    </div>
     <div class="role">
       <h3>Retailo Technologies</h3>
       <p class="meta">Product &amp; data roles · Oct 2021 – Mar 2024 · KSA, UAE &amp; Pakistan</p>
+      <ol class="career"><li><b>Analyst, Warehousing</b><span>Oct 2021 – Jan 2022</span></li><li><b>Associate Product Manager, Operations</b><span>Feb 2022 – Sep 2022</span></li><li class="on"><b>Product Manager, Finance and Data</b><span>Oct 2022 – Mar 2024</span></li></ol>
       <figure class="exp-photo"><img src="assets/retailo-truck.jpg" alt="On a work trip in Saudi Arabia with one of Retailo&#x27;s delivery trucks." loading="lazy" width="1024" height="768"><figcaption>On a work trip in Saudi Arabia with one of Retailo&#x27;s delivery trucks.</figcaption></figure>
       <ul class="highlights">
         <li><strong>Stockflo</strong><span>Led our in-house warehouse and inventory system from concept to launch across Saudi Arabia, Pakistan and the UAE. It handled $17.5M+ of monthly purchasing and raised inventory accuracy from 97% to 99%. <a class="more" href="case-studies/stockflo-wms.html">Read the case study &rarr;</a></span></li>
@@ -184,30 +241,34 @@
   <section id="case-studies">
     <h2>Case studies</h2>
     <div class="cards one">
-      <a class="card case" href="case-studies/stockflo-wms.html">
+      <a class="card case has-img" href="case-studies/stockflo-wms.html">
+        <img class="case-img" src="assets/wh-racking.jpg" alt="" loading="lazy"><div>
         <p class="case-meta">Retailo · Associate Product Manager · 2022 · Saudi Arabia, Pakistan and the UAE</p>
         <h3>Stockflo: replacing Odoo with our own warehouse management system</h3>
         <p>Building an in-house warehouse management system around how our teams actually worked.</p>
         <span class="more">Read the case study &rarr;</span>
-      </a>
-      <a class="card case" href="case-studies/master-catalog.html">
+      </div></a>
+      <a class="card case has-img" href="case-studies/master-catalog.html">
+        <svg class="case-img diagram-thumb" viewBox="0 0 240 170" role="img" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="tah"/></marker></defs><rect class="tb" x="8" y="12" width="86" height="38" rx="8"/><text class="tt" x="51.0" y="28.0">Warehouse A</text><text class="ts" x="51.0" y="42.0">own copy</text><rect class="tb" x="8" y="66" width="86" height="38" rx="8"/><text class="tt" x="51.0" y="82.0">Warehouse B</text><text class="ts" x="51.0" y="96.0">own copy</text><rect class="tb" x="8" y="120" width="86" height="38" rx="8"/><text class="tt" x="51.0" y="136.0">Warehouse C</text><text class="ts" x="51.0" y="150.0">own copy</text><line class="ta" x1="94" y1="31" x2="134" y2="74" marker-end="url(#ah)"/><line class="ta" x1="94" y1="85" x2="134" y2="85" marker-end="url(#ah)"/><line class="ta" x1="94" y1="139" x2="134" y2="96" marker-end="url(#ah)"/><rect class="tb acc" x="138" y="58" width="94" height="54" rx="8"/><text class="tt" x="185.0" y="82.0">One catalog</text><text class="ts" x="185.0" y="96.0">with variants</text></svg><div>
         <p class="case-meta">Retailo · Product Manager · Discovery for an electronics retail client</p>
         <h3>Discovery: one product catalog for the whole company</h3>
         <p>Working out how to move product records from per-warehouse copies to a single company catalog with variants.</p>
         <span class="more">Read the case study &rarr;</span>
-      </a>
-      <a class="card case" href="case-studies/inventory-payments.html">
+      </div></a>
+      <a class="card case has-img" href="case-studies/inventory-payments.html">
+        <svg class="case-img diagram-thumb" viewBox="0 0 240 170" role="img" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="tah"/></marker></defs><rect class="tb" x="30" y="10" width="180" height="40" rx="8"/><text class="tt" x="120.0" y="27.0">Commercial requests</text><text class="ts" x="120.0" y="41.0">supplier payment</text><line class="ta" x1="120" y1="50" x2="120" y2="64" marker-end="url(#ah)"/><rect class="tb" x="30" y="66" width="180" height="40" rx="8"/><text class="tt" x="120.0" y="83.0">Finance approves</text><text class="ts" x="120.0" y="97.0">in one tracked flow</text><line class="ta" x1="120" y1="106" x2="120" y2="120" marker-end="url(#ah)"/><rect class="tb acc" x="30" y="122" width="180" height="40" rx="8"/><text class="tt" x="120.0" y="139.0">Payment recorded</text><text class="ts" x="120.0" y="153.0">visible to both teams</text></svg><div>
         <p class="case-meta">Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan</p>
         <h3>Inventory payments in Stockflo</h3>
         <p>Turning supplier payments from spreadsheets and email threads into a tracked approval flow.</p>
         <span class="more">Read the case study &rarr;</span>
-      </a>
-      <a class="card case" href="case-studies/cash-collection.html">
+      </div></a>
+      <a class="card case has-img" href="case-studies/cash-collection.html">
+        <svg class="case-img diagram-thumb" viewBox="0 0 240 170" role="img" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="tah"/></marker></defs><rect class="tb" x="30" y="10" width="180" height="40" rx="8"/><text class="tt" x="120.0" y="27.0">Agent returns</text><text class="ts" x="120.0" y="41.0">cash and returns</text><line class="ta" x1="120" y1="50" x2="120" y2="64" marker-end="url(#ah)"/><rect class="tb" x="30" y="66" width="180" height="40" rx="8"/><text class="tt" x="120.0" y="83.0">Deposit form</text><text class="ts" x="120.0" y="97.0">one entry per agent</text><line class="ta" x1="120" y1="106" x2="120" y2="120" marker-end="url(#ah)"/><rect class="tb acc" x="30" y="122" width="180" height="40" rx="8"/><text class="tt" x="120.0" y="139.0">Shared table</text><text class="ts" x="120.0" y="153.0">checked at day end</text></svg><div>
         <p class="case-meta">Retailo · Operations · End-of-day cash and returns</p>
         <h3>Cash collection: closing out the delivery day</h3>
         <p>Making end-of-day cash deposits faster to record and easier to check.</p>
         <span class="more">Read the case study &rarr;</span>
-      </a>
+      </div></a>
     </div>
   </section>
 
@@ -242,5 +303,24 @@
     <span>&copy; Syed Uzair Shah Bukhari</span>
   </footer>
 </div>
+<script>
+(function () {
+  var links = document.querySelectorAll('nav .links a');
+  var secs = [].map.call(links, function (a) { return document.querySelector(a.getAttribute('href')); });
+  function spy() {
+    var y = window.scrollY + 120, cur = -1;
+    secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle('active', i === cur); });
+  }
+  window.addEventListener('scroll', spy, { passive: true }); spy();
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section, .stats').forEach(function (el) {
+    if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('fade'); io.observe(el); }
+  });
+})();
+</script>
 </body>
 </html>

@@ -22,6 +22,44 @@
     -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  h1 .pronouns { display: block; font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--muted); margin-top: 6px; }
+  .diagram-thumb { background: var(--bg); border: 1px solid var(--line); }
+  .diagram-thumb .tb { fill: var(--card); stroke: var(--line); stroke-width: 1.2; }
+  .diagram-thumb .tb.acc { stroke: var(--accent); stroke-width: 1.6; }
+  .diagram-thumb .tt { fill: var(--fg); font-size: 11.5px; font-weight: 600; text-anchor: middle; }
+  .diagram-thumb .ts { fill: var(--muted); font-size: 10px; text-anchor: middle; }
+  .diagram-thumb .ta { stroke: var(--accent); stroke-width: 1.4; }
+  .diagram-thumb .tah { fill: var(--accent); }
+  .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--fg);
+            border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 5px 12px; margin: 0 0 16px; }
+  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }
+  .career { list-style: none; padding: 0; margin: 0 0 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; counter-reset: c; max-width: 820px; }
+  .career li { position: relative; padding: 22px 16px 0 0; }
+  .career li::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 2px; background: var(--line); }
+  .career li::after { content: ""; position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+  .career li.on::after { background: var(--accent); }
+  .career b { display: block; font-size: 15px; font-weight: 600; line-height: 1.35; }
+  .career span { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  nav .links a.active { color: var(--fg); }
+  .fade { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .fade.in { opacity: 1; transform: none; }
+  .now { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 820px; }
+  .now-card { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+  .now-card b { display: block; font-weight: 600; font-size: 16px; }
+  .now-card .where { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .now-card p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+  h4.now-h { margin-top: 0; }
+  .role.current { margin-bottom: 40px; }
+  .wrap.wide { max-width: 980px; }
+  .wide .highlights, .wide .exp-photo { max-width: 820px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0 0 48px; }
+  .stat { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+  .stat b { display: block; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: var(--fg); }
+  .stat span { display: block; color: var(--muted); font-size: 14px; line-height: 1.4; margin-top: 6px; }
+  .contact a.cv { color: var(--bg); background: var(--fg); padding: 7px 14px; border-radius: 999px; }
+  .contact a.cv:hover { color: var(--bg); background: var(--accent); }
+  .card.has-img { display: grid; grid-template-columns: 240px 1fr; gap: 26px; align-items: center; }
+  .case-img { width: 100%; height: 170px; object-fit: cover; border-radius: 10px; display: block; }
   nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }
   nav .brand { font-weight: 600; letter-spacing: -0.01em; }
   nav .links a { margin-left: 20px; }
@@ -68,6 +106,15 @@
     nav .links a { margin-left: 14px; }
     header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
     header .photo { order: -1; width: 120px; height: 120px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .career { grid-template-columns: 1fr; gap: 14px; }
+    .now { grid-template-columns: 1fr; }
+    .career li { padding: 0 0 0 26px; }
+    .career li::before { top: 12px; bottom: -14px; left: 5px; right: auto; width: 2px; height: auto; }
+    .career li:last-child::before { display: none; }
+    .stat b { font-size: 21px; }
+    .cards.one { grid-template-columns: 1fr; }
+    .card.has-img { grid-template-columns: 1fr; gap: 14px; }
   }
   .diagram { list-style: none; margin: 0 0 16px; padding: 0; position: relative; }
   .diagram::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--line); }
@@ -152,6 +199,10 @@
   <section>
     <h2>Target audience</h2>
     <ul><li>Commercial buyers, who provide vendors, ask for quotations and raise purchase orders, and their leads, who approve those purchase orders.</li><li>Warehouse associates and leads, who receive goods, handle returns and move stock.</li><li>Finance, who approve suppliers and need a clear view of what came in and at what cost.</li><li>The MIS (management information systems) team, the warehouse team&#x27;s tech arm, who make sure stock on the ground matches stock in the system, set up warehouse locations and make stock adjustments.</li></ul>
+  </section>
+  <section>
+    <h2>Discovery</h2>
+    <ul><li>I spent time in the warehouses watching how goods were bought, received, moved and adjusted, and mapped every step from vendor to stock on the shelf.</li><li>I spoke with each team that touched stock: Commercial buyers and their leads, warehouse associates and leads, Finance and the MIS team, to see where Odoo and our admin panel let them down.</li><li>I traced the wrong stock counts behind failed morning orders back to their causes: transactions in Odoo that never reached the admin panel, receiving with no formal procedure, and adjustments anyone could make without a trace.</li><li>What discovery decided: rather than keep patching the Odoo integration, build our own system around how the teams actually worked.</li></ul>
   </section>
   <section>
     <h2>Customer pain points</h2>

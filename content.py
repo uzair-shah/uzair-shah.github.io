@@ -10,6 +10,30 @@ PRONOUNS = "He/Him"  # shown after your name; set to "" to hide
 HEADLINE = "Product manager who builds with data"
 LOCATION = "Adelaide, Australia"
 
+# Font for headings. "Newsreader" gives a serif, editorial look; set to "" to use Inter everywhere.
+HEADING_FONT = ""
+
+# Small "open to work" badge above your name. Set to "" to hide (the location shows instead).
+OPEN_TO = ""
+
+# Your path at Retailo, shown as a timeline under Experience. (role, dates)
+CAREER_STEPS = [
+    ("Analyst, Warehousing", "Oct 2021 – Jan 2022"),
+    ("Associate Product Manager, Operations", "Feb 2022 – Sep 2022"),
+    ("Product Manager, Finance and Data", "Oct 2022 – Mar 2024"),
+]
+
+# Big numbers shown under your intro. (number, label). Keep to 4.
+STATS = [
+    ("$17.5M+", "monthly purchasing run through Stockflo"),
+    ("97% → 99%", "inventory accuracy after launch"),
+    ("$20K/mo", "invoice discrepancy traced and fixed"),
+    ("3 countries", "Saudi Arabia, Pakistan and the UAE"),
+]
+
+# Your CV, offered as a download button next to LinkedIn and GitHub. Set to "" to hide.
+CV_FILE = ""
+
 # Shown at the top, under your name. Keep it to 2-3 short sentences.
 INTRO = (
     "I spent 2.5 years building products at Retailo, a B2B marketplace startup in "
@@ -23,6 +47,15 @@ PILLARS = [
     ("Startups", "Built products under real constraints, from first wireframe to rollout in three countries."),
     ("Product", "Turned messy operational problems into specs engineers could build and teams actually used."),
     ("Data", "SQL, Python and machine learning to find problems early and prove what worked."),
+]
+
+# Your current block, shown above Retailo with the same kind of timeline. (step, dates)
+CURRENT_TITLE = "University of Adelaide and freelance"
+CURRENT_META = "Study, tutoring and data work · Sep 2024 – Present · Adelaide, Australia"
+CURRENT_STEPS = [
+    ("Master of Data Science, University of Adelaide", "Sep 2024 – Aug 2026"),
+    ("Mathematics Tutor, Maths Learning Centre", "Apr 2025 – Present"),
+    ("Freelance data work", "Present"),
 ]
 
 # Work highlights. Keep each to one or two sentences with a real result.
@@ -59,6 +92,7 @@ EXPERIENCE_GROUPS = [
 CASE_STUDIES = [
     {
         "slug": "stockflo-wms",
+        "image": "assets/wh-racking.jpg",
         "title": "Stockflo: replacing Odoo with our own warehouse management system",
         "title_link": ("Odoo", "https://www.odoo.com"),
         "subtitle": "Building an in-house warehouse management system around how our teams actually worked.",
@@ -71,6 +105,17 @@ CASE_STUDIES = [
                 "Finance, who approve suppliers and need a clear view of what came in and at what cost.",
                 "The MIS (management information systems) team, the warehouse team's tech arm, who make sure stock "
                 "on the ground matches stock in the system, set up warehouse locations and make stock adjustments.",
+            ]),
+            ("Discovery", [
+                "I spent time in the warehouses watching how goods were bought, received, moved and adjusted, "
+                "and mapped every step from vendor to stock on the shelf.",
+                "I spoke with each team that touched stock: Commercial buyers and their leads, warehouse "
+                "associates and leads, Finance and the MIS team, to see where Odoo and our admin panel let them down.",
+                "I traced the wrong stock counts behind failed morning orders back to their causes: transactions "
+                "in Odoo that never reached the admin panel, receiving with no formal procedure, and adjustments "
+                "anyone could make without a trace.",
+                "What discovery decided: rather than keep patching the Odoo integration, build our own system "
+                "around how the teams actually worked.",
             ]),
             ("Customer pain points", [
                 ("Why we needed Odoo in the first place", [
@@ -216,6 +261,7 @@ CASE_STUDIES = [
     },
     {
         "slug": "master-catalog",
+        "thumb": "catalog",
         "title": "Discovery: one product catalog for the whole company",
         "subtitle": "Working out how to move product records from per-warehouse copies to a single company catalog with variants.",
         "meta": "Retailo · Product Manager · Discovery for an electronics retail client",
@@ -326,6 +372,7 @@ CASE_STUDIES = [
     },
     {
         "slug": "inventory-payments",
+        "thumb": "payments",
         "title": "Inventory payments in Stockflo",
         "subtitle": "Turning supplier payments from spreadsheets and email threads into a tracked approval flow.",
         "meta": "Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan",
@@ -335,6 +382,16 @@ CASE_STUDIES = [
                 "Commercial managers, who approve or reject those requests.",
                 "Payment executives in Finance, who make the payment and record the proof.",
                 "Finance as a whole, who need supplier statements and clean reconciliation.",
+            ]),
+            ("Discovery", [
+                "I followed a supplier payment from start to finish: the request form Commercial filled in, the "
+                "email approval from a Commercial Manager, the payment by Finance and the proof sent back.",
+                "I sat with Commercial buyers, Commercial managers and Finance's payment executives to see where "
+                "each handover slowed down or got lost.",
+                "I reviewed the spreadsheets and accounting records used to track payments. They showed why "
+                "statements and reconciliation were so hard: nothing linked a payment back to its purchase order.",
+                "What discovery decided: build payments into Stockflo, on the purchase orders that already lived "
+                "there, instead of improving the spreadsheet.",
             ]),
             ("Customer pain points", [
                 "Supplier payments were tracked in spreadsheets and the accounting tool, with no checks "
@@ -431,6 +488,7 @@ CASE_STUDIES = [
     },
     {
         "slug": "cash-collection",
+        "thumb": "cash",
         "title": "Cash collection: closing out the delivery day",
         "subtitle": "Making end-of-day cash deposits faster to record and easier to check.",
         "meta": "Retailo · Operations · End-of-day cash and returns",
