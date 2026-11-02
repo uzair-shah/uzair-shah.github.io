@@ -5,7 +5,8 @@ That rewrites index.html. To preview it:  python3 build.py --serve
 """
 
 NAME = "Syed Uzair Shah Bukhari"
-SHORT_NAME = "Uzair"
+SHORT_NAME = "Home"  # text of the top-left link back to the homepage
+PRONOUNS = "He/Him"  # shown after your name; set to "" to hide
 HEADLINE = "Product manager who builds with data"
 LOCATION = "Adelaide, Australia"
 
@@ -48,7 +49,8 @@ HIGHLIGHTS = [
 CASE_STUDIES = [
     {
         "slug": "stockflo-wms",
-        "title": "Stockflo: replacing Odoo with our own warehouse system",
+        "title": "Stockflo: replacing Odoo with our own warehouse management system",
+        "title_link": ("Odoo", "https://www.odoo.com"),
         "subtitle": "Building an in-house warehouse management system around how our teams actually worked.",
         "meta": "Retailo · Associate Product Manager · 2022 · Saudi Arabia, Pakistan and the UAE",
         "sections": [

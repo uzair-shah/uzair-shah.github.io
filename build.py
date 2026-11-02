@@ -153,6 +153,7 @@ STYLE = """  :root {{
     header .photo {{ order: -1; width: 120px; height: 120px; }}
   }}
   .cards.one {{ grid-template-columns: 1fr; }}
+  a.inline {{ color: var(--accent); }}
   .exp-photo {{ margin: 0 0 24px; }}
   .exp-photo img {{ width: 100%; height: auto; border-radius: 14px; display: block; border: 1px solid var(--line); }}
   .exp-photo figcaption {{ color: var(--muted); font-size: 13px; margin-top: 8px; }}
@@ -210,7 +211,7 @@ PAGE = """<!doctype html>
   <header>
     <div>
     <p class="eyebrow">{location}</p>
-    <h1>{name}<span class="headline">{headline}</span></h1>
+    <h1>{name}{pronouns}<span class="headline">{headline}</span></h1>
     <p class="intro">{intro}</p>
     <div class="contact">
         {contact}
@@ -284,7 +285,7 @@ CASE_PAGE = """<!doctype html>
 
   <div class="cs-head">
     <p class="eyebrow">Case study</p>
-    <h1>{title}</h1>
+    <h1>{title_html}</h1>
     <p class="cs-sub">{subtitle}</p>
     <p class="cs-meta">{meta}</p>
   </div>
@@ -326,6 +327,15 @@ CASE_PAGE = """<!doctype html>
 """
 
 
+def title_html(cs: dict) -> str:
+    title = e(cs["title"])
+    link = cs.get("title_link")
+    if link:
+        word, url = link
+        title = title.replace(e(word), f'<a class="inline" href="{e(url)}" target="_blank" rel="noopener">{e(word)}</a>', 1)
+    return title
+
+
 def build_case_studies(css: str) -> None:
     out_dir = HERE / "case-studies"
     out_dir.mkdir(exist_ok=True)
@@ -343,7 +353,7 @@ def build_case_studies(css: str) -> None:
             f'      <div class="decision"><h3>{e(t)}</h3><p>{e(d)}</p></div>' for t, d in cs.get("decisions", [])
         )
         page = CASE_PAGE.format(
-            style=css, name=e(c.NAME), short=e(c.SHORT_NAME), title=e(cs["title"]),
+            style=css, name=e(c.NAME), short=e(c.SHORT_NAME), title=e(cs["title"]), title_html=title_html(cs),
             subtitle=e(cs["subtitle"]), meta=e(cs["meta"]), sections="\n".join(sections),
             flow_title=e(cs["flow_title"]), flow="\n".join(steps), flow_note=e(cs["flow_note"]),
             decisions_title=e(cs["decisions_title"]), decisions=decisions,
@@ -359,6 +369,7 @@ def build_case_studies(css: str) -> None:
 def build() -> Path:
     css = STYLE.format(accent=e(c.ACCENT))
     out = PAGE.format(
+        pronouns=(f" ({e(c.PRONOUNS)})" if getattr(c, "PRONOUNS", "") else ""),
         style=css, case_cards=case_cards(), exp_photo=exp_photo(),
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
