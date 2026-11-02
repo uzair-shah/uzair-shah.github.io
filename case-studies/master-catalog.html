@@ -120,16 +120,32 @@
     <p class="cs-meta">Retailo · Product Manager · Discovery for an electronics retail client</p>
   </div>
   <section>
-    <h2>The problem</h2>
-    <ul><li>Our catalog created every product at warehouse level. The same product sold in another city had to be created again, with a different product code, so one item ended up with many codes.</li><li>Codes were typed by hand, so a separate team had to keep checking for duplicates.</li><li>There was no idea of variants or pack sizes: each colour, size or carton had to be its own product, so nobody could see how a whole product line was performing.</li><li>Changing how something was sold, for example from cartons to single pieces, meant creating a new product and losing its buying and selling history.</li></ul>
+    <h2>Target audience</h2>
+    <ul><li>The immediate client: an electronics retailer selling phones and tablets through its own app.</li><li>The wider market for our software: FMCG distributors who sell through field sales agents, where most products come in several sizes and pack types.</li><li>Internal users: the commercial and catalog teams who create and maintain products.</li></ul>
   </section>
   <section>
-    <h2>The client&#x27;s need</h2>
-    <ul><li>An electronics retail client wanted to sell phones and tablets with variants such as colour and storage in their app, release products only to certain companies, manage virtual stock, and create and update products in bulk.</li><li>Our existing catalog could not do most of this, so the question was what to change, in what order, and whether to build or buy.</li></ul>
+    <h2>Customer pain points</h2>
+    <ul><li>Our catalog created every product at warehouse level. The same product sold in another city had to be created again, with a different product code, so one item ended up with many codes.</li><li>Codes were typed by hand, so a separate team had to keep checking for duplicates.</li><li>There was no idea of variants or pack sizes: each colour, size or carton had to be its own product, so nobody could see how a whole product line was performing.</li><li>Changing how something was sold, for example from cartons to single pieces, meant creating a new product and losing its buying and selling history.</li><li>The client wanted to show phones with colour and storage options, release products only to certain companies, manage virtual stock and update products in bulk, and most of that was not possible.</li></ul>
+  </section>
+  <section>
+    <h2>Clear objectives</h2>
+    <ul><li>A catalog that covers the client&#x27;s use cases and works properly in their app.</li><li>Create each product once for the whole company, with codes generated automatically.</li><li>Report on a whole product line across regions, not one warehouse at a time.</li><li>Be ready to connect to the ERP systems our clients already use.</li></ul>
+  </section>
+  <section>
+    <h2>Competitive landscape</h2>
+    <ul><li>The ERP systems brands already use set the bar: product masters with variants, unit conversions, and products released only to chosen sites.</li><li>Competitors ran rule-based promotion engines with price lists for different customer groups, while our promotions worked only at order level.</li><li>I trialled off-the-shelf product information tools such as Akeneo and Apimio, and looked at others like Plytix, comparing product hierarchy, pack sizes, warehouse-level stock, promotions and how easily they would connect to client ERPs and our own apps.</li></ul>
   </section>
   <section>
     <h2>My role</h2>
     <ul><li>I led the discovery: mapped every step it took to set up a catalog today, worked through the client&#x27;s use cases with them, and ran a gap analysis of each need against what our system could do.</li><li>I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf product information tools, and wrote the requirements and scope for the first release.</li></ul>
+  </section>
+  <section>
+    <h2>Prioritisation framework</h2>
+    <ul><li>A gap analysis listed every need by where it lives (our admin portal or the customer app) and rated it as complete, partly handled or not handled today.</li><li>Each gap got a priority from P0 (must have to launch) to P3 (nice to have), which turned a long wish list into a clear order of work.</li></ul>
+  </section>
+  <section>
+    <h2>The MVP</h2>
+    <ul><li>In the first release: a company-level catalog with automatic codes, product variants, releasing products to chosen companies, attributes that fit the type of product, simple discounts, multilingual names, and bulk creation and updates.</li><li>Left for later: product bundles, rule-based promotions and customer price lists, pack-size conversions on transfers, and moving stock between warehouses.</li></ul>
   </section>
   <section>
     <h2>The new product structure</h2>
@@ -152,16 +168,17 @@
       <div class="decision"><h3>Product masters with variants</h3><p>A product master holds the shared details, and variants such as colour or storage hang off it, so a whole product line can be sold, searched and reported on together.</p></div>
       <div class="decision"><h3>Units of measure on the product</h3><p>Conversions such as pieces to cartons sit on the product master, so stock can be bought in one unit and sold in another without creating a new product or losing its history.</p></div>
       <div class="decision"><h3>Two data models, weighed openly</h3><p>I compared a flexible model built on product families and attribute templates with a simpler one that extends the existing screens. The trade-off was flexibility against complexity, so templates and variants that start switched off kept the flexible option manageable.</p></div>
-      <div class="decision"><h3>Build versus buy</h3><p>I trialled off-the-shelf product information tools such as Akeneo and Apimio against our needs: product hierarchy, pack sizes, warehouse-level stock, promotions and how easily they would connect to client ERPs and our own apps.</p></div>
-      <div class="decision"><h3>A prioritised gap analysis</h3><p>Every client need was rated as complete, partly handled or not handled today, and given a priority from P0 to P3, which turned a long wish list into a clear order of work.</p></div>
     </div>
   </section>
 
   <section>
-    <h2>What I left out, on purpose</h2>
-    <p>The first release focused on the company catalog, variants, releasing products to chosen companies, bulk updates and simple discounts. Product bundles, rule-based promotions and customer price lists, pack-size conversions on transfers, and moving stock between warehouses were left for later.</p>
+    <h2>Risks</h2>
+    <ul><li>Complexity: a fully flexible attribute model means more tables and more calls between them, so templates and switched-off variants kept it in check.</li><li>Integration cost: building or buying both meant connecting to client ERPs and our own apps, with open questions on sync timing and whether a middleware layer was needed.</li><li>App compatibility: older versions of the customer app might need a forced update to show variants.</li><li>Inventory: moving to company-level products meant changing how inventory works, whichever option we chose.</li></ul>
   </section>
-
+  <section>
+    <h2>Product analytics</h2>
+    <ul><li>Reporting was one of the main reasons for the change: the new structure lets a brand see how a whole product line performs across regions, instead of stitching together separate codes from each warehouse.</li></ul>
+  </section>
   <section>
     <h2>Outcome</h2>
     <p>Discovery gave the team a shared picture of where the catalog fell short, a prioritised list of what the client needed first, a recommended product structure, and a scoped plan for the first release, along with a clear view of the build-versus-buy options.</p>

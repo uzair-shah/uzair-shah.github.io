@@ -314,11 +314,7 @@ CASE_PAGE = """<!doctype html>
     </div>
   </section>
 
-  <section>
-    <h2>{scope_title}</h2>
-    <p>{scope}</p>
-  </section>
-
+{after}
   <section>
     <h2>{outcome_title}</h2>
     <p>{outcome}</p>
@@ -349,10 +345,25 @@ def build_case_studies(css: str) -> None:
     out_dir = HERE / "case-studies"
     out_dir.mkdir(exist_ok=True)
     for cs in getattr(c, "CASE_STUDIES", []):
-        sections = []
-        for title, items in cs.get("sections", []):
-            lis = "".join(f"<li>{e(i)}</li>" for i in items)
-            sections.append(f"  <section>\n    <h2>{e(title)}</h2>\n    <ul>{lis}</ul>\n  </section>")
+        def blocks(items_list):
+            # Each section is (heading, [bullet, ...]). Sections with no bullets are skipped.
+            out = []
+            for title, items in items_list:
+                if not items:
+                    continue
+                lis = "".join(f"<li>{e(i)}</li>" for i in items)
+                out.append(f"  <section>\n    <h2>{e(title)}</h2>\n    <ul>{lis}</ul>\n  </section>")
+            return out
+
+        sections = blocks(cs.get("sections", []))
+        after = blocks(cs.get("after", []))
+        if cs.get("scope"):
+            block = f'  <section>\n    <h2>{e(cs.get("scope_title", "Scope"))}</h2>\n    <p>{e(cs["scope"])}</p>\n  </section>'
+            mvp = next((i for i, t in enumerate(cs.get("sections", [])) if t[0] == "The MVP" and t[1]), None)
+            if mvp is not None:
+                sections.insert(len(blocks(cs["sections"][:mvp + 1])), block)
+            else:
+                after.insert(0, block)
         steps = []
         for i, (label, who) in enumerate(cs.get("flow", [])):
             if i:
@@ -366,7 +377,7 @@ def build_case_studies(css: str) -> None:
             subtitle=e(cs["subtitle"]), meta=e(cs["meta"]), sections="\n".join(sections),
             flow_title=e(cs["flow_title"]), flow="\n".join(steps), flow_note=e(cs["flow_note"]),
             decisions_title=e(cs["decisions_title"]), decisions=decisions,
-            scope_title=e(cs["scope_title"]), scope=e(cs["scope"]),
+            after="\n".join(after),
             outcome_title=e(cs["outcome_title"]), outcome=e(cs["outcome"]),
             contact=contact_links(),
         )

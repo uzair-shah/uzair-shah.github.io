@@ -64,18 +64,33 @@ CASE_STUDIES = [
         "subtitle": "Building an in-house warehouse management system around how our teams actually worked.",
         "meta": "Retailo · Associate Product Manager · 2022 · Saudi Arabia, Pakistan and the UAE",
         "sections": [
-            ("The problem", [
+            ("Target audience", [
+                "Commercial buyers and leads, who add suppliers, ask for quotations and raise purchase orders.",
+                "Warehouse associates and leads, who receive goods, handle returns and move stock.",
+                "Finance, who approve suppliers and need a clear view of what came in and at what cost.",
+                "The MIS team, who set up warehouse locations and make stock adjustments.",
+            ]),
+            ("Customer pain points", [
                 "Odoo, our warehouse software, could not keep up with how fast Retailo was growing, and "
                 "integrating it with our own systems kept breaking: transactions done in Odoo did not always show up elsewhere.",
                 "Our processes had to bend to fit Odoo's way of working instead of our own operating procedures.",
                 "Without Odoo, our admin panel could not create or approve requests for quotation, had no user "
                 "permissions, and kept no record of when purchase orders were created or approved.",
                 "Receiving goods had no formal procedure, returns to suppliers went unrecorded, and anyone could "
-                "move or adjust stock without a trace, which made reconciliation hard and left Finance without a clear view of inbound costs.",
+                "move or adjust stock without a trace, which made reconciliation hard and left Finance without a "
+                "clear view of inbound costs.",
             ]),
-            ("The goal", [
-                "An in-house system that follows our own procedures, integrates cleanly with the rest of our "
-                "platform, and gives every team the right controls and a clear record of what happened.",
+            ("Clear objectives", [
+                "Retire Odoo without losing any operation the warehouses depended on.",
+                "Work the way our own operating procedures say, not the way the software allows.",
+                "Give every team the right permissions and a record of every change.",
+                "Give Finance a reliable view of what was received and at what cost.",
+            ]),
+            ("Competitive landscape", [
+                "The incumbent was Odoo, an off-the-shelf ERP: strong out of the box, but costly at our scale, "
+                "hard to integrate and rigid about how work had to be done.",
+                "Building in-house meant the system could follow our own procedures and plug straight into the "
+                "rest of our platform, and we borrowed ideas from an existing purchasing portal so the screens felt familiar.",
             ]),
             ("My role", [
                 "I mapped how purchasing, receiving and stock movements actually worked in the warehouses, then "
@@ -83,6 +98,12 @@ CASE_STUDIES = [
                 "receiving and inventory.",
                 "I worked with designers to go from Excel wireframes to full Figma screens, and with engineering to build it.",
                 "I led the rollout across Saudi Arabia, Pakistan and the UAE and trained warehouse staff to use it.",
+            ]),
+            ("The MVP", [
+                "In the first version: user roles and permissions, suppliers with Finance approval, quotations and "
+                "purchase orders with lock and unlock, receiving with backorders and returns, stock adjustments "
+                "with reasons, and one view of every stock movement.",
+                "The test for the MVP was simple: could the warehouses switch Odoo off and keep running.",
             ]),
         ],
         "flow_title": "How stock comes in",
@@ -120,11 +141,21 @@ CASE_STUDIES = [
         "scope": "The first version's job was to retire Odoo, so anything not needed for that waited: product "
                  "photos on receipts, units of measure and bundles, lot tracking, detailed payment terms (a simple "
                  "credit or advance option covered it for now), and sending purchase orders to suppliers over WhatsApp.",
+        "after": [
+            ("Risks", [
+                "Switching Odoo off while warehouses kept running: the MVP covered every operation needed to "
+                "retire it before anything new was added.",
+                "Getting staff in three countries to change how they worked: simple screens, and hands-on "
+                "training during the rollout.",
+                "Stock changing without anyone knowing why: role permissions, a reason on every adjustment and a "
+                "full change history.",
+                "Different tax rules in each country: supplier fields that change format by country.",
+            ]),
+        ],
         "outcome_title": "Outcome",
         "outcome": "Stockflo replaced Odoo across Saudi Arabia, Pakistan and the UAE. Purchasing gained formal "
                    "approvals and records, receiving and stock adjustments became traceable, inventory accuracy "
                    "improved, and the platform became the base for later features such as inventory payments.",
-        "footer_note": "",
     },
     {
         "slug": "master-catalog",
@@ -132,7 +163,13 @@ CASE_STUDIES = [
         "subtitle": "Working out how to move product records from per-warehouse copies to a single company catalog with variants.",
         "meta": "Retailo · Product Manager · Discovery for an electronics retail client",
         "sections": [
-            ("The problem", [
+            ("Target audience", [
+                "The immediate client: an electronics retailer selling phones and tablets through its own app.",
+                "The wider market for our software: FMCG distributors who sell through field sales agents, where "
+                "most products come in several sizes and pack types.",
+                "Internal users: the commercial and catalog teams who create and maintain products.",
+            ]),
+            ("Customer pain points", [
                 "Our catalog created every product at warehouse level. The same product sold in another city "
                 "had to be created again, with a different product code, so one item ended up with many codes.",
                 "Codes were typed by hand, so a separate team had to keep checking for duplicates.",
@@ -140,19 +177,42 @@ CASE_STUDIES = [
                 "product, so nobody could see how a whole product line was performing.",
                 "Changing how something was sold, for example from cartons to single pieces, meant creating a new "
                 "product and losing its buying and selling history.",
+                "The client wanted to show phones with colour and storage options, release products only to "
+                "certain companies, manage virtual stock and update products in bulk, and most of that was not possible.",
             ]),
-            ("The client's need", [
-                "An electronics retail client wanted to sell phones and tablets with variants such as colour and "
-                "storage in their app, release products only to certain companies, manage virtual stock, and "
-                "create and update products in bulk.",
-                "Our existing catalog could not do most of this, so the question was what to change, in what "
-                "order, and whether to build or buy.",
+            ("Clear objectives", [
+                "A catalog that covers the client's use cases and works properly in their app.",
+                "Create each product once for the whole company, with codes generated automatically.",
+                "Report on a whole product line across regions, not one warehouse at a time.",
+                "Be ready to connect to the ERP systems our clients already use.",
+            ]),
+            ("Competitive landscape", [
+                "The ERP systems brands already use set the bar: product masters with variants, unit conversions, "
+                "and products released only to chosen sites.",
+                "Competitors ran rule-based promotion engines with price lists for different customer groups, "
+                "while our promotions worked only at order level.",
+                "I trialled off-the-shelf product information tools such as Akeneo and Apimio, and looked at others "
+                "like Plytix, comparing product hierarchy, pack sizes, warehouse-level stock, promotions and how "
+                "easily they would connect to client ERPs and our own apps.",
             ]),
             ("My role", [
                 "I led the discovery: mapped every step it took to set up a catalog today, worked through the "
                 "client's use cases with them, and ran a gap analysis of each need against what our system could do.",
                 "I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf "
                 "product information tools, and wrote the requirements and scope for the first release.",
+            ]),
+            ("Prioritisation framework", [
+                "A gap analysis listed every need by where it lives (our admin portal or the customer app) and "
+                "rated it as complete, partly handled or not handled today.",
+                "Each gap got a priority from P0 (must have to launch) to P3 (nice to have), which turned a long "
+                "wish list into a clear order of work.",
+            ]),
+            ("The MVP", [
+                "In the first release: a company-level catalog with automatic codes, product variants, releasing "
+                "products to chosen companies, attributes that fit the type of product, simple discounts, "
+                "multilingual names, and bulk creation and updates.",
+                "Left for later: product bundles, rule-based promotions and customer price lists, pack-size "
+                "conversions on transfers, and moving stock between warehouses.",
             ]),
         ],
         "flow_title": "The new product structure",
@@ -179,23 +239,27 @@ CASE_STUDIES = [
              "I compared a flexible model built on product families and attribute templates with a simpler one that "
              "extends the existing screens. The trade-off was flexibility against complexity, so templates and "
              "variants that start switched off kept the flexible option manageable."),
-            ("Build versus buy",
-             "I trialled off-the-shelf product information tools such as Akeneo and Apimio against our needs: "
-             "product hierarchy, pack sizes, warehouse-level stock, promotions and how easily they would connect "
-             "to client ERPs and our own apps."),
-            ("A prioritised gap analysis",
-             "Every client need was rated as complete, partly handled or not handled today, and given a priority "
-             "from P0 to P3, which turned a long wish list into a clear order of work."),
         ],
-        "scope_title": "What I left out, on purpose",
-        "scope": "The first release focused on the company catalog, variants, releasing products to chosen companies, "
-                 "bulk updates and simple discounts. Product bundles, rule-based promotions and customer price lists, "
-                 "pack-size conversions on transfers, and moving stock between warehouses were left for later.",
+        "after": [
+            ("Risks", [
+                "Complexity: a fully flexible attribute model means more tables and more calls between them, so "
+                "templates and switched-off variants kept it in check.",
+                "Integration cost: building or buying both meant connecting to client ERPs and our own apps, with "
+                "open questions on sync timing and whether a middleware layer was needed.",
+                "App compatibility: older versions of the customer app might need a forced update to show variants.",
+                "Inventory: moving to company-level products meant changing how inventory works, whichever option "
+                "we chose.",
+            ]),
+            ("Product analytics", [
+                "Reporting was one of the main reasons for the change: the new structure lets a brand see how a "
+                "whole product line performs across regions, instead of stitching together separate codes from "
+                "each warehouse.",
+            ]),
+        ],
         "outcome_title": "Outcome",
         "outcome": "Discovery gave the team a shared picture of where the catalog fell short, a prioritised list of "
                    "what the client needed first, a recommended product structure, and a scoped plan for the first "
                    "release, along with a clear view of the build-versus-buy options.",
-        "footer_note": "",
     },
     {
         "slug": "inventory-payments",
@@ -203,7 +267,13 @@ CASE_STUDIES = [
         "subtitle": "Turning supplier payments from spreadsheets and email threads into a tracked approval flow.",
         "meta": "Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan",
         "sections": [
-            ("The problem", [
+            ("Target audience", [
+                "Commercial buyers, who raise a payment request for each purchase order.",
+                "Commercial managers, who approve or reject those requests.",
+                "Payment executives in Finance, who make the payment and record the proof.",
+                "Finance as a whole, who need supplier statements and clean reconciliation.",
+            ]),
+            ("Customer pain points", [
                 "Supplier payments were tracked in spreadsheets and the accounting tool, with no checks "
                 "on the data, so the records were hard to trust.",
                 "10–15 purchase orders were raised every day. Each payment needed a form filled in by the "
@@ -211,15 +281,26 @@ CASE_STUDIES = [
                 "Teams spent time chasing each other for proof that payments had gone out, and Finance "
                 "struggled to produce supplier statements and reconcile accounts.",
             ]),
-            ("The goal", [
-                "Record every payment against its purchase order inside Stockflo, our warehouse and "
-                "inventory system, so supplier statements and reconciliation become easy.",
-                "Make the payment flow lighter for the people doing it every day.",
+            ("Clear objectives", [
+                "Record every payment against its purchase order inside Stockflo, our warehouse and inventory system.",
+                "Make supplier statements and reconciliation easy to produce.",
+                "Cut the forms and email back-and-forth from the payment flow.",
+                "Know who created, approved, paid or voided every payment.",
+            ]),
+            ("Competitive landscape", [
+                "This was an internal tool, so the real competitor was the old way of working: spreadsheets, the "
+                "accounting tool and email approvals. The new flow had to be easier than that, or people would keep "
+                "using it.",
             ]),
             ("My role", [
                 "I wrote the product requirements document, defined the user stories and acceptance "
                 "criteria, and worked with engineering to build the feature in Stockflo.",
                 "It launched for Saudi Arabia first. A later update extended it to Pakistan.",
+            ]),
+            ("The MVP", [
+                "In the first version: payment requests on locked purchase orders, manager approval or rejection, "
+                "marking a payment as paid with its bank reference and proof, voiding a payment with a reason, and "
+                "a payments view that shows what is due.",
             ]),
         ],
         "flow_title": "How a payment moves",
@@ -255,11 +336,19 @@ CASE_STUDIES = [
         "scope_title": "What I left out, on purpose",
         "scope": "Reversing a payment after it was marked paid stayed out of the first release. Payments "
                  "that went wrong are marked Void with a reason instead, which kept the first version simple.",
+        "after": [
+            ("Risks", [
+                "Payments marked as paid with no evidence: a bank reference and proof are required, or a reason "
+                "chosen from a list.",
+                "Approvals made without context: the manager sees the supplier's running balance first.",
+                "Mistakes that cannot be taken back: payments are voided with a reason rather than deleted, and "
+                "every step records who did it.",
+            ]),
+        ],
         "outcome_title": "Outcome",
         "outcome": "Supplier payments moved out of spreadsheets and email threads into one tracked flow with "
                    "clear owners at each step. Finance could see what had been paid and what was due, and "
                    "the procedure was documented for every team involved.",
-        "footer_note": "",
     },
 ]
 

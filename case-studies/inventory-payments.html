@@ -120,16 +120,32 @@
     <p class="cs-meta">Retailo · Product Manager · 2023 · Saudi Arabia, later extended to Pakistan</p>
   </div>
   <section>
-    <h2>The problem</h2>
+    <h2>Target audience</h2>
+    <ul><li>Commercial buyers, who raise a payment request for each purchase order.</li><li>Commercial managers, who approve or reject those requests.</li><li>Payment executives in Finance, who make the payment and record the proof.</li><li>Finance as a whole, who need supplier statements and clean reconciliation.</li></ul>
+  </section>
+  <section>
+    <h2>Customer pain points</h2>
     <ul><li>Supplier payments were tracked in spreadsheets and the accounting tool, with no checks on the data, so the records were hard to trust.</li><li>10–15 purchase orders were raised every day. Each payment needed a form filled in by the Commercial team and an approval by email from a Commercial Manager, which was slow and hard to track.</li><li>Teams spent time chasing each other for proof that payments had gone out, and Finance struggled to produce supplier statements and reconcile accounts.</li></ul>
   </section>
   <section>
-    <h2>The goal</h2>
-    <ul><li>Record every payment against its purchase order inside Stockflo, our warehouse and inventory system, so supplier statements and reconciliation become easy.</li><li>Make the payment flow lighter for the people doing it every day.</li></ul>
+    <h2>Clear objectives</h2>
+    <ul><li>Record every payment against its purchase order inside Stockflo, our warehouse and inventory system.</li><li>Make supplier statements and reconciliation easy to produce.</li><li>Cut the forms and email back-and-forth from the payment flow.</li><li>Know who created, approved, paid or voided every payment.</li></ul>
+  </section>
+  <section>
+    <h2>Competitive landscape</h2>
+    <ul><li>This was an internal tool, so the real competitor was the old way of working: spreadsheets, the accounting tool and email approvals. The new flow had to be easier than that, or people would keep using it.</li></ul>
   </section>
   <section>
     <h2>My role</h2>
     <ul><li>I wrote the product requirements document, defined the user stories and acceptance criteria, and worked with engineering to build the feature in Stockflo.</li><li>It launched for Saudi Arabia first. A later update extended it to Pakistan.</li></ul>
+  </section>
+  <section>
+    <h2>The MVP</h2>
+    <ul><li>In the first version: payment requests on locked purchase orders, manager approval or rejection, marking a payment as paid with its bank reference and proof, voiding a payment with a reason, and a payments view that shows what is due.</li></ul>
+  </section>
+  <section>
+    <h2>What I left out, on purpose</h2>
+    <p>Reversing a payment after it was marked paid stayed out of the first release. Payments that went wrong are marked Void with a reason instead, which kept the first version simple.</p>
   </section>
   <section>
     <h2>How a payment moves</h2>
@@ -158,10 +174,9 @@
   </section>
 
   <section>
-    <h2>What I left out, on purpose</h2>
-    <p>Reversing a payment after it was marked paid stayed out of the first release. Payments that went wrong are marked Void with a reason instead, which kept the first version simple.</p>
+    <h2>Risks</h2>
+    <ul><li>Payments marked as paid with no evidence: a bank reference and proof are required, or a reason chosen from a list.</li><li>Approvals made without context: the manager sees the supplier&#x27;s running balance first.</li><li>Mistakes that cannot be taken back: payments are voided with a reason rather than deleted, and every step records who did it.</li></ul>
   </section>
-
   <section>
     <h2>Outcome</h2>
     <p>Supplier payments moved out of spreadsheets and email threads into one tracked flow with clear owners at each step. Finance could see what had been paid and what was due, and the procedure was documented for every team involved.</p>
