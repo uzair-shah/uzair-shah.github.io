@@ -195,10 +195,6 @@
     <h2>Limitations (noted by the author)</h2>
     <ul><li>Keyword scoring isn&#x27;t fully reliable: DeepSeek said an answer wasn&#x27;t in the context but answered anyway, and the test didn&#x27;t catch it.</li><li>DeepSeek-R1 may need more parameters to perform better.</li></ul>
   </section>
-  <section>
-    <h2>Files in the repo</h2>
-    <div class="mini-cards"><div class="mini"><b>rag.py</b><span>Main script: builds the vector store, runs all 12 test questions through Gemini and DeepSeek-R1, scores and prints the results.</span></div><div class="mini"><b>rag.ipynb</b><span>Development notebook that builds the pipeline step by step and contains the saved evaluation outputs, timings and takeaways.</span></div><div class="mini"><b>api.py</b><span>FastAPI web service with a POST /ask/ endpoint that answers a question with Gemini and is meant to return the source passages.</span></div><div class="mini"><b>main.py</b><span>Near-copy of api.py&#x27;s FastAPI service that returns only the answer (no sources) and pauses 10 s instead of 20 s before Gemini calls.</span></div><div class="mini"><b>test_queries.txt</b><span>JSON list of the 12 test questions with categories, expected keywords and refusal phrases.</span></div><div class="mini"><b>chroma.ipynb</b><span>Scratch notebook trying out ChromaDB basics on two toy documents.</span></div><div class="mini"><b>chroma.py</b><span>Empty file.</span></div><div class="mini"><b>chroma_db/</b><span>Saved ChromaDB vector database with the 50 embedded chunks of the paper.</span></div><div class="mini"><b>Warrington-JugglingProbabilities-2005.pdf</b><span>The source paper the app answers questions about.</span></div><div class="mini"><b>Dockerfile</b><span>Packages the app on python:3.10-slim and runs rag.py.</span></div><div class="mini"><b>requirements.txt</b><span>Python dependencies (pypdf, sentence-transformers, google-genai, ollama, fastapi, uvicorn, etc.).</span></div></div>
-  </section>
 
 
   <footer>

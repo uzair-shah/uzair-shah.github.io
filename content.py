@@ -638,33 +638,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
             ('Limitations (noted by the author)',
              ["Keyword scoring isn't fully reliable: DeepSeek said an answer wasn't in the context but "
               "answered anyway, and the test didn't catch it.",
-              'DeepSeek-R1 may need more parameters to perform better.']),
-            ('Files in the repo',
-             {'cards': [('rag.py',
-                         'Main script: builds the vector store, runs all 12 test questions through Gemini '
-                         'and DeepSeek-R1, scores and prints the results.'),
-                        ('rag.ipynb',
-                         'Development notebook that builds the pipeline step by step and contains the saved '
-                         'evaluation outputs, timings and takeaways.'),
-                        ('api.py',
-                         'FastAPI web service with a POST /ask/ endpoint that answers a question with Gemini '
-                         'and is meant to return the source passages.'),
-                        ('main.py',
-                         "Near-copy of api.py's FastAPI service that returns only the answer (no sources) "
-                         'and pauses 10 s instead of 20 s before Gemini calls.'),
-                        ('test_queries.txt',
-                         'JSON list of the 12 test questions with categories, expected keywords and refusal '
-                         'phrases.'),
-                        ('chroma.ipynb', 'Scratch notebook trying out ChromaDB basics on two toy documents.'),
-                        ('chroma.py', 'Empty file.'),
-                        ('chroma_db/',
-                         'Saved ChromaDB vector database with the 50 embedded chunks of the paper.'),
-                        ('Warrington-JugglingProbabilities-2005.pdf',
-                         'The source paper the app answers questions about.'),
-                        ('Dockerfile', 'Packages the app on python:3.10-slim and runs rag.py.'),
-                        ('requirements.txt',
-                         'Python dependencies (pypdf, sentence-transformers, google-genai, ollama, fastapi, '
-                         'uvicorn, etc.).')]})]},
+              'DeepSeek-R1 may need more parameters to perform better.'])]},
  {'slug': 'logistics-research',
   'title': 'Modelling truck traffic at a logistics hub',
   'subtitle': 'A Master of Data Science research project that uses the mathematics of juggling to study when '
@@ -800,57 +774,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
                        'Combinatorics (stars and bars)',
                        'Juggling state graphs',
                        'Excel',
-                       'LaTeX / Overleaf']}),
-            ('Files in the repo',
-             {'cards': [('JugglingProgReportB_Bukhari_S_a1947793/main.tex',
-                         'LaTeX source of the progress report: background, methods, results, discussion, '
-                         'limitations and appendices.'),
-                        ('JugglingProgReportB_Bukhari_S_a1947793/JugglingProgReportB_Bukhari_S_a1947793.pdf',
-                         'Compiled PDF of the report.'),
-                        ('JugglingProgReportB_Bukhari_S_a1947793/images/',
-                         'Figures used in the report: juggling diagrams, state graphs, convergence plots, '
-                         'terminal outputs and cost/profit charts.'),
-                        ('Code/Term 2/CreateStMatrix_1Bay.m',
-                         'Generates all juggling states and connecting throw heights for the one-bay, 3-hour '
-                         'model J(≤3,3,1).'),
-                        ('Code/Term 2/CreateStMatrix_2Bay.m / CreateStMatrix_3Bay.m',
-                         'Variants of the state generator that allow two or three trucks to be unloaded, '
-                         'added or dropped per hour.'),
-                        ('Code/Term 2/CreateStMatrix_1Bay_6H.m',
-                         'State generator for the one-bay model with maximum travel time doubled to 6 '
-                         'hours.'),
-                        ('Code/Term 2/SimRun_1Bay.m',
-                         'Experiment 1: transition matrix, theoretical stationary distribution, seeded Monte '
-                         'Carlo simulation with cost/revenue, RSSQ convergence and plots.'),
-                        ('Code/Term 2/SimRun_2Bay.m / SimRun_3Bay.m / SimRun_1Bay_6H.m',
-                         'Same simulation for Experiments 2, 3 and 4.'),
-                        ('Code/Term 2/RunSimMultSeedCorrStates.m',
-                         'Earlier multi-seed simulation of the 20-state J(3,3) model without the '
-                         'bay-specific cost setup.'),
-                        ('Code/Term 2/TotalStateCount.m',
-                         'Counts states with the stars-and-bars formula for 0 to 3 balls (set to height 6).'),
-                        ('Code/Term 2/Figures/',
-                         'Saved MATLAB plots: convergence, log convergence and simulated vs stationary '
-                         'distribution.'),
-                        ('Code/Term 1/',
-                         'First-term exploratory scripts: simulations of smaller juggling systems (J(2,3), '
-                         'J(2,5), multiplex and add-drop models) and a Boltzmann-weighted transition matrix '
-                         'function.'),
-                        ('Code/Term 2/Deprecated/ and Code/Term 1/Old/',
-                         'Superseded drafts of the state-generation and simulation code.'),
-                        ('Excel_Files/1Bay_Mat.xlsx, 2Bay_Mat.xlsx, 3Bay_Mat.xlsx, 1Bay_6H_Mat.xlsx',
-                         'Spreadsheets of states and throw-height transition tables for each experiment.'),
-                        ('Excel_Files/TransitionMatrix.xlsx',
-                         'Transition matrices for earlier models (J(3,6), J(2,5), Boltzmann variant, '
-                         'add-drop and multiplex J(2,3)).'),
-                        ('Excel_Files/sum_states_2.xlsx and sumary_states.xlsx',
-                         'Simulated state probabilities per experiment, grouped by number of trucks arriving '
-                         'at once (source of the arrivals chart).'),
-                        ('Excel_Files/Cost Results.xlsx',
-                         'Run time, cost, revenue and profit for the four experiments, with the cost/revenue '
-                         'and profit charts.'),
-                        ('Excel_Files/J(geq2,2).xlsx and newnotation_simplified.csv',
-                         'Small state/throw-height tables used while working out notation.')]})]},
+                       'LaTeX / Overleaf']})]},
  {'slug': 'text-detector',
   'title': 'AI vs Human Text Detector',
   'subtitle': 'A neural network that scores each sentence of a paragraph and averages the scores to estimate '
@@ -964,15 +888,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
                        'seaborn',
                        'Jupyter Notebook',
                        'Binary classification',
-                       'ROC AUC']}),
-            ('Files in the repo',
-             {'cards': [('Final_Notebook.ipynb',
-                         'The whole project: loads data, explores sentence lengths, builds and trains the '
-                         'Keras model, scores validation and test paragraphs, and writes the submission '
-                         'CSV.'),
-                        ('README.md',
-                         'Short project description with the pipeline, results table, dependencies and '
-                         'expected folder layout.')]})]},
+                       'ROC AUC']})]},
  {'slug': 'book-scraper',
   'title': 'Book Catalogue Scraper',
   'subtitle': 'A Python script that reads every book on a practice bookshop website and stores the details '
@@ -1071,23 +987,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
                        'SQLite',
                        'SQL',
                        'Jupyter Notebook',
-                       'Web scraping']}),
-            ('Files in the repo',
-             {'cards': [('scraper.py',
-                         'The finished script: scrapes all catalogue pages, saves them to books.db and '
-                         'prints a sample query.'),
-                        ('scraper.ipynb',
-                         'Jupyter notebook that builds the scraper step by step, with the saved output of a '
-                         'full 50-page run and the sample query.'),
-                        ('books.db',
-                         'The SQLite database produced by a run: one books table with 1,000 rows.'),
-                        ('README.md',
-                         'Explains what the scraper collects, how to install the libraries and run it, and '
-                         'how to query the database.'),
-                        ('.vscode/settings.json',
-                         'Editor setting that picks the system Python environment in VS Code.'),
-                        ('git-cheat-sheet-education.pdf',
-                         'A Git command reference PDF; not part of the scraper.')]})]}]
+                       'Web scraping']})]}]
 
 # Projects. Each: title, one-line description, tags, link.
 PROJECTS = [
