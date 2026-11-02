@@ -5,6 +5,8 @@ Built with plain Python (no packages to install) and hosted on GitHub Pages.
 
 ## Change the text
 
+> Don't edit the `.html` files (including on GitHub's website): `build.py` rewrites them from `content.py`, so those edits get lost. Make every change in `content.py`.
+
 1. Open `content.py` and edit anything: intro, highlights, projects, links, colour.
 2. Rebuild the page:
 
