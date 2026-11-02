@@ -525,7 +525,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
               'tests how accurately and quickly two AI models do it.',
   'meta': 'Python · Sentence-Transformers (all-MiniLM-L6-v2) · ChromaDB · Gemini (gemini-3-flash-preview) · '
           'DeepSeek-R1 via Ollama · FastAPI · Docker',
-  'github': 'https://github.com/uzair-shah/rag_app',
+  'github': 'https://github.com/uzair-shah/rag-app',
   'sections': [('What it does',
                 ["Answers plain-English questions about one PDF: Gregory Warrington's 2005 maths paper "
                  "'Juggling Probabilities' (American Mathematical Monthly).",
@@ -645,7 +645,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
               'trucks pile up at a hub, and what extra unloading bays are worth.',
   'meta': 'MATLAB · Markov chains · Monte Carlo simulation · Combinatorics (multiplex juggling) · LaTeX · '
           'Excel',
-  'github': 'https://github.com/uzair-shah/Research-Report',
+  'github': 'https://github.com/uzair-shah/logistics-hub-juggling-model',
   'sections': [('The question',
                 ['In a hub-and-spoke network, goods from many locations go through one central hub instead '
                  'of travelling point to point.',
@@ -780,7 +780,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
   'subtitle': 'A neural network that scores each sentence of a paragraph and averages the scores to estimate '
               'whether the paragraph was written by a human or by AI.',
   'meta': 'Python · TensorFlow / Keras · scikit-learn · NumPy · pandas · Matplotlib · seaborn · Jupyter',
-  'github': 'https://github.com/uzair-shah/AI-vs-Human-Text-Detector',
+  'github': 'https://github.com/uzair-shah/ai-vs-human-text-classifier',
   'sections': [('What it does',
                 ['Takes a paragraph that has already been turned into numbers (embeddings) and outputs a '
                  'probability that it was written by AI.',
@@ -894,7 +894,7 @@ PROJECT_PAGES = [{'slug': 'rag-app',
   'subtitle': 'A Python script that reads every book on a practice bookshop website and stores the details '
               'in a searchable database.',
   'meta': 'Python · requests · BeautifulSoup · pandas · SQLite · Jupyter',
-  'github': 'https://github.com/uzair-shah/WebScrapingProject',
+  'github': 'https://github.com/uzair-shah/book-catalogue-scraper',
   'sections': [('What it does',
                 ['Visits books.toscrape.com, a website built for practising web scraping, and reads its '
                  'catalogue page by page.',
@@ -997,7 +997,7 @@ PROJECTS = [
                 "evaluation set that checks correct answers and correct refusals. Compares Gemini "
                 "with a locally run DeepSeek model.",
         "tags": ["Python", "LLMs", "ChromaDB", "Docker"],
-        "url": "https://github.com/uzair-shah/rag_app",
+        "url": "https://github.com/uzair-shah/rag-app",
         "page": "projects/rag-app.html",
     },
     {
@@ -1005,7 +1005,7 @@ PROJECTS = [
         "text": "Master's research: modelled a hub-and-spoke truck network as a Markov chain and "
                 "simulated cost and revenue. A second unloading bay paid off; a third barely did.",
         "tags": ["MATLAB", "Markov chains", "Simulation"],
-        "url": "https://github.com/uzair-shah/Research-Report",
+        "url": "https://github.com/uzair-shah/logistics-hub-juggling-model",
         "page": "projects/logistics-research.html",
     },
     {
@@ -1013,7 +1013,7 @@ PROJECTS = [
         "text": "Neural network that flags AI-written text, benchmarked against SVM baselines. "
                 "About 0.95 validation AUC per sentence and 0.90 per paragraph on Kaggle.",
         "tags": ["TensorFlow", "scikit-learn", "Kaggle"],
-        "url": "https://github.com/uzair-shah/AI-vs-Human-Text-Detector",
+        "url": "https://github.com/uzair-shah/ai-vs-human-text-classifier",
         "page": "projects/text-detector.html",
     },
     {
@@ -1021,7 +1021,7 @@ PROJECTS = [
         "text": "Scraped about 1,000 books across 50 pages with polite rate limiting, stored them "
                 "in a SQL database and queried the results.",
         "tags": ["Python", "BeautifulSoup", "SQL"],
-        "url": "https://github.com/uzair-shah/WebScrapingProject",
+        "url": "https://github.com/uzair-shah/book-catalogue-scraper",
         "page": "projects/book-scraper.html",
     },
 ]
