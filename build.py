@@ -54,13 +54,20 @@ def pillars() -> str:
     )
 
 
-def highlights() -> str:
+def highlights(items=None) -> str:
     rows = []
-    for h in c.HIGHLIGHTS:
+    for h in (c.HIGHLIGHTS if items is None else items):
         t, d = h[0], h[1]
         link = f' <a class="more" href="{e(h[2])}">Read the case study &rarr;</a>' if len(h) > 2 and h[2] else ""
         rows.append(f'        <li><strong>{e(t)}</strong><span>{e(d)}{link}</span></li>')
     return "\n".join(rows)
+
+
+def experience_groups() -> str:
+    out = []
+    for title, items in getattr(c, "EXPERIENCE_GROUPS", []):
+        out.append(f'      <h4 class="group">{e(title)}</h4>\n      <ul class="highlights">\n{highlights(items)}\n      </ul>')
+    return "\n".join(out)
 
 
 def case_cards() -> str:
@@ -153,6 +160,7 @@ STYLE = """  :root {{
     header .photo {{ order: -1; width: 120px; height: 120px; }}
   }}
   .cards.one {{ grid-template-columns: 1fr; }}
+  h4.group {{ margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }}
   a.inline {{ color: var(--accent); }}
   .exp-photo {{ margin: 0 0 24px; }}
   .exp-photo img {{ width: 100%; height: auto; border-radius: 14px; display: block; border: 1px solid var(--line); }}
@@ -236,6 +244,7 @@ PAGE = """<!doctype html>
       <ul class="highlights">
 {highlights}
       </ul>
+{groups}
     </div>
   </section>
 
@@ -369,6 +378,7 @@ def build_case_studies(css: str) -> None:
 def build() -> Path:
     css = STYLE.format(accent=e(c.ACCENT))
     out = PAGE.format(
+        groups=experience_groups(),
         pronouns=(f" ({e(c.PRONOUNS)})" if getattr(c, "PRONOUNS", "") else ""),
         style=css, case_cards=case_cards(), exp_photo=exp_photo(),
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
