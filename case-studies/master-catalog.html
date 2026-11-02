@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discovery: one product catalog for the whole company | Syed Uzair Shah Bukhari</title>
+<meta name="description" content="Working out how to move product records from per-warehouse copies to a single company catalog with variants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #16171a; --muted: #5f6370; --line: #e6e6e3; --card: #ffffff;
+    --accent: #2f6fed;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111214; --fg: #ececec; --muted: #9a9ea8; --line: #24262b; --card: #17181b; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; }
+  nav .brand { font-weight: 600; letter-spacing: -0.01em; }
+  nav .links a { margin-left: 20px; }
+  a { color: inherit; text-decoration: none; }
+  nav .links a, footer a, .contact a { color: var(--muted); transition: color .15s; }
+  nav .links a:hover, footer a:hover, .contact a:hover { color: var(--accent); }
+  header { padding: 48px 0 40px; display: grid; grid-template-columns: 1fr 180px; gap: 40px; align-items: center; }
+  .photo { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
+  .eyebrow { color: var(--accent); font-weight: 500; font-size: 14px; margin: 0 0 12px; }
+  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 20px; font-weight: 600; }
+  .intro { color: var(--muted); font-size: 18px; max-width: 620px; margin: 0 0 28px; }
+  .contact { display: flex; gap: 22px; flex-wrap: wrap; font-weight: 500; }
+  .contact a { display: inline-flex; align-items: center; gap: 7px; }
+  .contact svg { width: 16px; height: 16px; flex: none; }
+  h1 .headline { display: block; font-size: 0.62em; font-weight: 500; color: var(--muted); letter-spacing: -0.015em; margin-top: 10px; }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; margin: 0 0 24px; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .pillar h3 { margin: 0 0 6px; font-size: 17px; font-weight: 600; }
+  .pillar p { margin: 0; color: var(--muted); font-size: 15px; }
+  .role h3 { margin: 0; font-size: 19px; font-weight: 600; }
+  .role .meta { color: var(--muted); font-size: 14px; margin: 2px 0 18px; }
+  .highlights { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .highlights li { display: grid; grid-template-columns: 170px 1fr; gap: 16px; }
+  .highlights strong { font-weight: 600; }
+  .highlights span { color: var(--muted); }
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card {
+    display: block; padding: 22px; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--card); transition: transform .15s, border-color .15s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card h3 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+  .card .arrow { color: var(--accent); }
+  .card p { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags span { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px;
+           display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer .contact { gap: 18px; }
+  @media (max-width: 640px) {
+    .pillars, .cards { grid-template-columns: 1fr; }
+    .highlights li { grid-template-columns: 1fr; gap: 2px; }
+    nav .links a { margin-left: 14px; }
+    header { padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }
+    header .photo { order: -1; width: 120px; height: 120px; }
+  }
+  .cards.one { grid-template-columns: 1fr; }
+  .exp-photo { margin: 0 0 24px; }
+  .exp-photo img { width: 100%; height: auto; border-radius: 14px; display: block; border: 1px solid var(--line); }
+  .exp-photo figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .card .more { color: var(--accent); font-weight: 500; font-size: 15px; }
+  .case-meta { font-size: 13px !important; margin: 0 0 6px !important; }
+  .highlights .more { color: var(--accent); font-weight: 500; white-space: nowrap; }
+  .back { color: var(--muted); font-size: 14px; }
+  .back:hover { color: var(--accent); }
+  .cs-head { padding: 40px 0 36px; }
+  .cs-head h1 { margin-bottom: 14px; }
+  .cs-sub { color: var(--muted); font-size: 19px; margin: 0 0 10px; max-width: 640px; }
+  .cs-meta { color: var(--muted); font-size: 14px; margin: 0; }
+  .cs ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .cs p { margin: 0; }
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 0 0 16px; }
+  .step { flex: 1 1 120px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .step b { display: block; font-weight: 600; }
+  .step small { color: var(--muted); font-size: 13px; }
+  .arrow-step { display: flex; align-items: center; padding: 0 8px; color: var(--accent); font-size: 18px; }
+  .flow-note { color: var(--muted); font-size: 15px; }
+  .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .decision { padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .decision h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+  .decision p { color: var(--muted); font-size: 15px; }
+  .note { color: var(--muted); font-size: 15px; font-style: italic; }
+  @media (max-width: 640px) {
+    .decisions { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .step { flex: none; }
+    .arrow-step { justify-content: center; padding: 4px 0; transform: rotate(90deg); }
+  }
+
+</style>
+</head>
+<body>
+<div class="wrap cs">
+  <nav>
+    <a class="brand" href="../index.html">Uzair</a>
+    <div class="links"><a class="back" href="../index.html">&larr; Back to home</a></div>
+  </nav>
+
+  <div class="cs-head">
+    <p class="eyebrow">Case study</p>
+    <h1>Discovery: one product catalog for the whole company</h1>
+    <p class="cs-sub">Working out how to move product records from per-warehouse copies to a single company catalog with variants.</p>
+    <p class="cs-meta">Retailo · Product Manager · Discovery for an electronics retail client</p>
+  </div>
+  <section>
+    <h2>The problem</h2>
+    <ul><li>Our catalog created every product at warehouse level. The same product sold in another city had to be created again, with a different product code, so one item ended up with many codes.</li><li>Codes were typed by hand, so a separate team had to keep checking for duplicates.</li><li>There was no idea of variants or pack sizes: each colour, size or carton had to be its own product, so nobody could see how a whole product line was performing.</li><li>Changing how something was sold, for example from cartons to single pieces, meant creating a new product and losing its buying and selling history.</li></ul>
+  </section>
+  <section>
+    <h2>The client&#x27;s need</h2>
+    <ul><li>An electronics retail client wanted to sell phones and tablets with variants such as colour and storage in their app, release products only to certain companies, manage virtual stock, and create and update products in bulk.</li><li>Our existing catalog could not do most of this, so the question was what to change, in what order, and whether to build or buy.</li></ul>
+  </section>
+  <section>
+    <h2>My role</h2>
+    <ul><li>I led the discovery: mapped every step it took to set up a catalog today, worked through the client&#x27;s use cases with them, and ran a gap analysis of each need against what our system could do.</li><li>I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf product information tools, and wrote the requirements and scope for the first release.</li></ul>
+  </section>
+  <section>
+    <h2>The new product structure</h2>
+    <div class="flow">
+      <div class="step"><b>Company</b><small>One catalog for everyone</small></div>
+      <div class="arrow-step">&rarr;</div>
+      <div class="step"><b>Product master</b><small>Brand, category, tax, units</small></div>
+      <div class="arrow-step">&rarr;</div>
+      <div class="step"><b>Variants</b><small>Colour, storage, size</small></div>
+      <div class="arrow-step">&rarr;</div>
+      <div class="step"><b>Released</b><small>To chosen companies and warehouses</small></div>
+    </div>
+    <p class="flow-note">Before, each warehouse kept its own copy of every product. In the new structure a product is created once, its variants get their own codes automatically, and it is released where it should be sold.</p>
+  </section>
+
+  <section>
+    <h2>What discovery decided</h2>
+    <div class="decisions">
+      <div class="decision"><h3>One catalog at company level</h3><p>Products, categories and brands live at company level with codes generated automatically, while customer-facing app categories stay local so each warehouse can still run its own promotions.</p></div>
+      <div class="decision"><h3>Product masters with variants</h3><p>A product master holds the shared details, and variants such as colour or storage hang off it, so a whole product line can be sold, searched and reported on together.</p></div>
+      <div class="decision"><h3>Units of measure on the product</h3><p>Conversions such as pieces to cartons sit on the product master, so stock can be bought in one unit and sold in another without creating a new product or losing its history.</p></div>
+      <div class="decision"><h3>Two data models, weighed openly</h3><p>I compared a flexible model built on product families and attribute templates with a simpler one that extends the existing screens. The trade-off was flexibility against complexity, so templates and variants that start switched off kept the flexible option manageable.</p></div>
+      <div class="decision"><h3>Build versus buy</h3><p>I trialled off-the-shelf product information tools such as Akeneo and Apimio against our needs: product hierarchy, pack sizes, warehouse-level stock, promotions and how easily they would connect to client ERPs and our own apps.</p></div>
+      <div class="decision"><h3>A prioritised gap analysis</h3><p>Every client need was rated as complete, partly handled or not handled today, and given a priority from P0 to P3, which turned a long wish list into a clear order of work.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What I left out, on purpose</h2>
+    <p>The first release focused on the company catalog, variants, releasing products to chosen companies, bulk updates and simple discounts. Product bundles, rule-based promotions and customer price lists, pack-size conversions on transfers, and moving stock between warehouses were left for later.</p>
+  </section>
+
+  <section>
+    <h2>Outcome</h2>
+    <p>Discovery gave the team a shared picture of where the catalog fell short, a prioritised list of what the client needed first, a recommended product structure, and a scoped plan for the first release, along with a clear view of the build-versus-buy options.</p>
+  </section>
+
+  <footer>
+    <span>&copy; Syed Uzair Shah Bukhari</span>
+    <div class="contact">
+        <a href="https://www.linkedin.com/in/syed-uzair-shah-bukhari/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+        <a href="https://github.com/uzair-shah" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3"/></svg>GitHub</a>
+        <a href="mailto:s.uzair.shah01@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3z M3 6l9 7 9-7"/></svg>s.uzair.shah01@gmail.com</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

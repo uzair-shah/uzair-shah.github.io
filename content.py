@@ -115,6 +115,77 @@ CASE_STUDIES = [
         "footer_note": "",
     },
     {
+        "slug": "master-catalog",
+        "title": "Discovery: one product catalog for the whole company",
+        "subtitle": "Working out how to move product records from per-warehouse copies to a single company catalog with variants.",
+        "meta": "Retailo · Product Manager · Discovery for an electronics retail client",
+        "sections": [
+            ("The problem", [
+                "Our catalog created every product at warehouse level. The same product sold in another city "
+                "had to be created again, with a different product code, so one item ended up with many codes.",
+                "Codes were typed by hand, so a separate team had to keep checking for duplicates.",
+                "There was no idea of variants or pack sizes: each colour, size or carton had to be its own "
+                "product, so nobody could see how a whole product line was performing.",
+                "Changing how something was sold, for example from cartons to single pieces, meant creating a new "
+                "product and losing its buying and selling history.",
+            ]),
+            ("The client's need", [
+                "An electronics retail client wanted to sell phones and tablets with variants such as colour and "
+                "storage in their app, release products only to certain companies, manage virtual stock, and "
+                "create and update products in bulk.",
+                "Our existing catalog could not do most of this, so the question was what to change, in what "
+                "order, and whether to build or buy.",
+            ]),
+            ("My role", [
+                "I led the discovery: mapped every step it took to set up a catalog today, worked through the "
+                "client's use cases with them, and ran a gap analysis of each need against what our system could do.",
+                "I studied how ERP systems and competitors structure their catalogs, trialled off-the-shelf "
+                "product information tools, and wrote the requirements and scope for the first release.",
+            ]),
+        ],
+        "flow_title": "The new product structure",
+        "flow": [
+            ("Company", "One catalog for everyone"),
+            ("Product master", "Brand, category, tax, units"),
+            ("Variants", "Colour, storage, size"),
+            ("Released", "To chosen companies and warehouses"),
+        ],
+        "flow_note": "Before, each warehouse kept its own copy of every product. In the new structure a product is "
+                     "created once, its variants get their own codes automatically, and it is released where it should be sold.",
+        "decisions_title": "What discovery decided",
+        "decisions": [
+            ("One catalog at company level",
+             "Products, categories and brands live at company level with codes generated automatically, while "
+             "customer-facing app categories stay local so each warehouse can still run its own promotions."),
+            ("Product masters with variants",
+             "A product master holds the shared details, and variants such as colour or storage hang off it, so a "
+             "whole product line can be sold, searched and reported on together."),
+            ("Units of measure on the product",
+             "Conversions such as pieces to cartons sit on the product master, so stock can be bought in one unit and "
+             "sold in another without creating a new product or losing its history."),
+            ("Two data models, weighed openly",
+             "I compared a flexible model built on product families and attribute templates with a simpler one that "
+             "extends the existing screens. The trade-off was flexibility against complexity, so templates and "
+             "variants that start switched off kept the flexible option manageable."),
+            ("Build versus buy",
+             "I trialled off-the-shelf product information tools such as Akeneo and Apimio against our needs: "
+             "product hierarchy, pack sizes, warehouse-level stock, promotions and how easily they would connect "
+             "to client ERPs and our own apps."),
+            ("A prioritised gap analysis",
+             "Every client need was rated as complete, partly handled or not handled today, and given a priority "
+             "from P0 to P3, which turned a long wish list into a clear order of work."),
+        ],
+        "scope_title": "What I left out, on purpose",
+        "scope": "The first release focused on the company catalog, variants, releasing products to chosen companies, "
+                 "bulk updates and simple discounts. Product bundles, rule-based promotions and customer price lists, "
+                 "pack-size conversions on transfers, and moving stock between warehouses were left for later.",
+        "outcome_title": "Outcome",
+        "outcome": "Discovery gave the team a shared picture of where the catalog fell short, a prioritised list of "
+                   "what the client needed first, a recommended product structure, and a scoped plan for the first "
+                   "release, along with a clear view of the build-versus-buy options.",
+        "footer_note": "",
+    },
+    {
         "slug": "inventory-payments",
         "title": "Inventory payments in Stockflo",
         "subtitle": "Turning supplier payments from spreadsheets and email threads into a tracked approval flow.",
