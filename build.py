@@ -161,6 +161,16 @@ STYLE = """  :root {{
     header {{ padding-top: 28px; grid-template-columns: 1fr; gap: 24px; }}
     header .photo {{ order: -1; width: 120px; height: 120px; }}
   }}
+  .diagram {{ list-style: none; margin: 0 0 16px; padding: 0; position: relative; }}
+  .diagram::before {{ content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--line); }}
+  .dstep {{ display: grid; grid-template-columns: 36px 1fr; gap: 16px; padding-bottom: 18px; position: relative; }}
+  .dstep .num {{ width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; z-index: 1; }}
+  .dbody {{ border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 14px 16px; }}
+  .dbody b {{ display: block; font-weight: 600; }}
+  .dbody small {{ color: var(--accent); font-size: 13px; font-weight: 500; }}
+  .dbody p {{ color: var(--muted); font-size: 15px; margin: 6px 0 0; }}
+  .branch {{ margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--accent); border-radius: 10px; font-size: 14px; color: var(--muted); }}
+  .branch span {{ display: block; color: var(--fg); font-weight: 600; font-size: 13px; margin-bottom: 2px; }}
   .cards.one {{ grid-template-columns: 1fr; }}
   h4.group {{ margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }}
   a.inline {{ color: var(--accent); }}
@@ -303,9 +313,7 @@ CASE_PAGE = """<!doctype html>
 {sections}
   <section>
     <h2>{flow_title}</h2>
-    <div class="flow">
 {flow}
-    </div>
     <p class="flow-note">{flow_note}</p>
   </section>
 
@@ -343,6 +351,18 @@ def title_html(cs: dict) -> str:
     return title
 
 
+def diagram_html(cs: dict) -> str:
+    """Vertical step diagram: [(title, who, detail, branch_or_empty), ...]."""
+    rows = []
+    for i, (title, who, detail, branch) in enumerate(cs.get("diagram", []), 1):
+        note = f'<div class="branch"><span>{e(branch[0])}</span>{e(branch[1])}</div>' if branch else ""
+        rows.append(
+            f'      <li class="dstep"><div class="num">{i}</div><div class="dbody">'
+            f'<b>{e(title)}</b><small>{e(who)}</small><p>{e(detail)}</p>{note}</div></li>'
+        )
+    return '    <ol class="diagram">\n' + "\n".join(rows) + "\n    </ol>"
+
+
 def build_case_studies(css: str) -> None:
     out_dir = HERE / "case-studies"
     out_dir.mkdir(exist_ok=True)
@@ -367,6 +387,8 @@ def build_case_studies(css: str) -> None:
             else:
                 after.insert(0, block)
         steps = []
+        if cs.get("diagram"):
+            steps.append(diagram_html(cs))
         for i, (label, who) in enumerate(cs.get("flow", [])):
             if i:
                 steps.append('      <div class="arrow-step">&rarr;</div>')
@@ -377,7 +399,9 @@ def build_case_studies(css: str) -> None:
         page = CASE_PAGE.format(
             style=css, name=e(c.NAME), short=e(c.SHORT_NAME), title=e(cs["title"]), title_html=title_html(cs),
             subtitle=e(cs["subtitle"]), meta=e(cs["meta"]), sections="\n".join(sections),
-            flow_title=e(cs["flow_title"]), flow="\n".join(steps), flow_note=e(cs["flow_note"]),
+            flow_title=e(cs["flow_title"]),
+            flow=("\n".join(steps) if cs.get("diagram") else '    <div class="flow">\n' + "\n".join(steps) + "\n    </div>"),
+            flow_note=e(cs.get("flow_note", "")),
             decisions_title=e(cs["decisions_title"]), decisions=decisions,
             after="\n".join(after),
             outcome_title=e(cs["outcome_title"]), outcome=e(cs["outcome"]),

@@ -390,6 +390,93 @@ CASE_STUDIES = [
                    "clear owners at each step. Finance could see what had been paid and what was due, and "
                    "the procedure was documented for every team involved.",
     },
+    {
+        "slug": "cash-collection",
+        "title": "Cash collection: closing out the delivery day",
+        "subtitle": "Making end-of-day cash deposits faster to record and easier to check.",
+        "meta": "Retailo · Operations · End-of-day cash and returns",
+        "sections": [
+            ("Target audience", [
+                "Delivery agents, who bring back the day's cash and any returned stock.",
+                "Cash counter staff, who take and record deposits.",
+                "Dock executives and stock sorters, who check returned stock.",
+                "The logistics team, who resolve any gap between cash expected and cash deposited.",
+            ]),
+            ("Customer pain points", [
+                "Every deposit was entered into a long table by hand, which was slow, easy to get wrong and kept "
+                "agents waiting in line.",
+                "The cash an agent deposited did not always match the cash the logistics app said they had collected.",
+                "Returns were a common source of gaps: too few returned could mean a weak morning check, stock "
+                "dropped off by mistake or theft; too many usually meant a partial delivery was marked as complete, "
+                "so the cash came up short.",
+            ]),
+            ("Clear objectives", [
+                "Get every agent's cash deposited and recorded quickly at the end of the day.",
+                "Make recording a deposit fast and consistent, with no long table to scroll through.",
+                "Catch cash and returns mismatches and send them to the right team to resolve.",
+            ]),
+            ("My role", [
+                "I mapped the end-of-day cash and returns process from arrival to final check, including where "
+                "mismatches came from.",
+                "I built a simple Google Sheets entry form for deposits: it writes each entry into the shared "
+                "table on its own and clears itself, ready for the next agent.",
+            ]),
+            ("The MVP", [
+                "A form on top of the Google Sheet the team already used, automated with Apps Script. No new app, "
+                "no training on new software, and it worked from day one.",
+            ]),
+        ],
+        "flow_title": "The agent's end-of-day flow",
+        "diagram": [
+            ("Agent returns to the warehouse", "Delivery agent",
+             "Comes back at the end of the route with the day's cash, and either no stock left or some returns.",
+             ("If there are returns", "The van docks at the gate, where an executive checks the agent's returns "
+              "slip against the physical stock and files it with the morning sheet.")),
+            ("Count the cash", "Delivery agent",
+             "Takes paper and rubber bands from the deposit counter, sorts the cash by note, and writes down the "
+             "total for each.", None),
+            ("Cash deposit machine", "Delivery agent",
+             "Enters their agent app ID and deposits the cash. The machine shows how much it accepted and hands "
+             "back any notes it rejects.", None),
+            ("Deposit counter", "Agent and counter staff",
+             "The agent queues and deposits the rejected notes. The counter logs the deposit in the Google Sheets "
+             "form, which saves it to the shared table and clears itself for the next agent.", None),
+            ("Check against the app", "Logistics team",
+             "The cash deposited is compared with the cash the logistics app says the agent collected.",
+             ("If the amounts don't match", "The logistics team decides whether the agent is genuinely short or "
+              "the system made a mistake.")),
+        ],
+        "flow_note": "",
+        "decisions_title": "What made it work",
+        "decisions": [
+            ("A form, not a long table",
+             "Staff fill in a few fields instead of finding the right row in a long table. The sheet records the "
+             "entry and resets the form, so the next agent can be served straight away."),
+            ("Machine first, counter second",
+             "The deposit machine takes most of the cash and records it against the agent's app ID, so only the "
+             "notes it rejects go to the counter queue."),
+            ("Check returns at the dock",
+             "Returned stock is checked against the agent's slip as soon as the van arrives, which is where short "
+             "and over returns show up."),
+            ("Separate real shortfalls from system errors",
+             "A mismatch goes to the logistics team, who decide whether the agent is short or the app recorded "
+             "the wrong amount, so agents are not blamed for system errors."),
+        ],
+        "after": [
+            ("Risks", [
+                "Over-returns hiding partial deliveries: the returns record from the dock made these visible, "
+                "since they showed up as cash shortfalls.",
+                "On-the-spot discounts given through customer care did not fit the flow; the plan was to phase "
+                "them out rather than build around them.",
+                "Typing errors and overwritten rows: a fixed form with the same fields every time, cleared after "
+                "each entry.",
+            ]),
+        ],
+        "outcome_title": "Outcome",
+        "outcome": "Deposits were logged through a short form instead of a long table, every entry landed in the "
+                   "shared sheet automatically, and the form was ready for the next agent straight away. Mismatches "
+                   "had a clear path to the logistics team for resolution.",
+    },
 ]
 
 # Projects. Each: title, one-line description, tags, link.
