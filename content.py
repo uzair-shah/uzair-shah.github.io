@@ -79,8 +79,11 @@ CASE_STUDIES = [
                 "Receiving goods had no formal procedure, returns to suppliers went unrecorded, and anyone could "
                 "move or adjust stock without a trace, which made reconciliation hard and left Finance without a "
                 "clear view of inbound costs.",
+                "Wrong stock counts hit the morning orders: items customers had ordered were not there, which left "
+                "both customers and drivers unhappy.",
             ]),
             ("Clear objectives", [
+                "Know exactly how much stock we have at any time, so orders can be planned around it.",
                 "Retire Odoo without losing any operation the warehouses depended on.",
                 "Work the way our own operating procedures say, not the way the software allows.",
                 "Give every team the right permissions and a record of every change.",
@@ -98,6 +101,11 @@ CASE_STUDIES = [
                 "receiving and inventory.",
                 "I worked with designers to go from Excel wireframes to full Figma screens, and with engineering to build it.",
                 "I led the rollout across Saudi Arabia, Pakistan and the UAE and trained warehouse staff to use it.",
+            ]),
+            ("Prioritisation framework", [
+                "We prioritised by impact on the biggest problem: inventory accuracy. Wrong stock counts broke the "
+                "morning orders and upset customers and drivers, so knowing our real stock at any moment came first.",
+                "Inside the build, the same rule applied: anything not needed to retire Odoo and keep stock accurate waited.",
             ]),
             ("The MVP", [
                 "In the first version: user roles and permissions, suppliers with Finance approval, quotations and "
@@ -150,6 +158,16 @@ CASE_STUDIES = [
                 "Stock changing without anyone knowing why: role permissions, a reason on every adjustment and a "
                 "full change history.",
                 "Different tax rules in each country: supplier fields that change format by country.",
+            ]),
+            ("Product analytics", [
+                "We tracked failed calls between Stockflo and our other systems, the problem that had made Odoo "
+                "unreliable. They went from a few a month to zero, and we kept monitoring them so none slipped through.",
+            ]),
+            ("Feedback loops", [
+                "Warehouse staff were our main customer, so we kept a very open line with them: weekly check-ins, "
+                "a support channel for reporting issues, and phone calls whenever something went wrong.",
+                "We visited the warehouses in person and, because we had a good working relationship, could drop "
+                "in any time to see problems first-hand and get them fixed.",
             ]),
         ],
         "outcome_title": "Outcome",
@@ -255,6 +273,12 @@ CASE_STUDIES = [
                 "whole product line performs across regions, instead of stitching together separate codes from "
                 "each warehouse.",
             ]),
+            ("Feedback loops", [
+                "We used the client's own app and hands-on demos of ready-made products to see which approaches "
+                "made sense and where our catalog fell short.",
+                "We also drew on in-house experience: having run our own warehouses, the team knew how ERP systems "
+                "handle products in practice, and we used that to test every option.",
+            ]),
         ],
         "outcome_title": "Outcome",
         "outcome": "Discovery gave the team a shared picture of where the catalog fell short, a prioritised list of "
@@ -296,6 +320,10 @@ CASE_STUDIES = [
                 "I wrote the product requirements document, defined the user stories and acceptance "
                 "criteria, and worked with engineering to build the feature in Stockflo.",
                 "It launched for Saudi Arabia first. A later update extended it to Pakistan.",
+            ]),
+            ("Prioritisation framework", [
+                "We ranked it against other work by financial impact. It came out on top: gaps in payment tracking "
+                "had already cost money, and fixing them would keep paying off long after launch.",
             ]),
             ("The MVP", [
                 "In the first version: payment requests on locked purchase orders, manager approval or rejection, "
@@ -343,6 +371,18 @@ CASE_STUDIES = [
                 "Approvals made without context: the manager sees the supplier's running balance first.",
                 "Mistakes that cannot be taken back: payments are voided with a reason rather than deleted, and "
                 "every step records who did it.",
+                "Two teams with different needs: Commercial and Finance often wanted different things, and each "
+                "held off using it until its own requests were met.",
+            ]),
+            ("Product analytics", [
+                "We did not set formal metrics. The change was visibility: for the first time every payment, and "
+                "its status, sat in one place with a full record behind it.",
+            ]),
+            ("Feedback loops", [
+                "There was a lot of back-and-forth with Commercial and Finance while it was being built. One team "
+                "would ask for one thing and the other for something different, and neither would adopt it until "
+                "its needs were covered, so I worked through both sides' requests to land a flow both would use.",
+                "The lesson I took: get both teams to agree on the requirements together before the build starts.",
             ]),
         ],
         "outcome_title": "Outcome",
