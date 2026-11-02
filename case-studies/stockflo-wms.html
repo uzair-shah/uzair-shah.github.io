@@ -79,6 +79,15 @@
   .dbody p { color: var(--muted); font-size: 15px; margin: 6px 0 0; }
   .branch { margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--accent); border-radius: 10px; font-size: 14px; color: var(--muted); }
   .branch span { display: block; color: var(--fg); font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  h3.sub { font-size: 16px; font-weight: 600; margin: 18px 0 8px; }
+  h3.sub:first-child { margin-top: 0; }
+  .lead-in { margin: 0 0 16px !important; }
+  .lead-out { margin: 16px 0 0 !important; color: var(--muted); }
+  .mini-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .mini { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .mini b { display: block; font-weight: 600; margin-bottom: 4px; }
+  .mini span { color: var(--muted); font-size: 15px; }
+  .tags.big span { font-size: 14px; padding: 6px 12px; }
   .cards.one { grid-template-columns: 1fr; }
   h4.group { margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }
   a.inline { color: var(--accent); }
@@ -131,23 +140,20 @@
   </div>
   <section>
     <h2>Target audience</h2>
-    <ul><li>Commercial buyers and leads, who add suppliers, ask for quotations and raise purchase orders.</li><li>Warehouse associates and leads, who receive goods, handle returns and move stock.</li><li>Finance, who approve suppliers and need a clear view of what came in and at what cost.</li><li>The MIS team, who set up warehouse locations and make stock adjustments.</li></ul>
+    <ul><li>Commercial buyers, who provide vendors, ask for quotations and raise purchase orders, and their leads, who approve those purchase orders.</li><li>Warehouse associates and leads, who receive goods, handle returns and move stock.</li><li>Finance, who approve suppliers and need a clear view of what came in and at what cost.</li><li>The MIS (management information systems) team, the warehouse team&#x27;s tech arm, who make sure stock on the ground matches stock in the system, set up warehouse locations and make stock adjustments.</li></ul>
   </section>
   <section>
     <h2>Customer pain points</h2>
-    <ul><li>Odoo, our warehouse software, could not keep up with how fast Retailo was growing, and integrating it with our own systems kept breaking: transactions done in Odoo did not always show up elsewhere.</li><li>Our processes had to bend to fit Odoo&#x27;s way of working instead of our own operating procedures.</li><li>Without Odoo, our admin panel could not create or approve requests for quotation, had no user permissions, and kept no record of when purchase orders were created or approved.</li><li>Receiving goods had no formal procedure, returns to suppliers went unrecorded, and anyone could move or adjust stock without a trace, which made reconciliation hard and left Finance without a clear view of inbound costs.</li><li>Wrong stock counts hit the morning orders: items customers had ordered were not there, which left both customers and drivers unhappy.</li></ul>
+    <h3 class="sub">Why we needed Odoo in the first place</h3><ul><li>Our admin panel could not create or approve requests for quotation, had no user permissions, and kept no record of when purchase orders were created or approved.</li><li>Receiving goods had no formal procedure, returns to suppliers went unrecorded, and anyone could move or adjust stock without a trace.</li><li>That made reconciliation hard and left Finance without a clear view of what came in and at what cost.</li></ul>
+    <h3 class="sub">Why we built Stockflo despite having Odoo</h3><ul><li>Odoo could not keep up with how fast Retailo was growing, and its worker-based pricing made it expensive at our scale.</li><li>Integrating it with our own systems kept breaking: transactions done in Odoo did not show up in other integrated systems such as our admin panel.</li><li>Wrong stock counts hit the morning orders: items customers had ordered were not there, which left both customers and drivers unhappy.</li><li>We lacked access controls for specific steps, such as who could approve a purchase order before its goods were received, and that had to change.</li></ul>
   </section>
   <section>
     <h2>Clear objectives</h2>
-    <ul><li>Know exactly how much stock we have at any time, so orders can be planned around it.</li><li>Retire Odoo without losing any operation the warehouses depended on.</li><li>Work the way our own operating procedures say, not the way the software allows.</li><li>Give every team the right permissions and a record of every change.</li><li>Give Finance a reliable view of what was received and at what cost.</li></ul>
-  </section>
-  <section>
-    <h2>Competitive landscape</h2>
-    <ul><li>The incumbent was Odoo, an off-the-shelf ERP: strong out of the box, but costly at our scale, hard to integrate and rigid about how work had to be done.</li><li>Building in-house meant the system could follow our own procedures and plug straight into the rest of our platform, and we borrowed ideas from an existing purchasing portal so the screens felt familiar.</li></ul>
+    <ul><li>Know exactly how much stock we have at any time, so orders can be planned around it.</li><li>Retire Odoo without losing any operation the warehouses depended on.</li><li>Give every team the right permissions, so the wrong people cannot carry out the wrong tasks, and keep a record of every change.</li><li>Give Finance a reliable view of what was received and at what cost.</li></ul>
   </section>
   <section>
     <h2>My role</h2>
-    <ul><li>I mapped how purchasing, receiving and stock movements actually worked in the warehouses, then wrote the product requirements: user stories and acceptance criteria for vendors, purchasing, receiving and inventory.</li><li>I worked with designers to go from Excel wireframes to full Figma screens, and with engineering to build it.</li><li>I led the rollout across Saudi Arabia, Pakistan and the UAE and trained warehouse staff to use it.</li></ul>
+    <ul><li>I mapped how purchasing, receiving and stock movements actually worked in the warehouses, then wrote the product requirements: user stories and acceptance criteria for vendors, purchasing, receiving and inventory.</li><li>I worked with designers to go from Excel wireframes to full Figma screens, and with engineering to build it.</li><li>I led the rollout across Saudi Arabia, Pakistan and the UAE, training warehouse staff through presentations and video walkthroughs.</li></ul>
   </section>
   <section>
     <h2>Prioritisation framework</h2>
@@ -155,11 +161,14 @@
   </section>
   <section>
     <h2>The MVP</h2>
-    <ul><li>In the first version: user roles and permissions, suppliers with Finance approval, quotations and purchase orders with lock and unlock, receiving with backorders and returns, stock adjustments with reasons, and one view of every stock movement.</li><li>The test for the MVP was simple: could the warehouses switch Odoo off and keep running.</li></ul>
+    <p class="lead-in">The test for the first version was simple: could the warehouses switch Odoo off and keep running? That meant five things had to work from day one.</p>
+    <div class="mini-cards"><div class="mini"><b>Users</b><span>Roles and permissions, so each person can only do their own job.</span></div><div class="mini"><b>Vendors</b><span>Added by Commercial, approved by Finance before they can be used.</span></div><div class="mini"><b>Buying</b><span>Quotations and purchase orders, locked once approved.</span></div><div class="mini"><b>Receiving</b><span>Goods received against the order, with backorders and returns.</span></div><div class="mini"><b>Stock</b><span>Adjustments with a reason, and one view of every stock movement.</span></div></div>
   </section>
   <section>
     <h2>What I left out, on purpose</h2>
-    <p>The first version&#x27;s job was to retire Odoo, so anything not needed for that waited: product photos on receipts, units of measure and bundles, lot tracking, detailed payment terms (a simple credit or advance option covered it for now), and sending purchase orders to suppliers over WhatsApp.</p>
+    <p class="lead-in">Anything not needed to retire Odoo waited for a later version:</p>
+    <div class="tags big"><span>Product photos on receipts</span><span>Units of measure and bundles</span><span>Lot tracking</span><span>Detailed payment terms</span><span>Sending orders over WhatsApp</span></div>
+    <p class="lead-out">For payment terms, a simple credit or advance option covered the first version.</p>
   </section>
   <section>
     <h2>How stock comes in</h2>
@@ -182,18 +191,18 @@
       <div class="decision"><h3>Lock to approve, unlock to edit</h3><p>Vendors and purchase orders only become usable once a lead locks them. To change one, the lead unlocks it, and the edit needs approval again.</p></div>
       <div class="decision"><h3>Vendor details that fit each country</h3><p>The tax ID field switches between VAT for Saudi Arabia and the UAE and NTN for Pakistan, with the right format checks and registration rules for each country.</p></div>
       <div class="decision"><h3>Receiving that handles real deliveries</h3><p>Partial deliveries create a backorder automatically, the warehouse cannot receive more than was ordered, and returns are subtracted from what was received.</p></div>
-      <div class="decision"><h3>Every stock adjustment needs a reason</h3><p>Adjustments pick a reason such as stock count, damages or expired stock, show the system quantity next to the counted one, and support bulk upload from a spreadsheet.</p></div>
-      <div class="decision"><h3>A history of changes</h3><p>Vendor creation and edits are logged and visible on screen, and purchase orders and receipts keep their timestamps, so every change can be traced.</p></div>
+      <div class="decision"><h3>Every stock adjustment needs a reason</h3><p>Each adjustment must state why it happened, such as a stock count, damages or expired stock. The screen shows the system quantity next to the counted one, and large changes can be uploaded in bulk from a spreadsheet.</p></div>
+      <div class="decision"><h3>A history of changes</h3><p>Vendor creation and edits are logged and visible on screen, and purchase orders and receipts keep their timestamps. Because we could see who changed what, we could correct specific behaviours by working directly with the people involved, which gave us much better governance over stock.</p></div>
     </div>
   </section>
 
   <section>
     <h2>Risks</h2>
-    <ul><li>Switching Odoo off while warehouses kept running: the MVP covered every operation needed to retire it before anything new was added.</li><li>Getting staff in three countries to change how they worked: simple screens, and hands-on training during the rollout.</li><li>Stock changing without anyone knowing why: role permissions, a reason on every adjustment and a full change history.</li><li>Different tax rules in each country: supplier fields that change format by country.</li></ul>
+    <ul><li>Switching Odoo off while warehouses kept running: the MVP covered every operation needed to retire it before anything new was added.</li><li>Getting staff in three countries to change how they worked: I ran presentations and sent out video walkthroughs during the rollout.</li><li>Stock changing without anyone knowing why: role permissions, a reason on every adjustment and a full change history.</li><li>Different tax rules in each country: supplier fields that change format by country.</li></ul>
   </section>
   <section>
     <h2>Product analytics</h2>
-    <ul><li>We tracked failed calls between Stockflo and our other systems, the problem that had made Odoo unreliable. They went from a few a month to zero, and we kept monitoring them so none slipped through.</li></ul>
+    <ul><li>Trust in the new system came first. For the first month or so, warehouse staff checked after every update that the stock Stockflo sent matched the stock on the admin panel.</li><li>Our logs showed exactly when every inventory change was made, and we reconciled those against the changes orders made on the admin panel, tracked on a dashboard.</li></ul>
   </section>
   <section>
     <h2>Feedback loops</h2>

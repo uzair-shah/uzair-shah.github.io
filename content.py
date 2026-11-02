@@ -65,54 +65,74 @@ CASE_STUDIES = [
         "meta": "Retailo · Associate Product Manager · 2022 · Saudi Arabia, Pakistan and the UAE",
         "sections": [
             ("Target audience", [
-                "Commercial buyers and leads, who add suppliers, ask for quotations and raise purchase orders.",
+                "Commercial buyers, who provide vendors, ask for quotations and raise purchase orders, and their "
+                "leads, who approve those purchase orders.",
                 "Warehouse associates and leads, who receive goods, handle returns and move stock.",
                 "Finance, who approve suppliers and need a clear view of what came in and at what cost.",
-                "The MIS team, who set up warehouse locations and make stock adjustments.",
+                "The MIS (management information systems) team, the warehouse team's tech arm, who make sure stock "
+                "on the ground matches stock in the system, set up warehouse locations and make stock adjustments.",
             ]),
             ("Customer pain points", [
-                "Odoo, our warehouse software, could not keep up with how fast Retailo was growing, and "
-                "integrating it with our own systems kept breaking: transactions done in Odoo did not always show up elsewhere.",
-                "Our processes had to bend to fit Odoo's way of working instead of our own operating procedures.",
-                "Without Odoo, our admin panel could not create or approve requests for quotation, had no user "
-                "permissions, and kept no record of when purchase orders were created or approved.",
-                "Receiving goods had no formal procedure, returns to suppliers went unrecorded, and anyone could "
-                "move or adjust stock without a trace, which made reconciliation hard and left Finance without a "
-                "clear view of inbound costs.",
-                "Wrong stock counts hit the morning orders: items customers had ordered were not there, which left "
-                "both customers and drivers unhappy.",
+                ("Why we needed Odoo in the first place", [
+                    "Our admin panel could not create or approve requests for quotation, had no user permissions, and "
+                    "kept no record of when purchase orders were created or approved.",
+                    "Receiving goods had no formal procedure, returns to suppliers went unrecorded, and anyone could "
+                    "move or adjust stock without a trace.",
+                    "That made reconciliation hard and left Finance without a clear view of what came in and at what cost.",
+                ]),
+                ("Why we built Stockflo despite having Odoo", [
+                    "Odoo could not keep up with how fast Retailo was growing, and its worker-based pricing made it "
+                    "expensive at our scale.",
+                    "Integrating it with our own systems kept breaking: transactions done in Odoo did not show up in "
+                    "other integrated systems such as our admin panel.",
+                    "Wrong stock counts hit the morning orders: items customers had ordered were not there, which left "
+                    "both customers and drivers unhappy.",
+                    "We lacked access controls for specific steps, such as who could approve a purchase order before "
+                    "its goods were received, and that had to change.",
+                ]),
             ]),
             ("Clear objectives", [
                 "Know exactly how much stock we have at any time, so orders can be planned around it.",
                 "Retire Odoo without losing any operation the warehouses depended on.",
-                "Work the way our own operating procedures say, not the way the software allows.",
-                "Give every team the right permissions and a record of every change.",
+                "Give every team the right permissions, so the wrong people cannot carry out the wrong tasks, and keep "
+                "a record of every change.",
                 "Give Finance a reliable view of what was received and at what cost.",
-            ]),
-            ("Competitive landscape", [
-                "The incumbent was Odoo, an off-the-shelf ERP: strong out of the box, but costly at our scale, "
-                "hard to integrate and rigid about how work had to be done.",
-                "Building in-house meant the system could follow our own procedures and plug straight into the "
-                "rest of our platform, and we borrowed ideas from an existing purchasing portal so the screens felt familiar.",
             ]),
             ("My role", [
                 "I mapped how purchasing, receiving and stock movements actually worked in the warehouses, then "
                 "wrote the product requirements: user stories and acceptance criteria for vendors, purchasing, "
                 "receiving and inventory.",
                 "I worked with designers to go from Excel wireframes to full Figma screens, and with engineering to build it.",
-                "I led the rollout across Saudi Arabia, Pakistan and the UAE and trained warehouse staff to use it.",
+                "I led the rollout across Saudi Arabia, Pakistan and the UAE, training warehouse staff through "
+                "presentations and video walkthroughs.",
             ]),
             ("Prioritisation framework", [
                 "We prioritised by impact on the biggest problem: inventory accuracy. Wrong stock counts broke the "
                 "morning orders and upset customers and drivers, so knowing our real stock at any moment came first.",
                 "Inside the build, the same rule applied: anything not needed to retire Odoo and keep stock accurate waited.",
             ]),
-            ("The MVP", [
-                "In the first version: user roles and permissions, suppliers with Finance approval, quotations and "
-                "purchase orders with lock and unlock, receiving with backorders and returns, stock adjustments "
-                "with reasons, and one view of every stock movement.",
-                "The test for the MVP was simple: could the warehouses switch Odoo off and keep running.",
-            ]),
+            ("The MVP", {
+                "intro": "The test for the first version was simple: could the warehouses switch Odoo off and keep "
+                         "running? That meant five things had to work from day one.",
+                "cards": [
+                    ("Users", "Roles and permissions, so each person can only do their own job."),
+                    ("Vendors", "Added by Commercial, approved by Finance before they can be used."),
+                    ("Buying", "Quotations and purchase orders, locked once approved."),
+                    ("Receiving", "Goods received against the order, with backorders and returns."),
+                    ("Stock", "Adjustments with a reason, and one view of every stock movement."),
+                ],
+            }),
+            ("What I left out, on purpose", {
+                "intro": "Anything not needed to retire Odoo waited for a later version:",
+                "tags": [
+                    "Product photos on receipts",
+                    "Units of measure and bundles",
+                    "Lot tracking",
+                    "Detailed payment terms",
+                    "Sending orders over WhatsApp",
+                ],
+                "outro": "For payment terms, a simple credit or advance option covered the first version.",
+            }),
         ],
         "flow_title": "How stock comes in",
         "flow": [
@@ -139,29 +159,29 @@ CASE_STUDIES = [
              "Partial deliveries create a backorder automatically, the warehouse cannot receive more than was "
              "ordered, and returns are subtracted from what was received."),
             ("Every stock adjustment needs a reason",
-             "Adjustments pick a reason such as stock count, damages or expired stock, show the system quantity "
-             "next to the counted one, and support bulk upload from a spreadsheet."),
+             "Each adjustment must state why it happened, such as a stock count, damages or expired stock. The "
+             "screen shows the system quantity next to the counted one, and large changes can be uploaded in bulk "
+             "from a spreadsheet."),
             ("A history of changes",
              "Vendor creation and edits are logged and visible on screen, and purchase orders and receipts keep "
-             "their timestamps, so every change can be traced."),
+             "their timestamps. Because we could see who changed what, we could correct specific behaviours by "
+             "working directly with the people involved, which gave us much better governance over stock."),
         ],
-        "scope_title": "What I left out, on purpose",
-        "scope": "The first version's job was to retire Odoo, so anything not needed for that waited: product "
-                 "photos on receipts, units of measure and bundles, lot tracking, detailed payment terms (a simple "
-                 "credit or advance option covered it for now), and sending purchase orders to suppliers over WhatsApp.",
         "after": [
             ("Risks", [
                 "Switching Odoo off while warehouses kept running: the MVP covered every operation needed to "
                 "retire it before anything new was added.",
-                "Getting staff in three countries to change how they worked: simple screens, and hands-on "
-                "training during the rollout.",
+                "Getting staff in three countries to change how they worked: I ran presentations and sent out "
+                "video walkthroughs during the rollout.",
                 "Stock changing without anyone knowing why: role permissions, a reason on every adjustment and a "
                 "full change history.",
                 "Different tax rules in each country: supplier fields that change format by country.",
             ]),
             ("Product analytics", [
-                "We tracked failed calls between Stockflo and our other systems, the problem that had made Odoo "
-                "unreliable. They went from a few a month to zero, and we kept monitoring them so none slipped through.",
+                "Trust in the new system came first. For the first month or so, warehouse staff checked after every "
+                "update that the stock Stockflo sent matched the stock on the admin panel.",
+                "Our logs showed exactly when every inventory change was made, and we reconciled those against the "
+                "changes orders made on the admin panel, tracked on a dashboard.",
             ]),
             ("Feedback loops", [
                 "Warehouse staff were our main customer, so we kept a very open line with them: weekly check-ins, "

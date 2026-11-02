@@ -171,6 +171,15 @@ STYLE = """  :root {{
   .dbody p {{ color: var(--muted); font-size: 15px; margin: 6px 0 0; }}
   .branch {{ margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--accent); border-radius: 10px; font-size: 14px; color: var(--muted); }}
   .branch span {{ display: block; color: var(--fg); font-weight: 600; font-size: 13px; margin-bottom: 2px; }}
+  h3.sub {{ font-size: 16px; font-weight: 600; margin: 18px 0 8px; }}
+  h3.sub:first-child {{ margin-top: 0; }}
+  .lead-in {{ margin: 0 0 16px !important; }}
+  .lead-out {{ margin: 16px 0 0 !important; color: var(--muted); }}
+  .mini-cards {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }}
+  .mini {{ padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }}
+  .mini b {{ display: block; font-weight: 600; margin-bottom: 4px; }}
+  .mini span {{ color: var(--muted); font-size: 15px; }}
+  .tags.big span {{ font-size: 14px; padding: 6px 12px; }}
   .cards.one {{ grid-template-columns: 1fr; }}
   h4.group {{ margin: 28px 0 14px; font-size: 15px; color: var(--accent); font-weight: 600; }}
   a.inline {{ color: var(--accent); }}
@@ -367,14 +376,45 @@ def build_case_studies(css: str) -> None:
     out_dir = HERE / "case-studies"
     out_dir.mkdir(exist_ok=True)
     for cs in getattr(c, "CASE_STUDIES", []):
+        def render_items(items):
+            # A list may mix plain bullets with ("Subheading", [bullets]) groups.
+            html_parts, loose = [], []
+            def flush():
+                if loose:
+                    html_parts.append("<ul>" + "".join(f"<li>{e(i)}</li>" for i in loose) + "</ul>")
+                    loose.clear()
+            for item in items:
+                if isinstance(item, tuple):
+                    flush()
+                    head, sub = item
+                    html_parts.append(f'<h3 class="sub">{e(head)}</h3><ul>' + "".join(f"<li>{e(i)}</li>" for i in sub) + "</ul>")
+                else:
+                    loose.append(item)
+            flush()
+            return "\n    ".join(html_parts)
+
+        def render_rich(d):
+            # {"intro": str, "cards": [(title, text)], "tags": [str], "outro": str}
+            parts = []
+            if d.get("intro"):
+                parts.append(f'<p class="lead-in">{e(d["intro"])}</p>')
+            if d.get("cards"):
+                parts.append('<div class="mini-cards">' + "".join(
+                    f'<div class="mini"><b>{e(t)}</b><span>{e(x)}</span></div>' for t, x in d["cards"]) + "</div>")
+            if d.get("tags"):
+                parts.append('<div class="tags big">' + "".join(f"<span>{e(t)}</span>" for t in d["tags"]) + "</div>")
+            if d.get("outro"):
+                parts.append(f'<p class="lead-out">{e(d["outro"])}</p>')
+            return "\n    ".join(parts)
+
         def blocks(items_list):
-            # Each section is (heading, [bullet, ...]). Sections with no bullets are skipped.
+            # Each section is (heading, [bullets or subgroups]) or (heading, {rich dict}). Empty ones are skipped.
             out = []
             for title, items in items_list:
                 if not items:
                     continue
-                lis = "".join(f"<li>{e(i)}</li>" for i in items)
-                out.append(f"  <section>\n    <h2>{e(title)}</h2>\n    <ul>{lis}</ul>\n  </section>")
+                body = render_rich(items) if isinstance(items, dict) else render_items(items)
+                out.append(f"  <section>\n    <h2>{e(title)}</h2>\n    {body}\n  </section>")
             return out
 
         sections = blocks(cs.get("sections", []))
