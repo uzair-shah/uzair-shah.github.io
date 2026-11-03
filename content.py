@@ -10,6 +10,10 @@ PRONOUNS = "He/Him"  # shown after your name; set to "" to hide
 HEADLINE = "Product manager who builds with data"
 LOCATION = "Adelaide, Australia"
 
+# Visitor counter (GoatCounter, free, no cookies). Put your GoatCounter code here,
+# e.g. "uzair-shah" for uzair-shah.goatcounter.com. Set to "" to turn it off.
+GOATCOUNTER = "uzair-shah"
+
 # Font for headings. "Newsreader" gives a serif, editorial look; set to "" to use Inter everywhere.
 HEADING_FONT = ""
 

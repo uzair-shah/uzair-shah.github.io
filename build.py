@@ -413,6 +413,7 @@ PAGE = """<!doctype html>
 <style>
 {style}
 </style>
+{analytics}
 </head>
 <body>
 <div class="wrap wide">
@@ -491,6 +492,7 @@ CASE_PAGE = """<!doctype html>
 <style>
 {style}
 </style>
+{analytics}
 </head>
 <body>
 <div class="wrap cs">
@@ -642,11 +644,19 @@ def build_case_studies(css: str, items=None, folder: str = "case-studies", eyebr
             style=css, name=e(c.NAME), short=e(c.SHORT_NAME), title=e(cs["title"]), title_html=title_html(cs),
             subtitle=e(cs["subtitle"]), meta=e(cs["meta"]), sections="\n".join(sections),
             after="\n".join(after),
-            contact=contact_links(), font_link=font_link(),
+            contact=contact_links(), font_link=font_link(), analytics=analytics(),
         )
         path = out_dir / f"{cs['slug']}.html"
         path.write_text(page, encoding="utf-8")
         print(f"Built {path}")
+
+
+def analytics() -> str:
+    code = getattr(c, "GOATCOUNTER", "")
+    if not code:
+        return ""
+    return (f'<script data-goatcounter="https://{e(code)}.goatcounter.com/count" '
+            'async src="https://gc.zgo.at/count.js"></script>')
 
 
 def font_link() -> str:
@@ -676,7 +686,7 @@ def build() -> Path:
         name=e(c.NAME), short=e(c.SHORT_NAME), headline=e(c.HEADLINE), location=e(c.LOCATION),
         intro=e(c.INTRO), contact=contact_links(), pillars=pillars(), exp_title=e(c.EXPERIENCE_TITLE),
         exp_meta=e(c.EXPERIENCE_META), highlights=highlights(), projects=projects(), accent=e(c.ACCENT),
-        photo=photo(), stats=stats(), font_link=font_link(), eyebrow=eyebrow(), career=career(), now=now_cards(), education=education(),
+        photo=photo(), stats=stats(), font_link=font_link(), analytics=analytics(), eyebrow=eyebrow(), career=career(), now=now_cards(), education=education(),
     )
     out = out.replace("</body>", PAGE_SCRIPT + "</body>", 1)
     path = HERE / "index.html"
