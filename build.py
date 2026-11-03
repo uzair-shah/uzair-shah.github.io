@@ -45,8 +45,8 @@ def career(steps=None) -> str:
     steps = getattr(c, "CAREER_STEPS", []) if steps is None else steps
     if not steps:
         return ""
-    # Fill the dot for anything still ongoing; if nothing is, fill the latest step.
-    on = [i for i, (_, d) in enumerate(steps) if "Present" in d] or [len(steps) - 1]
+    # Fill the dot only for roles that are still ongoing.
+    on = [i for i, (_, d) in enumerate(steps) if "Present" in d]
     items = "".join(f'<li{" class=\"on\"" if i in on else ""}><b>{e(r)}</b><span>{e(d)}</span></li>'
                     for i, (r, d) in enumerate(steps))
     return f'      <ol class="career">{items}</ol>'
