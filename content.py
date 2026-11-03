@@ -41,7 +41,7 @@ CV_FILE = ""
 # Shown at the top, under your name. Keep it to 2-3 short sentences.
 INTRO = (
     "I spent 2.5 years building products at Retailo, a B2B marketplace startup in "
-    "Saudi Arabia, Pakistan and the UAE, through fast growth and a pivot to SaaS. "
+    "Saudi Arabia, Pakistan and the UAE. "
     "Seeing how much good product decisions depend on data, I completed a Master of "
     "Data Science at the University of Adelaide in 2026."
 )
@@ -53,7 +53,7 @@ PILLARS = [
     ("Data and AI", "SQL, Python, machine learning and AI tools to find problems early and prove what worked."),
 ]
 
-# Your current block, shown above Retailo with the same kind of timeline. (step, dates)
+Your current block, shown above Retailo with the same kind of timeline. (step, dates)
 CURRENT_TITLE = "University of Adelaide and freelance"
 CURRENT_META = "Study, tutoring and data work · Sep 2024 – Present · Adelaide, Australia"
 CURRENT_STEPS = [

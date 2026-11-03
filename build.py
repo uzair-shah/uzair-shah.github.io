@@ -53,6 +53,15 @@ def career(steps=None) -> str:
 
 
 def now_cards() -> str:
+    roles = getattr(c, "CURRENT_ROLES", [])
+    if roles:
+        cards = "".join(f'<div class="now-card"><b>{e(r)}</b><span class="where">{e(w)} · {e(d)}</span></div>'
+                        for r, w, d in roles)
+        edu = getattr(c, "EDUCATION_LINE", "")
+        edu_html = (f'\n      <p class="edu-line"><b>Education:</b> {e(edu[0])}, {e(edu[1])} · {e(edu[2])}</p>'
+                    if edu else "")
+        return (f'    <div class="role current">\n      <h3>Current roles</h3>\n'
+                f'      <div class="now">{cards}</div>{edu_html}\n    </div>')
     steps = getattr(c, "CURRENT_STEPS", [])
     if steps:
         return (f'    <div class="role current">\n      <h3>{e(c.CURRENT_TITLE)}</h3>\n'
@@ -246,6 +255,9 @@ STYLE = """  :root {{
   .now-card p {{ margin: 8px 0 0; color: var(--muted); font-size: 15px; }}
   h4.now-h {{ margin-top: 0; }}
   .role.current {{ margin-bottom: 40px; }}
+  .role.current h3 {{ margin-bottom: 14px; }}
+  .edu-line {{ color: var(--muted); font-size: 15px; margin: 14px 0 0; }}
+  .edu-line b {{ color: var(--fg); font-weight: 600; }}
   .source {{ color: var(--muted); font-size: 13px; margin: 8px 0 0 !important; }}
   .wrap.wide {{ max-width: 980px; }}
   .wide .highlights, .wide .exp-photo {{ max-width: 820px; }}
