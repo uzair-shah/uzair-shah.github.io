@@ -53,7 +53,7 @@ PILLARS = [
     ("Data and AI", "SQL, Python, machine learning and AI tools to find problems early and prove what worked."),
 ]
 
-Your current block, shown above Retailo with the same kind of timeline. (step, dates)
+# Your current block, shown above Retailo with the same kind of timeline. (step, dates)
 CURRENT_TITLE = "University of Adelaide and freelance"
 CURRENT_META = "Study, tutoring and data work · Sep 2024 – Present · Adelaide, Australia"
 CURRENT_STEPS = [
